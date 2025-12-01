@@ -1,7 +1,7 @@
 # Final Project
 
--   [ ] Read the [project requirements](https://vikramsinghmtl.github.io/420-5P6-Game-Programming/project/requirements).
--   [ ] Replace the sample proposal below with the one for your game idea.
+-   [x] Read the [project requirements](https://vikramsinghmtl.github.io/420-5P6-Game-Programming/project/requirements).
+-   [x] Replace the sample proposal below with the one for your game idea.
 -   [ ] Get the proposal greenlit by Vik.
 -   [ ] Place any assets in `assets/` and remember to update `src/config.json`.
 -   [ ] Decide on a height and width inside `src/globals.js`. The height and width will most likely be determined based on the size of the assets you find.
@@ -10,108 +10,121 @@
 
 ---
 
-# Sample Proposal - Pokémon the Trading Card Game
+# Dungeons & Pokemons: Remastered
 
-> [!note]
-> This was taken from a project I did in university so the scope is **much** larger than what I'm expecting from you in terms of number of features!
+## Description
 
-## ✒️ Description
+In this game you will assume the role of a dungeon crawler who his whole purpose is to explore, loot and get stronger by diving into these deep and forgotten structures.
+You will have the option too choose between various classes and abilities to aid you on your journey, but beware because in strange world, portals opened and a new specie of monsters have invaded and hid in all of these mysterious houses called Pokemon and they will defend themselves if they feel threatened.
 
-In this turn-based battle card game, players assume the role of a Pokémon trainer and use their Pokémon to battle their opponent's Pokémon. Players play Pokémon to the field and attack their opponent's Pokémon. A Pokémon that has sustained enough damage is Knocked Out, and the player who knocked it out draws a Prize card. There are usually six Prize cards, and the primary win condition is to draw all of them. Other ways to win are by knocking out all the Pokémon the opponent has on the field so that the opponent has none left, or if at the beginning of their opponent's turn there are no cards left to draw in the opponent's deck.
+Shall slay your way to the treasures, or act, persuade and befriend to get what you want? Create new enemies or find new partners to help you in these exciting adventures?
 
-## 🕹️ Gameplay
+**Create a legend worth telling.**
 
-Players begin by having one player select heads or tails, and the other flips a coin; the winner of the coin flip will decide who goes first or second. The player going first cannot attack their first turn, unless the card says otherwise. (Dice may be used in place of coins, with even numbers representing heads and odd numbers representing tails). Players then shuffle their decks and draw seven cards, then play one Basic Pokémon onto the field. This Pokémon is known as the Active Pokémon and is usually the one that attacks and receives damage. If a player does not have any Basic Pokémon, they must shuffle and draw a new hand, and the opponent may draw one additional card. Once both players have at least one Basic Pokémon, they can play up to five more Basic Pokémon onto their "Bench" (representing the maximum-carry limit of six from the video games). Players then take the top six cards of their deck and place them to the side as Prize Cards. Play then begins with the player who won the coin flip.
+## Gameplay
 
-Play alternates between players who may take several actions during their turn, including playing new Basic Pokémon, evolving their Pokémon, playing Trainer cards and Energy cards, and using Pokémon Abilities. A player may also retreat their Active Pokémon, switching the Active Pokémon with one on the Bench. At the end of their turn, a player may use one of their Active Pokémon's attacks, provided the prerequisite amount and types of Energy are attached to that Pokémon. Effects from that attack are then activated and damage may be placed on the Defending Pokémon; some attacks simply have effects but do not do damage. Damage may be modified depending on whether the defender has a weakness or a resistance to the attacker's Pokémon type. If the final damage exceeds the defending Pokémon's HP, it is Knocked Out, and the active player takes a prize card and ends their turn.
+Every dungeon always has a story to tell and so the goal of this game is to uncover the secrets and the story told by this dungeon.
 
-This implementation of _Pokémon the Trading Card Game_ is a single player experience with an AI. The game is played primarily with the mouse to interact with the cards and general GUI. The players can optionally hit `M` on their keyboard to mute all game sounds.
+### Exploring
 
-## 📃 Requirements
+You will play this game from a top down perspective and you will have to travel between various hallways and interact with the environment around you to find loot and treasure. Objects such as levers, chests, signs and peculiar surroundings are all examples of what you could expect to interact with using the ENTER key.
+Such objects are called "SAVE Crystals" with which user can interact and save their game.
 
-> [!note]
-> This was a web project so that's why you'll see requirements about logging in and uploading data which for you is irrelevant. Focus more on the requirements describing actions taken for gameplay.
+When you start the game, you will get the option to choose between a number of classes that each have different weapons, abilities and perks that may help you while traversing these catacombs. This enables the player to choose various experience within the fighting and possibly even interaction with the environment.
 
-1. The user shall register to be able to login.
-2. The user shall login to be able to play a game.
-3. The user shall upload a valid deck file.
-4. The user shall upload a valid cards file.
-5. The user shall upload a valid abilities file.
-6. The user shall select which deck they will use in the game.
-7. The user shall select which deck the AI will use in the game.
-8. The system shall "flip a coin" to decide which player goes first.
-9. The system shall shuffle the user's deck.
-10. The system shall draw the top 7 cards from the user's deck.
-11. If the user does not have a Basic Pokémon in their hand the system shall "mulligan" until they do.
-12. Upon each mulligan, the AI shall draw a card.
-13. The user shall put one of their Basic Pokémon face down as their Active Pokémon.
-14. The user shall put up to 5 more Basic Pokémon face down on their Bench.
-15. Upon a new turn, the system shall draw a card from the deck of the current player.
-16. Upon a new turn, the system shall place the drawn card in the hand of the current player.
-17. The user shall put (up to 5 total) Basic Pokémon cards from their hand onto their Bench.
-18. The user shall Evolve their Pokémon as many times as they choose.
-19. The user shall attach an Energy card from their hand to one of their Pokémon once per turn.
-20. The user shall play Trainer cards (as many as they want, but only one Supporter card and one Stadium card per turn).
-21. The user shall Retreat their Active Pokémon once per turn.
-22. The user shall use as many Abilities as they choose.
-23. The user shall attack the opponent's Active Pokémon.
-24. After a player attacks, the system shall end their turn and start their opponent's turn.
-25. The system shall execute any "special conditions" after a turn is over.
-26. The user shall pick a Victory Card when the opposing Active Pokémon dies.
+### Battle
 
-### 🤖 State Diagram
+You will encounter Pokemon through out the dungeon that will act in self defense and here you will have a unique rpg turned base style fighting reminiscent of Undertale and Deltarune developed by Toby Fox.
 
-> [!note]
-> Remember that you'll need diagrams for not only game states but entity states as well.
+**_Player_**
 
-![State Diagram](./assets/images/StateDiagram.png)
+The player will have 4 action buttons to select when in a fight: Fight, Act, Items and Spare. They can select them using the ENTER key and the SHIFT key to deselect. They also are able to receive rewards after each battle.
 
-### 🗺️ Class Diagram
+    Fight: The player will have the choice of a few attacks based on the characters chosen and depending on the style of move, the player will have to perform a interaction to decide the strength of the attack. The players level, which will be discussed in more detail lower, will affect the base strength of the attacks.
 
-![Class Diagram](./assets/images/ClassDiagram.png)
+    Act: The player will have a set base of acts they can perform to battle without using attacks. These acts can be interactive or instant acts that will help you in calming the foe down. In certain battles, you may get special acts for a more immersive and less repetitive experience.
 
-### 🧵 Wireframes
+    Items: Here the player will have access to certain items that can help them within the fight such as healing, damage or boosting items.
 
-> [!note]
-> Your wireframes don't have to be super polished. They can even be black/white and hand drawn. I'm just looking for a rough idea about what you're visualizing.
+    Spare: Once a player has calmed down the enemy enough, they are able to spare the enemy. This will not reward the player with more EXP, but may still receive rewards
 
-![Main Menu](./assets/images/Main-Menu.png)
+**_Enemy_**
 
--   _Let's Play_ will navigate to the main game.
--   _Upload Cards_ will navigation to the forms for uploading and parsing the data files for the game.
--   _Change Log_ will navigate the user to a page with a list of features/changes that have been implemented throughout the development of the game.
+When it is the enemies turn, you're spectre will be put within a box and you're goal is to dodge the enemies attacks, when you get hit, you will lose some health depending on the attack of the enemy. Your spectre will be controllable using the AWSD keys and while in this state you can only dodge.
 
-![Game Board](./assets/images/Game-Board.png)
+If your health goes down to 0, you lose and have to restart from the nearest "SAVE Crystal" you have interacted with and your progress between now and the last time you saved will be lost so save frequently!
 
-We want to keep the GUI as simple and clear as possible by having cards with relevant images to act as a way for the user to intuitively navigate the game. We want to implement a layout that would look like as if one were playing a match of the Pokémon Trading Card Game with physical cards in real life. Clicking on any of the cards will reveal that card's details to the player.
+### NPCs
 
-### 🎨 Assets
+While wondering around the dungeon you may come accross some npcs that may help you in your journey or be a small nuisance. You are able to interact with them in various ways like get dialogue, a shop or even some actions you can perform with that npc.
 
-We used [app.diagrams.net](https://app.diagrams.net/) to create the wireframes. Wireframes are the equivalent to the skeleton of a web app since they are used to describe the functionality of the product and the users experience.
+## Requirments
 
-We plan on following trends already found in other trading card video games, such as Pokémon Trading Card Game Online, Hearthstone, Magic the Gathering Arena, and Gwent.
+TODO: Ask if they need to be in order
 
-The GUI will be kept simple and playful, as to make sure the game is easy to understand what each component does and is, as well as light hearted to keep to the Pokémon theme.
+1. The user shall choose a class upon starting the game
+    - Must have one class
+    - **Nice to have more than one class**
+2. The user shall interact with objects and entities within the game
+    - Must have chests implemented and one npc
+    - **Nice to have some interactive puzzles**
+3. The user shall receive dialogue from certain events within the game
+    - **NICE TO HAVE**: Animated dialogue boxes
+4. The user shall save the game using "SAVE Crystals"
+5. The user shall randomly get into fights with Pokemon
+    - Must have one boss fight with unique attacks and other pokemon have same attack style
+    - **Nice to have multiple boss fights with unique attacks**
+6. The user shall choose to either fight, act, use an item or spare.
+    - Must have one fight style
+    - **Nice to have multiple fight style (if many classes implemented)**
+7. The user shall control a spectre version of their character when attacked
+8. The user shall receive rewards upon winning a battle such as money, EXP and other items
+9. The user shall restart at the newest save point they interacted with
+10. The user shall find treasure and accessories to help them and customize their character
+    - Must have obtainable accessories and objects affecting the dungeon
+    - Nice to have other helpful items in battle
+11. The user shall change their armor and accessories
+12. The user shall increase level upon reaching a certain amount of EXP
+13. **NICE TO HAVE**:The user shall have their abilities power increased after level up
+14. The user shall be reach the **ends** of the story by exploring
 
-#### 🖼️ Images
+## State Diagram
 
--   Most images will be used from the well known community driven wikipedia site, [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Main_Page).
--   Especially their [Trading Card Game section](<https://bulbapedia.bulbagarden.net/wiki/Full_Art_card_(TCG)>).
+Game States:
 
-#### ✏️ Fonts
+![alt text](image.png)
 
-For fonts, a simple sans-serif like Roboto will look quite nice. It's a font that is legible, light on storage size, and fun to keep with the theme we're going for. We also used a more cartoonish Pokemon font for the title screen.
+Player States:
 
--   [Pokemon](https://www.dafont.com/pokemon.font)
--   [Roboto](https://fonts.google.com/specimen/Roboto)
+![alt text](image-1.png)
 
-#### 🔊 Sounds
+Entity States:
 
-All sounds were taken from [freesound.org](https://freesound.org) for the actions pertaining to cards.
+![alt text](image-3.png)
 
--   [Shuffle cards](https://freesound.org/people/VKProduktion/sounds/217502/)
--   [Flip card](https://freesound.org/people/Splashdust/sounds/84322/)
+## Class Diagram
 
-### 📚 References
+![alt text](image-2.png)
 
--   [Pokemon Rulebook](http://assets.pokemon.com/assets/cms2/pdf/trading-card-game/rulebook/xy8-rulebook-en.pdf)
+## Wireframes
+
+## Assests
+
+We used app.diagrams.net to create the wireframes. Wireframes are the equivalent to the skeleton of a web app since they are used to describe the functionality of the product and the users experience.
+
+The GUI of the player exploring will be minimal to immerse the player into the dungeon with only the buttons the player can press for any menus. It will have a darker theme but yet still a little playful with Pokemons.
+
+Upon starting, the first room of the dungeon will be a tutorial level with the controls.
+
+### Images
+
+Most sprites will be taken from https://lucidious89-tutorials.gitbook.io/deluxe-battle-kit-tutorial/deluxe-battle-kit-for-v21.1/add-on-tutorials/animated-pokemon-system for the pokemon sprites
+
+### Fonts
+
+Since this is a game inspired by Deltarune/Undertale I will be using the Deltarune font for most of my text. It is clean, fits the style and its easy to read.
+[Deltarune font](https://fontstruct.com/fontstructions/show/2008226/undertale-deltarune-text-font-extended) found on fontstruct
+
+### Sounds and Music
+
+A lot of the sounds will be used from [Deltarune sound effects](https://www.101soundboards.com/boards/34569-deltarune-sound-effects) found on 101SoundBoards.com as well as Music. Everything was originally made by Toby Fox

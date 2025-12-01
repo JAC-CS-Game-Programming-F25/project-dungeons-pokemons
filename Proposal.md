@@ -1,4 +1,4 @@
-Dungeons & Pokemons: Remastered
+# Dungeons & Pokemons: Remastered
 
 ## Description
 
@@ -51,23 +51,48 @@ While wondering around the dungeon you may come accross some npcs that may help 
 TODO: Ask if they need to be in order
 
 1. The user shall choose a class upon starting the game
+    - Must have one class
+    - **Nice to have more than one class**
 2. The user shall interact with objects and entities within the game
+    - Must have chests implemented and one npc
+    - **Nice to have some interactive puzzles**
 3. The user shall receive dialogue from certain events within the game
+    - **NICE TO HAVE**: Animated dialogue boxes
 4. The user shall save the game using "SAVE Crystals"
 5. The user shall randomly get into fights with Pokemon
+    - Must have one boss fight with unique attacks and other pokemon have same attack style
+    - **Nice to have multiple boss fights with unique attacks**
 6. The user shall choose to either fight, act, use an item or spare.
+    - Must have one fight style
+    - **Nice to have multiple fight style (if many classes implemented)**
 7. The user shall control a spectre version of their character when attacked
-8. The user shall receive rewards upon winning a battle
+8. The user shall receive rewards upon winning a battle such as money, EXP and other items
 9. The user shall restart at the newest save point they interacted with
 10. The user shall find treasure and accessories to help them and customize their character
+    - Must have obtainable accessories and objects affecting the dungeon
+    - Nice to have other helpful items in battle
 11. The user shall change their armor and accessories
 12. The user shall increase level upon reaching a certain amount of EXP
-13. The user shall have their abilities power increased after level up
+13. **NICE TO HAVE**:The user shall have their abilities power increased after level up
 14. The user shall be reach the **ends** of the story by exploring
 
 ## State Diagram
 
+Game States:
+
+![alt text](image.png)
+
+Player States:
+
+![alt text](image-1.png)
+
+Entity States:
+
+![alt text](image-3.png)
+
 ## Class Diagram
+
+![alt text](image-2.png)
 
 ## Wireframes
 
@@ -76,6 +101,8 @@ TODO: Ask if they need to be in order
 We used app.diagrams.net to create the wireframes. Wireframes are the equivalent to the skeleton of a web app since they are used to describe the functionality of the product and the users experience.
 
 The GUI of the player exploring will be minimal to immerse the player into the dungeon with only the buttons the player can press for any menus. It will have a darker theme but yet still a little playful with Pokemons.
+
+Upon starting, the first room of the dungeon will be a tutorial level with the controls.
 
 ### Images
 
