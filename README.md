@@ -104,7 +104,7 @@ Entity States:
 
 ## Class Diagram
 
-![alt text](image-2.png)
+![alt text](image-4.png)
 
 ## Wireframes
 
