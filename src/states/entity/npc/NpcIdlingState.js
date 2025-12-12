@@ -2,7 +2,7 @@ import Animation from "../../../../lib/Animation.js";
 import { getRandomPositiveInteger } from "../../../../lib/Random.js";
 import State from "../../../../lib/State.js";
 import NPC from "../../../entities/NPC.js";
-import NpcStateName from "../../../enums/NpcStateName.js";
+import NpcStateName from "../../../enums/entities/state/NpcStateName.js";
 import { timer } from "../../../globals.js";
 
 export default class NpcIdlingState extends State {

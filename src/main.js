@@ -34,6 +34,7 @@ import {
 	timer,
 	maps,
 	npcs,
+	objects,
 } from "./globals.js";
 import { Maps } from "./enums/MapNames.js";
 
@@ -60,9 +61,13 @@ const houseMapDefinition = await fetch("./config/house-map.json").then((response
 // Gets the npc definitions
 const npcDefinitions = await fetch("./config/npcs.json").then((response) => response.json());
 
+// Gets the object definitions
+const objectDefinitions = await fetch("./config/objects.json").then((response) => response.json());
+
 // I load them so they are accessible anywhere
 maps.load({ house: houseMapDefinition, town: mapDefinition });
 npcs.load(npcDefinitions);
+objects.load(objectDefinitions);
 
 const pokemonDefinitions = await fetch("./config/pokemon.json").then((response) => response.json());
 

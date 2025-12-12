@@ -5,8 +5,9 @@ import Sounds from "../lib/Sounds.js";
 import StateStack from "../lib/StateStack.js";
 import Timer from "../lib/Timer.js";
 import PokemonFactory from "./services/PokemonFactory.js";
-import Maps from "./services/Maps.js";
-import NPCs from "./entities/NPCs.js";
+import Maps from "./services/sharedinstances/Maps.js";
+import NPCs from "./services/sharedinstances/NPCs.js";
+import Objects from "./services/sharedinstances/Objects.js";
 
 export const canvas = document.createElement("canvas");
 export const context = canvas.getContext("2d") || new CanvasRenderingContext2D();
@@ -29,6 +30,7 @@ window.addEventListener("resize", resizeCanvas);
 
 resizeCanvas(); // Call once to scale initially
 
+export const objects = new Objects();
 export const npcs = new NPCs();
 export const maps = new Maps();
 export const images = new Images(context);

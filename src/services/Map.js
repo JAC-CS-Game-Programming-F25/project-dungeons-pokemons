@@ -3,10 +3,20 @@ import Sprite from "../../lib/Sprite.js";
 import ImageName from "../enums/ImageName.js";
 import Tile from "./Tile.js";
 import Layer from "./Layer.js";
-import { CANVAS_HEIGHT, CANVAS_WIDTH, context, DEBUG, images, npcs, sounds } from "../globals.js";
+import {
+	CANVAS_HEIGHT,
+	CANVAS_WIDTH,
+	context,
+	DEBUG,
+	images,
+	npcs,
+	objects,
+	sounds,
+} from "../globals.js";
 import NPC from "../entities/NPC.js";
 import NPCFactory from "./NpcFactory.js";
 import SoundName from "../enums/SoundName.js";
+import ObjectFactory from "./ObjectFactory.js";
 
 export default class Map {
 	/**
@@ -23,6 +33,7 @@ export default class Map {
 		);
 
 		this.mapNPCs = [];
+		this.mapObjects = [];
 
 		this.bottomLayer = new Layer(mapDefinition.layers[Layer.BOTTOM], sprites);
 		this.collisionLayer = new Layer(mapDefinition.layers[Layer.COLLISION], sprites);
@@ -31,6 +42,10 @@ export default class Map {
 
 		npcs.get(mapName).forEach((npc) => {
 			this.mapNPCs.push(NPCFactory.createInstance(npc.character, npc, this));
+		});
+
+		objects.get(mapName).forEach((object) => {
+			this.mapObjects.push(ObjectFactory.createInstance(object.type, object));
 		});
 
 		if (this.player) {
@@ -47,9 +62,16 @@ export default class Map {
 			this.mapNPCs.forEach((npc) => {
 				npc.update(dt);
 			});
+		if (this.mapObjects.length > 0)
+			this.mapObjects.forEach((object) => {
+				object.update(dt);
+			});
 	}
 
 	render() {
+		// We now pass in the player object since it is the
+		// focal point of the map
+
 		this.bottomLayer.render(this.player);
 		this.collisionLayer.render(this.player);
 
@@ -83,7 +105,7 @@ export default class Map {
 	buildEntityRenderQueue() {
 		// if (!this.player) return [];
 
-		return [...this.mapNPCs, this.player]
+		return [...this.mapNPCs, ...this.mapObjects, this.player]
 			.filter((e) => e !== null)
 			.sort((a, b) => {
 				let order = 0;

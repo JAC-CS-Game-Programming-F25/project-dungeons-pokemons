@@ -1,0 +1,65 @@
+{
+	"town": [
+		{
+			"type": "Chest",
+			"items": [
+				{
+					"text": "josh",
+					"quantity": 1,
+					"effect": "revive"
+				},
+				{
+					"text": "havertz",
+					"quantity": 1,
+					"effect": "revive"
+				},
+				{
+					"text": "Bella mio",
+					"quantity": 1,
+					"effect": "revive"
+				},
+				{
+					"text": "Bella mio",
+					"quantity": 1,
+					"effect": "revive"
+				}
+			],
+
+			"position": { "x": 3, "y": 3 },
+			"dimensions": { "x": 16, "y": 16 }
+		},
+		{
+			"type": "Crystal",
+			"position": { "x": 4, "y": 3 },
+			"dimensions": { "x": 16, "y": 16 }
+		}
+	],
+	"house": [
+		{
+			"items": [
+				{
+					"text": "josh",
+					"quantity": 1,
+					"effect": "revive"
+				},
+				{
+					"text": "havertz",
+					"quantity": 1,
+					"effect": "revive"
+				},
+				{
+					"text": "rice",
+					"quantity": 1,
+					"effect": "revive"
+				},
+				{
+					"text": "Bella mio",
+					"quantity": 1,
+					"effect": "revive"
+				}
+			],
+
+			"position": { "x": 7, "y": 4 }
+		}
+	]
+}

@@ -2,9 +2,10 @@ import Animation from "../../../../lib/Animation.js";
 import State from "../../../../lib/State.js";
 import Player from "../../../entities/Player.js";
 import Direction from "../../../enums/Direction.js";
-import PlayerStateName from "../../../enums/PlayerStateName.js";
-import { input } from "../../../globals.js";
+import PlayerStateName from "../../../enums/entities/state/PlayerStateName.js";
+import { input, stateStack } from "../../../globals.js";
 import Input from "../../../../lib/Input.js";
+import InventoryState from "../../game/exploring/InventoryState.js";
 
 export default class PlayerIdlingState extends State {
 	/**
@@ -44,13 +45,38 @@ export default class PlayerIdlingState extends State {
 			this.player.changeState(PlayerStateName.Walking);
 		}
 
-		this.interactWithNPC();
+		this.interact();
+		this.checkInventory();
 	}
 
 	/**
 	 * Checks whether there is an npc on the tile beside the player is facing
 	 */
 	interactWithNPC() {
+		if (!input.isKeyPressed(Input.KEYS.ENTER)) return;
+
+		let x = this.player.position.x;
+		let y = this.player.position.y;
+
+		switch (this.player.direction) {
+			case Direction.Up:
+				y--;
+				break;
+			case Direction.Down:
+				y++;
+				break;
+			case Direction.Left:
+				x--;
+				break;
+			case Direction.Right:
+				x++;
+				break;
+		}
+	}
+
+	interact() {
+		if (!input.isKeyPressed(Input.KEYS.ENTER)) return;
+
 		let x = this.player.position.x;
 		let y = this.player.position.y;
 
@@ -69,12 +95,26 @@ export default class PlayerIdlingState extends State {
 				break;
 		}
 
-		this.player.map.mapNPCs.forEach((npc) => {
-			if (input.isKeyPressed(Input.KEYS.ENTER))
-				if (x === npc.position.x)
-					if (y === npc.position.y) {
-						npc.dialogue(this.player.direction);
-					}
-		});
+		const npc = this.player.map.mapNPCs.find(
+			(npc) => npc.position.x === x && npc.position.y === y
+		);
+
+		if (npc) {
+			npc.dialogue(this.player.direction);
+		}
+
+		const object = this.player.map.mapObjects.find(
+			(obj) => obj.position.x === x && obj.position.y === y
+		);
+
+		if (object) {
+			object.interact(this.player);
+		}
+	}
+
+	checkInventory() {
+		if (input.isKeyPressed(Input.KEYS.I)) {
+			stateStack.push(new InventoryState(this.player));
+		}
 	}
 }

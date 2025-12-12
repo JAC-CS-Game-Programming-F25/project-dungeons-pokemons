@@ -7,7 +7,7 @@ import {
 import State from "../../../../lib/State.js";
 import NPC from "../../../entities/NPC.js";
 import Direction from "../../../enums/Direction.js";
-import NpcStateName from "../../../enums/NpcStateName.js";
+import NpcStateName from "../../../enums/entities/state/NpcStateName.js";
 import { timer } from "../../../globals.js";
 import Tile from "../../../services/Tile.js";
 import Easing from "../../../../lib/Easing.js";

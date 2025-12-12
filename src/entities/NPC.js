@@ -3,7 +3,7 @@ import ImageName from "../enums/ImageName.js";
 import GameEntity from "./GameEntity.js";
 import StateMachine from "../../lib/StateMachine.js";
 import Vector from "../../lib/Vector.js";
-import NpcStateName from "../enums/NpcStateName.js";
+import NpcStateName from "../enums/entities/state/NpcStateName.js";
 import NpcIdlingState from "../states/entity/npc/NpcIdlingState.js";
 import NpcWalkingState from "../states/entity/npc/NpcWalkingState.js";
 import { images } from "../globals.js";
