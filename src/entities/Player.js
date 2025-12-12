@@ -10,6 +10,9 @@ import { pickRandomElement } from "../../lib/Random.js";
 import Character from "../enums/entities/Character.js";
 import PokemonName from "../enums/entities/PokemonName.js";
 import Map from "../services/Map.js";
+import Pokemon from "./Pokemon.js";
+import Move from "../services/Moves.js";
+import TypeEffectiveness from "../services/TypeEffectiveness.js";
 
 export default class Player extends GameEntity {
 	/**
@@ -32,6 +35,45 @@ export default class Player extends GameEntity {
 
 		// This is how the player will carry items
 		this.inventory = entityDefinition.inventory ?? [];
+
+		this.name = entityDefinition.name || "John Doe";
+		this.level = entityDefinition.level ?? 1;
+
+		// Base Stats
+
+		this.baseHealth = entityDefinition.baseHealth ?? 20;
+		this.baseAttack = entityDefinition.baseAttack ?? 10;
+		this.baseDefense = entityDefinition.baseDefense ?? 10;
+		this.baseSpeed = entityDefinition.baseSpeed ?? 10;
+		this.baseExperience = entityDefinition.baseExperience ?? 10;
+
+		// Experience and Stats
+
+		this.oldHealth = 0;
+		this.oldAttack = 0;
+		this.oldDefense = 0;
+		this.oldSpeed = 0;
+
+		this.maxHealth = 0;
+		this.attack = 0;
+		this.defense = 0;
+		this.speed = 0;
+
+		this.calculateStats();
+
+		this.targetExperience = this.experienceFromLevel(this.level + 1);
+		this.currentExperience = this.experienceFromLevel(this.level);
+		this.levelExperience = this.experienceFromLevel(this.level);
+
+		this.currentHealth = this.maxHealth;
+
+		// Battle-related variables
+
+		this.battlePosition = new Vector();
+		this.attackPosition = new Vector();
+
+		// For now the player only has one move
+		this.move = new Move("Lethal Strike", { type: "Normal", basePower: 300 });
 	}
 
 	update(dt) {
@@ -104,5 +146,91 @@ export default class Player extends GameEntity {
 		this.party.forEach((pokemon) => {
 			pokemon.heal();
 		});
+	}
+
+	//#region Experience and Leveling
+
+	levelUp() {
+		// upon level up, store old stats //MYUPDATE
+		this.oldHealth = this.health;
+		this.oldAttack = this.attack;
+		this.oldDefense = this.defense;
+		this.oldSpeed = this.speed;
+
+		this.level++;
+		this.levelExperience = this.experienceFromLevel(this.level);
+		this.targetExperience = this.experienceFromLevel(this.level + 1);
+
+		return this.calculateStats();
+	}
+
+	experienceFromLevel(level) {
+		return level === 1 ? 0 : level * level * level;
+	}
+
+	/**
+	 * @param {Pokemon} opponent
+	 * @returns The amount of experience to award the Pokemon that defeated this Pokemon.
+	 * @see https://bulbapedia.bulbagarden.net/wiki/Experience#Gain_formula
+	 */
+	calculateExperienceToAward(opponent) {
+		return Math.round((opponent.baseExperience * opponent.level) / 7);
+	}
+
+	//#endregion
+
+	//#region Stats Calculation
+	calculateStats() {
+		this.maxHealth = this.calculateHealth();
+		// current health should be max health whenever pokemon level's up
+		this.currentHealth = this.health; // MYUPDATE
+		this.attack = this.calculateStat(this.baseAttack);
+		this.defense = this.calculateStat(this.baseDefense);
+		this.speed = this.calculateStat(this.baseSpeed);
+	}
+
+	calculateHealth() {
+		return Math.floor((2 * this.baseHealth * this.level) / 100) + this.level + 10;
+	}
+
+	calculateStat(base) {
+		return Math.floor((2 * base * this.level) / 100) + 5;
+	}
+
+	//#endregion
+
+	//#region Get Meters
+	getHealthMeter() {
+		return `${Math.floor(this.currentHealth)} / ${this.maxHealth}`;
+	}
+
+	getHealthPercentage() {
+		//MYUPDATE
+		return this.currentHealth / this.health;
+	}
+	//#endregion
+
+	/**
+	 *
+	 * @param {Pokemon} defender
+	 * @param {*} move
+	 * @returns
+	 */
+	inflictDamage(defender, move = null) {
+		// In here this will provide the necessary health points removed based on
+		// attack points
+		const power = move ? move.basePower : 40; //MYUPDATE
+		const moveType = move ? move.type : "Normal"; //MYUPDATE - safe access
+
+		const getMutiplier = TypeEffectiveness.getMultiplier(moveType, defender.type);
+		const damage = Math.max(
+			1,
+			Math.floor(
+				(((2 * this.level) / 5 + 2) * power * (this.attack / defender.defense)) / 50 + 2
+			) * getMutiplier
+		);
+
+		defender.currentHealth = Math.max(0, defender.currentHealth - damage);
+		return getMutiplier;
 	}
 }

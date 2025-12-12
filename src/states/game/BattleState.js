@@ -47,40 +47,25 @@ export default class BattleState extends State {
 			Panel.BOTTOM_DIALOGUE.height
 		);
 
-		this.enemyHealthBar = new ProgressBar(
-			Panel.BATTLE_PLAYER.x * Tile.SIZE + 40,
-			Panel.BATTLE_PLAYER.y * Tile.SIZE + Panel.BATTLE_PLAYER.height * Tile.SIZE - 44,
-			Panel.BATTLE_PLAYER.width * Tile.SIZE - 60,
-			8,
-			this.opponentPokemon.currentHealth,
-			this.opponentPokemon.health,
-			"green"
+		this.playerPanel = new BattlePlayerPanel(
+			Panel.BATTLE_PLAYER.x,
+			Panel.BATTLE_PLAYER.y,
+			Panel.BATTLE_PLAYER.width,
+			Panel.BATTLE_PLAYER.height,
+			this.player
 		);
-		// this.playerPanel = new BattlePlayerPanel(
-		// 	Panel.BATTLE_PLAYER.x,
-		// 	Panel.BATTLE_PLAYER.y,
-		// 	Panel.BATTLE_PLAYER.width,
-		// 	Panel.BATTLE_PLAYER.height,
-		// 	this.playerPokemon
-		// );
-		// this.opponentPanel = new BattleOpponentPanel(
-		// 	Panel.BATTLE_OPPONENT.x,
-		// 	Panel.BATTLE_OPPONENT.y,
-		// 	Panel.BATTLE_OPPONENT.width,
-		// 	Panel.BATTLE_OPPONENT.height,
-		// 	this.opponentPokemon
-		// );
+		this.opponentPanel = new BattleOpponentPanel(
+			Panel.BATTLE_OPPONENT.x,
+			Panel.BATTLE_OPPONENT.y,
+			Panel.BATTLE_OPPONENT.width,
+			Panel.BATTLE_OPPONENT.height,
+			this.opponentPokemon
+		);
 	}
 
 	update() {
 		if (!this.didBattleStart) {
 			this.triggerBattleStart();
-		}
-
-		if (this.playerPokemon.isLowHealth()) {
-			sounds.play(SoundName.LowHealth);
-		} else {
-			sounds.stop(SoundName.LowHealth);
 		}
 	}
 
@@ -91,35 +76,14 @@ export default class BattleState extends State {
 
 	renderBackground() {
 		images.render(ImageName.BattleBackground, 0, 0);
-		images.render(
-		// 	ImageName.BattlePlatformGrass,
-		// 	BattleState.OPPONENT_PLATFORM.x,
-		// 	BattleState.OPPONENT_PLATFORM.y
-		// );
-		// images.render(
-		// 	ImageName.BattlePlatformGrass,
-		// 	BattleState.PLAYER_PLATFORM.x,
-		// 	BattleState.PLAYER_PLATFORM.y
-		// );
 	}
 
 	renderForeground() {
 		this.playerPokemon.render(this.player);
 		this.opponentPokemon.render(this.player);
 		this.panel.render();
-
-		const healthPercent = this.opponentPokemon.getHealthPercentage(); //MYUPDATE
-		if (healthPercent <= 0.25) {
-			this.enemyHealthBar.setColor("red");
-		} else if (healthPercent <= 0.5) {
-			this.enemyHealthBar.setColor("yellow");
-		} else {
-			this.enemyHealthBar.setColor("green");
-		}
-
-		this.enemyHealthBar.render();
-		// this.playerPanel.render();
-		// this.opponentPanel.render();
+		this.playerPanel.render();
+		this.opponentPanel.render();
 	}
 
 	triggerBattleStart() {

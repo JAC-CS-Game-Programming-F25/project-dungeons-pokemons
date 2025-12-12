@@ -9,7 +9,7 @@ export default class BattleMenuState extends State {
 	static MENU_OPTIONS = {
 		Fight: "FIGHT",
 		Status: "STATUS",
-	}
+	};
 
 	/**
 	 * Represents the menu during the battle that the Player can choose an action from.
@@ -31,7 +31,7 @@ export default class BattleMenuState extends State {
 			Menu.BATTLE_MENU.y,
 			Menu.BATTLE_MENU.width,
 			Menu.BATTLE_MENU.height,
-			items,
+			items
 		);
 	}
 

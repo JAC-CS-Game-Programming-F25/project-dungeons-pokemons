@@ -3,6 +3,8 @@ import { getRandomPositiveInteger } from "../../lib/Random.js";
 import Sprite from "../../lib/Sprite.js";
 import Vector from "../../lib/Vector.js";
 import { context, images } from "../globals.js";
+import Move from "../services/Moves.js";
+import TypeEffectiveness from "../services/TypeEffectiveness.js";
 
 export default class Pokemon extends GameEntity {
 	static FRONT_POSITION = {
@@ -18,6 +20,14 @@ export default class Pokemon extends GameEntity {
 		attack: { x: 50, y: 96 },
 	};
 	static LOW_HEALTH_THRESHOLD = 0.25;
+
+	//MYUPDATES
+	static moveData = null; // this will get the moves.json data
+
+	static setMoveData(data) {
+		//Initializes once upon PokemonFactory setup
+		Pokemon.moveData = data;
+	}
 
 	/**
 	 * The titular monster/creature that the whole game is
@@ -54,7 +64,18 @@ export default class Pokemon extends GameEntity {
 		this.baseSpeed = definition.baseSpeed;
 		this.baseExperience = definition.baseExperience;
 
+		// MYUPDATES
+		this.type = definition.type;
 		this.initializeIndividualValues();
+
+		// This initializes the moves for the specific pokemon //MYUPDATE
+		this.moves = this.initializePokemonMoves(definition.starterMoves);
+
+		// Old Stats MYUPDATE
+		this.oldHealth = 0;
+		this.oldAttack = 0;
+		this.oldDefense = 0;
+		this.oldSpeed = 0;
 
 		this.health = 0;
 		this.attack = 0;
@@ -90,6 +111,37 @@ export default class Pokemon extends GameEntity {
 		this.speedIV = getRandomPositiveInteger(0, 31);
 	}
 
+	// this will intialize the moves by checking if pokemon starter move
+	// is within the moves.json
+	initializePokemonMoves(pokemonMoves) {
+		//MYUPDATE
+		if (!pokemonMoves || !Pokemon.moveData) {
+			return [];
+		}
+
+		return pokemonMoves.slice(0, 4).map((moveName) => {
+			const pokemonMoveDefinition = Pokemon.moveData[moveName];
+			if (pokemonMoveDefinition) {
+				return new Move(moveName, pokemonMoveDefinition);
+			}
+			// Fallback for unknown moves
+			return new Move("Tackle", { type: "Normal", basePower: 40 });
+		});
+	}
+
+	/**
+	 * Get a random move for the opponent to use.
+	 * @returns {Move} A randomly selected move.
+	 */
+	getRandomMove() {
+		if (this.moves.length === 0) {
+			// Fallback move if no moves available
+			return new Move("Tackle", { type: "Normal", basePower: 40 });
+		}
+		const randomIndex = Math.floor(Math.random() * this.moves.length);
+		return this.moves[randomIndex];
+	}
+
 	/**
 	 * The "front" sprite is usually the opponent's sprite
 	 * in a battle. This could also be used in the Pokedex
@@ -107,6 +159,12 @@ export default class Pokemon extends GameEntity {
 	}
 
 	levelUp() {
+		// upon level up, store old stats //MYUPDATE
+		this.oldHealth = this.health;
+		this.oldAttack = this.attack;
+		this.oldDefense = this.defense;
+		this.oldSpeed = this.speed;
+
 		this.level++;
 		this.levelExperience = this.experienceFromLevel(this.level);
 		this.targetExperience = this.experienceFromLevel(this.level + 1);
@@ -146,6 +204,8 @@ export default class Pokemon extends GameEntity {
 	 */
 	calculateStats() {
 		this.health = this.calculateHealth();
+		// current health should be max health whenever pokemon level's up
+		this.currentHealth = this.health; // MYUPDATE
 		this.attack = this.calculateStat(this.baseAttack, this.attackIV);
 		this.defense = this.calculateStat(this.baseDefense, this.defenseIV);
 		this.speed = this.calculateStat(this.baseSpeed, this.speedIV);
@@ -163,26 +223,32 @@ export default class Pokemon extends GameEntity {
 
 	/**
 	 * @param {Pokemon} defender
+	 * @param {Move} move The move being used.
 	 * @see https://bulbapedia.bulbagarden.net/wiki/Damage
 	 */
-	inflictDamage(defender) {
-		const power = 40;
+	inflictDamage(defender, move = null) {
+		// In here this will provide the necessary health points removed based on
+		// attack points
+		const power = move ? move.basePower : 40; //MYUPDATE
+		const moveType = move ? move.type : "Normal"; //MYUPDATE - safe access
+
+		const getMutiplier = TypeEffectiveness.getMultiplier(moveType, defender.type);
 		const damage = Math.max(
 			1,
 			Math.floor(
 				(((2 * this.level) / 5 + 2) * power * (this.attack / defender.defense)) / 50 + 2
-			)
+			) * getMutiplier
 		);
 
 		defender.currentHealth = Math.max(0, defender.currentHealth - damage);
+		return getMutiplier;
 	}
 
 	getHealthMeter() {
 		return `${Math.floor(this.currentHealth)} / ${this.health}`;
 	}
-
-	// Gets the current health percentage
 	getHealthPercentage() {
+		//MYUPDATE
 		return this.currentHealth / this.health;
 	}
 
