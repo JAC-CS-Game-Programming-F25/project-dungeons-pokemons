@@ -2,7 +2,7 @@ import State from "../../../lib/State.js";
 import Panel from "../elements/Panel.js";
 import GridSelection from "../elements/GridSelections.js";
 
-export default class ChestMenu extends State {
+export default class ChestMenuState extends State {
 	constructor(player, chestContents) {
 		super();
 
@@ -19,13 +19,12 @@ export default class ChestMenu extends State {
 			Panel.BOTTOM_DIALOGUE.y,
 			Panel.BOTTOM_DIALOGUE.width,
 			Panel.BOTTOM_DIALOGUE.height,
-			items
+			this.items
 		);
 	}
 
 	update() {
 		this.moveGrid.update();
-		this.battleState.update();
 	}
 
 	render() {
@@ -44,7 +43,7 @@ export default class ChestMenu extends State {
 				if (!item.taken)
 					this.items.push({
 						text: item.text,
-						onSelect: () => this.selectItem(item),
+						onSelect: () => this.selectItem(i),
 					});
 			} else {
 				this.items.push({
@@ -55,10 +54,18 @@ export default class ChestMenu extends State {
 		}
 	}
 
-	selectItem(item) {
-		item.text = "-";
-		item.onSelect = null;
+	// Handles selecting an item from the chest
+	selectItem(index) {
+		this.player.inventory.push(this.items[index]);
+
+		for (let i = 0; i < this.moveGrid.items.length; i++) {
+			if (i === index) {
+				this.moveGrid.items[i].text = "-";
+				this.moveGrid.items[i].onSelect = null;
+				return;
+			}
+		}
+
 		item.taken = true;
-		this.player.inventory.push(item);
 	}
 }

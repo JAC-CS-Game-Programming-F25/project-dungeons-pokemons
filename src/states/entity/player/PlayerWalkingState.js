@@ -54,7 +54,7 @@ export default class PlayerWalkingState extends State {
 		this.player.currentAnimation = this.animation[this.player.direction];
 
 		this.handleMovement();
-		this.interactWithNPC();
+		this.interact();
 	}
 
 	handleMovement() {
@@ -113,7 +113,7 @@ export default class PlayerWalkingState extends State {
 				break;
 		}
 
-		if (!this.checkNPCCollision(x, y)) {
+		if (!this.checkCollisions(x, y)) {
 			sounds.play(SoundName.PlayerBump);
 			return;
 		}
@@ -172,20 +172,27 @@ export default class PlayerWalkingState extends State {
 	 * @param {number} y
 	 * @returns Whether the player is going to move on to an npc.
 	 */
-	checkNPCCollision(x, y) {
-		let noNPC = true;
+	checkCollisions(x, y) {
+		let noCollision = true;
 
 		this.player.map.mapNPCs.forEach((npc) => {
 			if (x === npc.position.x)
 				if (y === npc.position.y) {
-					noNPC = false;
+					noCollision = false;
 					return;
 				}
 		});
 
-		return noNPC;
-	}
+		this.player.map.mapObjects.forEach((object) => {
+			if (x === object.position.x)
+				if (y === object.position.y) {
+					noCollision = false;
+					return;
+				}
+		});
 
+		return noCollision;
+	}
 	/**
 	 * @param {number} x
 	 * @param {number} y
@@ -278,7 +285,7 @@ export default class PlayerWalkingState extends State {
 	/**
 	 * Checks whether there is an npc on the tile beside the player is facing
 	 */
-	interactWithNPC() {
+	interact() {
 		let x = this.player.position.x;
 		let y = this.player.position.y;
 
@@ -303,6 +310,14 @@ export default class PlayerWalkingState extends State {
 				if (x === npc.position.x)
 					if (y === npc.position.y) {
 						npc.dialogue(this.player.direction);
+					}
+		});
+
+		this.player.map.mapObjects.forEach((object) => {
+			if (input.isKeyPressed(Input.KEYS.ENTER))
+				if (x === object.position.x)
+					if (y === object.position.y) {
+						object.interact(this.player);
 					}
 		});
 	}

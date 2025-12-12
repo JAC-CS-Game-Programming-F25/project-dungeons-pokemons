@@ -1,10 +1,10 @@
-import UserInterfaceElement from '../UserInterfaceElement.js';
-import SoundName from '../../enums/SoundName.js';
-import { context, input, sounds } from '../../globals.js';
-import Vector from '../../../lib/Vector.js';
-import Input from '../../../lib/Input.js';
-import Colour from '../../enums/Colour.js';
-import { roundedRectangle } from '../../../lib/Drawing.js';
+import UserInterfaceElement from "../UserInterfaceElement.js";
+import SoundName from "../../enums/SoundName.js";
+import { context, input, sounds, stateStack } from "../../globals.js";
+import Vector from "../../../lib/Vector.js";
+import Input from "../../../lib/Input.js";
+import Colour from "../../enums/Colour.js";
+import { roundedRectangle } from "../../../lib/Drawing.js";
 
 export default class GridSelection extends UserInterfaceElement {
 	static BORDER_WIDTH = 10;
@@ -31,31 +31,21 @@ export default class GridSelection extends UserInterfaceElement {
 	}
 
 	update() {
-		if (
-			input.isKeyPressed(Input.KEYS.W) ||
-			input.isKeyPressed(Input.KEYS.ARROW_UP)
-		) {
+		if (input.isKeyPressed(Input.KEYS.W) || input.isKeyPressed(Input.KEYS.ARROW_UP)) {
 			this.navigateUp();
-		} else if (
-			input.isKeyPressed(Input.KEYS.S) ||
-			input.isKeyPressed(Input.KEYS.ARROW_DOWN)
-		) {
+		} else if (input.isKeyPressed(Input.KEYS.S) || input.isKeyPressed(Input.KEYS.ARROW_DOWN)) {
 			this.navigateDown();
-		} else if (
-			input.isKeyPressed(Input.KEYS.A) ||
-			input.isKeyPressed(Input.KEYS.ARROW_LEFT)
-		) {
+		} else if (input.isKeyPressed(Input.KEYS.A) || input.isKeyPressed(Input.KEYS.ARROW_LEFT)) {
 			this.navigateLeft();
-		} else if (
-			input.isKeyPressed(Input.KEYS.D) ||
-			input.isKeyPressed(Input.KEYS.ARROW_RIGHT)
-		) {
+		} else if (input.isKeyPressed(Input.KEYS.D) || input.isKeyPressed(Input.KEYS.ARROW_RIGHT)) {
 			this.navigateRight();
-		} else if (
-			input.isKeyPressed(Input.KEYS.ENTER) ||
-			input.isKeyPressed(Input.KEYS.SPACE)
-		) {
+		} else if (input.isKeyPressed(Input.KEYS.ENTER) || input.isKeyPressed(Input.KEYS.SPACE)) {
 			this.select();
+		} else if (
+			input.isKeyPressed(Input.KEYS.SHIFT_LEFT) ||
+			input.isKeyPressed(Input.KEYS.SHIFT_RIGHT)
+		) {
+			stateStack.pop();
 		}
 	}
 
@@ -102,17 +92,17 @@ export default class GridSelection extends UserInterfaceElement {
 		}
 
 		context.save();
-		context.textAlign = 'left';
-		context.textBaseline = 'middle';
+		context.textAlign = "left";
+		context.textBaseline = "middle";
 		context.font = this.font;
-		context.fillStyle = 'black';
+		context.fillStyle = "black";
 		context.fillText(item.text, item.position.x, item.position.y);
 		context.restore();
 	}
 
 	renderSelectionArrow(item) {
 		context.save();
-		context.fillStyle = 'black';
+		context.fillStyle = "black";
 		context.translate(item.position.x - 15, item.position.y - 5);
 		context.beginPath();
 		context.moveTo(0, 0);
@@ -179,8 +169,8 @@ export default class GridSelection extends UserInterfaceElement {
 			const row = Math.floor(i / 2);
 			const col = i % 2;
 
-			const item = items[i] || { text: '-', onSelect: null };
-			
+			const item = items[i] || { text: "-", onSelect: null };
+
 			item.position = new Vector(
 				this.position.x + col * cellWidth + 25,
 				this.position.y + row * cellHeight + cellHeight / 2
