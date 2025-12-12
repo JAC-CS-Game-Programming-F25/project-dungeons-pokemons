@@ -1,7 +1,8 @@
 import Vector from "../../lib/Vector.js";
 import Hitbox from "../../lib/Hitbox.js";
 import Direction from "../enums/Direction.js";
-import { context, DEBUG } from "../globals.js";
+import { context, DEBUG, OFFSET_X, OFFSET_Y } from "../globals.js";
+import Tile from "../services/Tile.js";
 
 export default class GameObject {
 	static Carry_OFFSET_Y = 7;
@@ -14,8 +15,12 @@ export default class GameObject {
 	 */
 	constructor(dimensions, position) {
 		this.dimensions = dimensions;
-		this.position = position;
+		this.position = position ?? new Vector();
 
+		this.canvasPosition = new Vector(
+			Math.floor(this.position.x * Tile.SIZE),
+			Math.floor(this.position.y * Tile.SIZE)
+		);
 		// Might use these later
 
 		// this.hitboxOffsets = new Hitbox();
@@ -56,17 +61,17 @@ export default class GameObject {
 	}
 
 	update(dt) {
-		if (this.isCarried || this.isThrown) {
-			this.hitbox.set(
-				this.position.x + this.hitboxOffsets.position.x,
-				this.position.y + this.hitboxOffsets.position.y,
-				this.hitbox.dimensions.x,
-				this.hitbox.dimensions.y
-			);
-		}
+		// if (this.isCarried || this.isThrown) {
+		// 	this.hitbox.set(
+		// 		this.position.x + this.hitboxOffsets.position.x,
+		// 		this.position.y + this.hitboxOffsets.position.y,
+		// 		this.hitbox.dimensions.x,
+		// 		this.hitbox.dimensions.y
+		// 	);
+		// }
 	}
 
-	render(x, y, cameraEntity) {
+	render(x, y, cameraEntity, scale = { x: 1, y: 1 }) {
 		// const x = this.position.x + offset.x;
 		// const y = this.position.y + offset.y;
 
@@ -78,7 +83,8 @@ export default class GameObject {
 
 		this.sprites[this.currentFrame].render(
 			x + OFFSET_X * Tile.SIZE - cameraEntity.canvasPosition.x,
-			y + OFFSET_Y * Tile.SIZE - cameraEntity.canvasPosition.y
+			y + OFFSET_Y * Tile.SIZE - cameraEntity.canvasPosition.y,
+			scale
 		);
 	}
 

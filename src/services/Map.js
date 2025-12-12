@@ -62,6 +62,10 @@ export default class Map {
 			this.mapNPCs.forEach((npc) => {
 				npc.update(dt);
 			});
+		if (this.mapObjects.length > 0)
+			this.mapObjects.forEach((object) => {
+				object.update(dt);
+			});
 	}
 
 	render() {
@@ -101,7 +105,7 @@ export default class Map {
 	buildEntityRenderQueue() {
 		// if (!this.player) return [];
 
-		return [...this.mapNPCs, this.player]
+		return [...this.mapNPCs, ...this.mapObjects, this.player]
 			.filter((e) => e !== null)
 			.sort((a, b) => {
 				let order = 0;

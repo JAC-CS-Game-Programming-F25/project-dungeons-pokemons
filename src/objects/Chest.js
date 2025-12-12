@@ -1,8 +1,9 @@
-import Animation from "../../lib/Animation";
-import Sprite from "../../lib/Sprite";
-import ImageName from "../enums/ImageName";
-import { stateStack } from "../globals";
-import ChestMenu from "../user-interface/exploring/ChestMenu";
+import Animation from "../../lib/Animation.js";
+import Sprite from "../../lib/Sprite.js";
+import ImageName from "../enums/ImageName.js";
+import { stateStack, images } from "../globals.js";
+import ChestMenu from "../user-interface/exploring/ChestMenu.js";
+import GameObject from "./GameObject.js";
 
 const CHEST_WIDTH = 16;
 const CHEST_HEIGHT = 16;
@@ -13,7 +14,7 @@ export default class Chest extends GameObject {
 
 		// Sets the two animations that will be used for the chest
 		this.animations = {
-			closed: new Animation(this.initializeSprites(ImageName.ChestClosed), 0.5),
+			closed: new Animation(this.initializeSprites(ImageName.ChestClosed), 0.15),
 			opening: new Animation(this.initializeSprites(ImageName.ChestOpening), 0.2, 1),
 		};
 		this.currentAnimation = this.animations.closed;
@@ -21,13 +22,16 @@ export default class Chest extends GameObject {
 		// Gets the items from the definition
 		this.items = chestDefinition.items || [];
 		this.isOpened = false;
+
+		// Gets the sprites for the chest
+		this.sprites = this.initializeSprites(ImageName.ChestClosed);
 	}
 
 	update(dt) {
 		super.update(dt);
 		this.currentAnimation.update(dt);
 
-		this.currentFrame = this.currentAnimation.getCurrentFrame();
+		this.currentFrame = this.currentAnimation.currentFrame;
 	}
 
 	render(cameraEntity) {
@@ -40,7 +44,7 @@ export default class Chest extends GameObject {
 		 */
 		const y = Math.floor(this.canvasPosition.y - this.dimensions.y / 2);
 
-		super.render(x, y, cameraEntity);
+		super.render(x, y, cameraEntity, { x: 2, y: 2 });
 	}
 
 	interact(player) {
