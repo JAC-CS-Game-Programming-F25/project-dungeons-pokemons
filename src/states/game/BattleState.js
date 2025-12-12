@@ -48,11 +48,9 @@ export default class BattleState extends State {
 		);
 
 		this.enemyHealthBar = new ProgressBar(
-			Panel.BATTLE_PLAYER.x * Tile.HOUSE_DOOR + 40,
-			Panel.BATTLE_PLAYER.y * Tile.HOUSE_DOOR +
-				Panel.BATTLE_PLAYER.height * Tile.HOUSE_DOOR -
-				44,
-			Panel.BATTLE_PLAYER.width * Tile.HOUSE_DOOR - 60,
+			Panel.BATTLE_PLAYER.x * Tile.SIZE + 40,
+			Panel.BATTLE_PLAYER.y * Tile.SIZE + Panel.BATTLE_PLAYER.height * Tile.SIZE - 44,
+			Panel.BATTLE_PLAYER.width * Tile.SIZE - 60,
 			8,
 			this.opponentPokemon.currentHealth,
 			this.opponentPokemon.health,
@@ -94,15 +92,15 @@ export default class BattleState extends State {
 	renderBackground() {
 		images.render(ImageName.BattleBackground, 0, 0);
 		images.render(
-			ImageName.BattlePlatformGrass,
-			BattleState.OPPONENT_PLATFORM.x,
-			BattleState.OPPONENT_PLATFORM.y
-		);
-		images.render(
-			ImageName.BattlePlatformGrass,
-			BattleState.PLAYER_PLATFORM.x,
-			BattleState.PLAYER_PLATFORM.y
-		);
+		// 	ImageName.BattlePlatformGrass,
+		// 	BattleState.OPPONENT_PLATFORM.x,
+		// 	BattleState.OPPONENT_PLATFORM.y
+		// );
+		// images.render(
+		// 	ImageName.BattlePlatformGrass,
+		// 	BattleState.PLAYER_PLATFORM.x,
+		// 	BattleState.PLAYER_PLATFORM.y
+		// );
 	}
 
 	renderForeground() {
