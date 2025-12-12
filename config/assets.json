@@ -119,6 +119,18 @@
 			"path": "./assets/images/pokemon/icons/SQUIRTLE.png",
 			"width": 128,
 			"height": 64
+		},
+		{
+			"name": "chest-closed",
+			"path": "./assets/images/objects/chest/chest_closed.png",
+			"width": 128,
+			"height": 16
+		},
+		{
+			"name": "chest-opening",
+			"path": "./assets/images/objects/chest/chest_opening.png",
+			"width": 80,
+			"height": 16
 		}
 	],
 	"fonts": [

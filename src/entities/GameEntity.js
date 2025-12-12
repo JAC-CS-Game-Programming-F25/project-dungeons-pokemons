@@ -37,6 +37,15 @@ export default class GameEntity {
 		this.stateMachine?.update(dt);
 	}
 
+	/**
+	 *
+	 * Renders the entity relative to the cameraEntity to simulate
+	 * a camera following effect.
+	 *
+	 * @param {number} x
+	 * @param {number} y
+	 * @param {GameEntity} cameraEntity
+	 */
 	render(x, y, cameraEntity) {
 		this.stateMachine?.render();
 		this.sprites[this.currentFrame].render(

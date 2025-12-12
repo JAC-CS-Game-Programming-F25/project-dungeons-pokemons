@@ -4,7 +4,7 @@ import State from "../../../../lib/State.js";
 import Opponent from "../../../entities/Opponent.js";
 import Player from "../../../entities/Player.js";
 import Direction from "../../../enums/Direction.js";
-import PlayerStateName from "../../../enums/PlayerStateName.js";
+import PlayerStateName from "../../../enums/entities/state/PlayerStateName.js";
 import SoundName from "../../../enums/SoundName.js";
 import Input from "../../../../lib/Input.js";
 import { input, sounds, stateStack, timer, maps } from "../../../globals.js";

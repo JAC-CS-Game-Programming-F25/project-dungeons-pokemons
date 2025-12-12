@@ -1,5 +1,5 @@
 import Pokemon from "../entities/Pokemon.js";
-import PokemonName from "../enums/PokemonName.js";
+import PokemonName from "../enums/entities/PokemonName.js";
 
 export default class PokemonFactory {
 	constructor(context) {

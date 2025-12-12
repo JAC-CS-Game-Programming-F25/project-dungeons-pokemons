@@ -1,8 +1,8 @@
-import UserInterfaceElement from '../UserInterfaceElement.js';
-import SoundName from '../../enums/SoundName.js';
-import { context, input, sounds } from '../../globals.js';
-import Vector from '../../../lib/Vector.js';
-import Input from '../../../lib/Input.js';
+import UserInterfaceElement from "../UserInterfaceElement.js";
+import SoundName from "../../enums/SoundName.js";
+import { context, input, sounds } from "../../globals.js";
+import Vector from "../../../lib/Vector.js";
+import Input from "../../../lib/Input.js";
 
 export default class Selection extends UserInterfaceElement {
 	/**
@@ -28,20 +28,11 @@ export default class Selection extends UserInterfaceElement {
 	}
 
 	update() {
-		if (
-			input.isKeyPressed(Input.KEYS.W) ||
-			input.isKeyPressed(Input.KEYS.ARROW_UP)
-		) {
+		if (input.isKeyPressed(Input.KEYS.W) || input.isKeyPressed(Input.KEYS.ARROW_UP)) {
 			this.navigateUp();
-		} else if (
-			input.isKeyPressed(Input.KEYS.S) ||
-			input.isKeyPressed(Input.KEYS.ARROW_DOWN)
-		) {
+		} else if (input.isKeyPressed(Input.KEYS.S) || input.isKeyPressed(Input.KEYS.ARROW_DOWN)) {
 			this.navigateDown();
-		} else if (
-			input.isKeyPressed(Input.KEYS.ENTER) ||
-			input.isKeyPressed(Input.KEYS.SPACE)
-		) {
+		} else if (input.isKeyPressed(Input.KEYS.ENTER) || input.isKeyPressed(Input.KEYS.SPACE)) {
 			this.select();
 		}
 	}
@@ -58,8 +49,8 @@ export default class Selection extends UserInterfaceElement {
 		}
 
 		context.save();
-		context.textAlign = 'center';
-		context.textBaseline = 'middle';
+		context.textAlign = "center";
+		context.textBaseline = "middle";
 		context.font = this.font;
 		context.fillText(item.text, item.position.x, item.position.y);
 		context.restore();
@@ -98,8 +89,14 @@ export default class Selection extends UserInterfaceElement {
 	}
 
 	select() {
-		sounds.play(SoundName.SelectionChoice);
-		this.items[this.currentSelection].onSelect();
+		//MYUPDATE
+		// In here if the selected item is empty, then do not use callback
+		const selected = this.items[this.currentSelection];
+
+		if (selected.onSelect) {
+			sounds.play(SoundName.SelectionChoice);
+			this.items[this.currentSelection].onSelect();
+		}
 	}
 
 	/**
@@ -114,10 +111,7 @@ export default class Selection extends UserInterfaceElement {
 		items.forEach((item) => {
 			const padding = currentY + this.gapHeight;
 
-			item.position = new Vector(
-				this.position.x + this.dimensions.x / 2,
-				padding
-			);
+			item.position = new Vector(this.position.x + this.dimensions.x / 2, padding);
 
 			currentY += this.gapHeight;
 		});

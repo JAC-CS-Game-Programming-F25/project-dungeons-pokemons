@@ -4,143 +4,156 @@ import Direction from "../enums/Direction.js";
 import { context, DEBUG } from "../globals.js";
 
 export default class GameObject {
-  static Carry_OFFSET_Y = 7;
+	static Carry_OFFSET_Y = 7;
 
-  /**
-   * The base class to be extended by all game objects in the game.
-   *
-   * @param {Vector} dimensions The height and width of the game object.
-   * @param {Vector} position The x and y coordinates of the game object.
-   */
-  constructor(dimensions, position) {
-    this.dimensions = dimensions;
-    this.position = position;
-    this.hitboxOffsets = new Hitbox();
-    this.hitbox = new Hitbox(
-      this.position.x + this.hitboxOffsets.position.x,
-      this.position.y + this.hitboxOffsets.position.y,
-      this.dimensions.x + this.hitboxOffsets.dimensions.x,
-      this.dimensions.y + this.hitboxOffsets.dimensions.y
-    );
-    this.sprites = [];
-    this.currentFrame = 0;
-    this.cleanUp = false;
-    this.renderPriority = 0;
+	/**
+	 * The base class to be extended by all game objects in the game.
+	 *
+	 * @param {Vector} dimensions The height and width of the game object.
+	 * @param {Vector} position The x and y coordinates of the game object.
+	 */
+	constructor(dimensions, position) {
+		this.dimensions = dimensions;
+		this.position = position;
 
-    // If an entity can overlap with this game object.
-    this.isSolid = false;
+		// Might use these later
 
-    // If an entity should detect if it's overlapping this game object.
-    this.isCollidable = false;
+		// this.hitboxOffsets = new Hitbox();
+		// this.hitbox = new Hitbox(
+		//   this.position.x + this.hitboxOffsets.position.x,
+		//   this.position.y + this.hitboxOffsets.position.y,
+		//   this.dimensions.x + this.hitboxOffsets.dimensions.x,
+		//   this.dimensions.y + this.hitboxOffsets.dimensions.y
+		// );
+		this.sprites = [];
+		this.currentFrame = 0;
+		this.cleanUp = false;
+		this.renderPriority = 0;
 
-    // If the game object should disappear when collided with.
-    this.isConsumable = false;
+		// If an entity can overlap with this game object.
+		this.isSolid = false;
 
-    // If the game object was collided with already.
-    this.wasCollided = false;
+		// If an entity should detect if it's overlapping this game object.
+		this.isCollidable = false;
 
-    // If the game object was consumed already.
-    this.wasConsumed = false;
+		// If the game object should disappear when collided with.
+		this.isConsumable = false;
 
-    // If the game object is able to be carried by the player.
-    this.isCarriable = false;
+		// If the game object was collided with already.
+		this.wasCollided = false;
 
-    // If the game object is being carried or not
-    this.isCarried = false;
+		// If the game object was consumed already.
+		this.wasConsumed = false;
 
-    // If the game object is being thrown or not
-    this.isThrown = false;
-  }
+		// If the game object is able to be carried by the player.
+		this.isCarriable = false;
 
-  update(dt) {
-    if (this.isCarried || this.isThrown) {
-      this.hitbox.set(
-        this.position.x + this.hitboxOffsets.position.x,
-        this.position.y + this.hitboxOffsets.position.y,
-        this.hitbox.dimensions.x,
-        this.hitbox.dimensions.y
-      );
-    }
-  }
+		// If the game object is being carried or not
+		this.isCarried = false;
 
-  render(offset = { x: 0, y: 0 }) {
-    const x = this.position.x + offset.x;
-    const y = this.position.y + offset.y;
+		// If the game object is being thrown or not
+		this.isThrown = false;
+	}
 
-    this.sprites[this.currentFrame].render(Math.floor(x), Math.floor(y));
+	update(dt) {
+		if (this.isCarried || this.isThrown) {
+			this.hitbox.set(
+				this.position.x + this.hitboxOffsets.position.x,
+				this.position.y + this.hitboxOffsets.position.y,
+				this.hitbox.dimensions.x,
+				this.hitbox.dimensions.y
+			);
+		}
+	}
 
-    if (DEBUG) {
-      this.hitbox.render(context);
-    }
-  }
+	render(x, y, cameraEntity) {
+		// const x = this.position.x + offset.x;
+		// const y = this.position.y + offset.y;
 
-  onConsume(consumer) {
-    this.wasConsumed = true;
-  }
+		// this.sprites[this.currentFrame].render(Math.floor(x), Math.floor(y));
 
-  onCollision(collider) {
-    /**
-     * If this object is solid, then set the
-     * collider's position relative to this object.
-     */
-    if (this.isSolid) {
-      const collisionDirection = this.getEntityCollisionDirection(
-        collider.hitbox
-      );
+		// if (DEBUG) {
+		//   this.hitbox.render(context);
+		// }
 
-      switch (collisionDirection) {
-        case Direction.Up:
-          collider.position.y =
-            this.hitbox.position.y -
-            Math.abs(collider.position.y - collider.hitbox.position.y) -
-            collider.hitbox.dimensions.y;
-          break;
-        case Direction.Down:
-          collider.position.y =
-            this.hitbox.position.y +
-            this.hitbox.dimensions.y -
-            Math.abs(collider.position.y - collider.hitbox.position.y);
-          break;
-        case Direction.Left:
-          collider.position.x =
-            this.hitbox.position.x -
-            Math.abs(collider.position.x - collider.hitbox.position.x) -
-            collider.hitbox.dimensions.x;
-          break;
-        case Direction.Right:
-          collider.position.x =
-            this.hitbox.position.x +
-            this.hitbox.dimensions.x -
-            Math.abs(collider.position.x - collider.hitbox.position.x);
-          break;
-      }
-    }
+		this.sprites[this.currentFrame].render(
+			x + OFFSET_X * Tile.SIZE - cameraEntity.canvasPosition.x,
+			y + OFFSET_Y * Tile.SIZE - cameraEntity.canvasPosition.y
+		);
+	}
 
-    this.wasCollided = true;
-  }
+	onConsume(consumer) {
+		this.wasConsumed = true;
+	}
 
-  /**
-   * @param {Hitbox} hitbox
-   * @returns Whether this game object collided with an hitbox using AABB collision detection.
-   */
-  didCollideWithEntity(hitbox) {
-    return this.hitbox.didCollide(hitbox);
-  }
+	// This will be overwritten by objects that can be interacted with
+	interact(player) {}
 
-  /**
-   * @param {Hitbox} hitbox
-   * @returns The direction that the hitbox collided with this game object.
-   */
-  getEntityCollisionDirection(hitbox) {
-    return this.hitbox.getCollisionDirection(hitbox);
-  }
+	// This is also going to be used if I do advanced movement
 
-  /**
-   * Sets the properties necessary for rendering and handling a carried object.
-   */
-  renderCarryProperties() {
-    this.renderPriority = 1;
-    this.isCarried = true;
-    this.isCollidable = false;
-  }
+	// onCollision(collider) {
+	//   /**
+	//    * If this object is solid, then set the
+	//    * collider's position relative to this object.
+	//    */
+	//   if (this.isSolid) {
+	//     const collisionDirection = this.getEntityCollisionDirection(
+	//       collider.hitbox
+	//     );
+
+	//     switch (collisionDirection) {
+	//       case Direction.Up:
+	//         collider.position.y =
+	//           this.hitbox.position.y -
+	//           Math.abs(collider.position.y - collider.hitbox.position.y) -
+	//           collider.hitbox.dimensions.y;
+	//         break;
+	//       case Direction.Down:
+	//         collider.position.y =
+	//           this.hitbox.position.y +
+	//           this.hitbox.dimensions.y -
+	//           Math.abs(collider.position.y - collider.hitbox.position.y);
+	//         break;
+	//       case Direction.Left:
+	//         collider.position.x =
+	//           this.hitbox.position.x -
+	//           Math.abs(collider.position.x - collider.hitbox.position.x) -
+	//           collider.hitbox.dimensions.x;
+	//         break;
+	//       case Direction.Right:
+	//         collider.position.x =
+	//           this.hitbox.position.x +
+	//           this.hitbox.dimensions.x -
+	//           Math.abs(collider.position.x - collider.hitbox.position.x);
+	//         break;
+	//     }
+	//   }
+
+	//   this.wasCollided = true;
+	// }
+
+	// /**
+	//  * @param {Hitbox} hitbox
+	//  * @returns Whether this game object collided with an hitbox using AABB collision detection.
+	//  */
+	// didCollideWithEntity(hitbox) {
+	//   return this.hitbox.didCollide(hitbox);
+	// }
+
+	// /**
+	//  * @param {Hitbox} hitbox
+	//  * @returns The direction that the hitbox collided with this game object.
+	//  */
+	// getEntityCollisionDirection(hitbox) {
+	//   return this.hitbox.getCollisionDirection(hitbox);
+	// }
+
+	// /**
+	//  * Sets the properties necessary for rendering and handling a carried object.
+	//  */
+	// renderCarryProperties() {
+	//   this.renderPriority = 1;
+	//   this.isCarried = true;
+	//   this.isCollidable = false;
+	// }
 }

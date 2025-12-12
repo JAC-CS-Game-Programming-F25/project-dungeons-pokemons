@@ -1,0 +1,57 @@
+import Animation from "../../lib/Animation";
+import Sprite from "../../lib/Sprite";
+import ImageName from "../enums/ImageName";
+import { stateStack } from "../globals";
+import ChestMenu from "../user-interface/exploring/ChestMenu";
+
+const CHEST_WIDTH = 16;
+const CHEST_HEIGHT = 16;
+
+export default class Chest extends GameObject {
+	constructor(chestDefinition) {
+		super(chestDefinition.dimensions, chestDefinition.position);
+
+		// Sets the two animations that will be used for the chest
+		this.animations = {
+			closed: new Animation(this.initializeSprites(ImageName.ChestClosed), 0.5),
+			opening: new Animation(this.initializeSprites(ImageName.ChestOpening), 0.2, 1),
+		};
+		this.currentAnimation = this.animations.closed;
+
+		// Gets the items from the definition
+		this.items = chestDefinition.items || [];
+		this.isOpened = false;
+	}
+
+	update(dt) {
+		super.update(dt);
+		this.currentAnimation.update(dt);
+
+		this.currentFrame = this.currentAnimation.getCurrentFrame();
+	}
+
+	render(cameraEntity) {
+		const x = Math.floor(this.canvasPosition.x);
+
+		/**
+		 * Offset the Y coordinate to provide a more "accurate" visual.
+		 * To see the difference, remove the offset and bump into something
+		 * either above or below the character and you'll see why this is here.
+		 */
+		const y = Math.floor(this.canvasPosition.y - this.dimensions.y / 2);
+
+		super.render(x, y, cameraEntity);
+	}
+
+	interact(player) {
+		stateStack.push(new ChestMenu(player, this.items));
+	}
+
+	initializeSprites(animation) {
+		return Sprite.generateSpritesFromSpriteSheet(
+			images.get(animation),
+			CHEST_WIDTH,
+			CHEST_HEIGHT
+		);
+	}
+}

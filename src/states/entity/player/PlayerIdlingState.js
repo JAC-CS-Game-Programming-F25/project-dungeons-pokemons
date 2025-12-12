@@ -2,7 +2,7 @@ import Animation from "../../../../lib/Animation.js";
 import State from "../../../../lib/State.js";
 import Player from "../../../entities/Player.js";
 import Direction from "../../../enums/Direction.js";
-import PlayerStateName from "../../../enums/PlayerStateName.js";
+import PlayerStateName from "../../../enums/entities/state/PlayerStateName.js";
 import { input } from "../../../globals.js";
 import Input from "../../../../lib/Input.js";
 

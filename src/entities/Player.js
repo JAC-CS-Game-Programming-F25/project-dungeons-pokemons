@@ -3,12 +3,12 @@ import { images, pokemonFactory } from "../globals.js";
 import StateMachine from "../../lib/StateMachine.js";
 import PlayerWalkingState from "../states/entity/player/PlayerWalkingState.js";
 import PlayerIdlingState from "../states/entity/player/PlayerIdlingState.js";
-import PlayerStateName from "../enums/PlayerStateName.js";
+import PlayerStateName from "../enums/entities/state/PlayerStateName.js";
 import Sprite from "../../lib/Sprite.js";
 import Vector from "../../lib/Vector.js";
 import { pickRandomElement } from "../../lib/Random.js";
-import Character from "../enums/Character.js";
-import PokemonName from "../enums/PokemonName.js";
+import Character from "../enums/entities/Character.js";
+import PokemonName from "../enums/entities/PokemonName.js";
 import Map from "../services/Map.js";
 
 export default class Player extends GameEntity {
@@ -29,6 +29,9 @@ export default class Player extends GameEntity {
 		this.party = this.initializeParty();
 		this.currentAnimation = this.stateMachine.currentState.animation[this.direction];
 		this.velocity = new Vector(0, 0);
+
+		// This is how the player will carry items
+		this.inventory = [];
 	}
 
 	update(dt) {

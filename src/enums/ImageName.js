@@ -7,6 +7,8 @@ const ImageName = {
 	BattlePlatformGrass: "battle-grass",
 	Title: "title",
 	TrainerMay: "trainer-may",
+	ChestClosed: "chest-closed",
+	ChestOpening: "chest-opening",
 };
 
 export default ImageName;

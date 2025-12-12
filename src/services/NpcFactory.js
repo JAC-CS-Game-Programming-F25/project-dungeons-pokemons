@@ -1,6 +1,6 @@
 import GuyNPC from "../entities/npcs/GuyNPC.js";
 import MomNPC from "../entities/npcs/MomNPC.js";
-import { NPCNames } from "../enums/NPCNames.js";
+import { NPCNames } from "../enums/entities/NPCNames.js";
 import Map from "./Map.js";
 
 /**
