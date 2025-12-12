@@ -1,6 +1,8 @@
 import State from "../../../../lib/State.js";
 import Panel from "../../../user-interface/elements/Panel.js";
 import GridSelection from "../../../user-interface/elements/GridSelections.js";
+import { input, stateStack } from "../../../globals.js";
+import Input from "../../../../lib/Input.js";
 
 export default class ChestMenuState extends State {
 	constructor(player, chestContents) {
@@ -25,6 +27,13 @@ export default class ChestMenuState extends State {
 
 	update() {
 		this.moveGrid.update();
+
+		if (
+			input.isKeyPressed(Input.KEYS.SHIFT_LEFT) ||
+			input.isKeyPressed(Input.KEYS.SHIFT_RIGHT)
+		) {
+			stateStack.pop();
+		}
 	}
 
 	render() {

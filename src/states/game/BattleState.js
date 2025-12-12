@@ -12,6 +12,8 @@ import BattleMessageState from "./BattleMessageState.js";
 import TransitionState from "./TransitionState.js";
 import Opponent from "../../entities/Opponent.js";
 import Easing from "../../../lib/Easing.js";
+import ProgressBar from "../../user-interface/elements/ProgressBar.js";
+import Tile from "../../services/Tile.js";
 
 export default class BattleState extends State {
 	static PLAYER_PLATFORM = { x: 0, y: 200 };
@@ -42,22 +44,34 @@ export default class BattleState extends State {
 			Panel.BOTTOM_DIALOGUE.x,
 			Panel.BOTTOM_DIALOGUE.y,
 			Panel.BOTTOM_DIALOGUE.width,
-			Panel.BOTTOM_DIALOGUE.height,
+			Panel.BOTTOM_DIALOGUE.height
 		);
-		this.playerPanel = new BattlePlayerPanel(
-			Panel.BATTLE_PLAYER.x,
-			Panel.BATTLE_PLAYER.y,
-			Panel.BATTLE_PLAYER.width,
-			Panel.BATTLE_PLAYER.height,
-			this.playerPokemon,
+
+		this.enemyHealthBar = new ProgressBar(
+			Panel.BATTLE_PLAYER.x * Tile.HOUSE_DOOR + 40,
+			Panel.BATTLE_PLAYER.y * Tile.HOUSE_DOOR +
+				Panel.BATTLE_PLAYER.height * Tile.HOUSE_DOOR -
+				44,
+			Panel.BATTLE_PLAYER.width * Tile.HOUSE_DOOR - 60,
+			8,
+			this.opponentPokemon.currentHealth,
+			this.opponentPokemon.health,
+			"green"
 		);
-		this.opponentPanel = new BattleOpponentPanel(
-			Panel.BATTLE_OPPONENT.x,
-			Panel.BATTLE_OPPONENT.y,
-			Panel.BATTLE_OPPONENT.width,
-			Panel.BATTLE_OPPONENT.height,
-			this.opponentPokemon,
-		);
+		// this.playerPanel = new BattlePlayerPanel(
+		// 	Panel.BATTLE_PLAYER.x,
+		// 	Panel.BATTLE_PLAYER.y,
+		// 	Panel.BATTLE_PLAYER.width,
+		// 	Panel.BATTLE_PLAYER.height,
+		// 	this.playerPokemon
+		// );
+		// this.opponentPanel = new BattleOpponentPanel(
+		// 	Panel.BATTLE_OPPONENT.x,
+		// 	Panel.BATTLE_OPPONENT.y,
+		// 	Panel.BATTLE_OPPONENT.width,
+		// 	Panel.BATTLE_OPPONENT.height,
+		// 	this.opponentPokemon
+		// );
 	}
 
 	update() {
@@ -67,8 +81,7 @@ export default class BattleState extends State {
 
 		if (this.playerPokemon.isLowHealth()) {
 			sounds.play(SoundName.LowHealth);
-		}
-		else {
+		} else {
 			sounds.stop(SoundName.LowHealth);
 		}
 	}
@@ -80,37 +93,74 @@ export default class BattleState extends State {
 
 	renderBackground() {
 		images.render(ImageName.BattleBackground, 0, 0);
-		images.render(ImageName.BattlePlatformGrass, BattleState.OPPONENT_PLATFORM.x, BattleState.OPPONENT_PLATFORM.y);
-		images.render(ImageName.BattlePlatformGrass, BattleState.PLAYER_PLATFORM.x, BattleState.PLAYER_PLATFORM.y);
+		images.render(
+			ImageName.BattlePlatformGrass,
+			BattleState.OPPONENT_PLATFORM.x,
+			BattleState.OPPONENT_PLATFORM.y
+		);
+		images.render(
+			ImageName.BattlePlatformGrass,
+			BattleState.PLAYER_PLATFORM.x,
+			BattleState.PLAYER_PLATFORM.y
+		);
 	}
 
 	renderForeground() {
-		this.playerPokemon.render();
-		this.opponentPokemon.render();
+		this.playerPokemon.render(this.player);
+		this.opponentPokemon.render(this.player);
 		this.panel.render();
-		this.playerPanel.render();
-		this.opponentPanel.render();
+
+		const healthPercent = this.opponentPokemon.getHealthPercentage(); //MYUPDATE
+		if (healthPercent <= 0.25) {
+			this.enemyHealthBar.setColor("red");
+		} else if (healthPercent <= 0.5) {
+			this.enemyHealthBar.setColor("yellow");
+		} else {
+			this.enemyHealthBar.setColor("green");
+		}
+
+		this.enemyHealthBar.render();
+		// this.playerPanel.render();
+		// this.opponentPanel.render();
 	}
 
 	triggerBattleStart() {
 		this.didBattleStart = true;
 
 		sounds.play(SoundName.BattleLoop);
-		timer.tween(this.opponentPokemon.position, { x: Pokemon.FRONT_POSITION.end.x }, 0.75, Easing.linear, () => this.triggerStartingDialogue());
+		timer.tween(
+			this.opponentPokemon.position,
+			{ x: Pokemon.FRONT_POSITION.end.x },
+			0.75,
+			Easing.linear,
+			() => this.triggerStartingDialogue()
+		);
 	}
 
 	triggerStartingDialogue() {
 		sounds.play(this.opponentPokemon.name.toLowerCase());
-		stateStack.push(new BattleMessageState(`A wild ${this.opponentPokemon.name} appeared!`, 0, () => {
-			stateStack.push(new BattleMessageState(`Go ${this.playerPokemon.name}!`, 0, () => this.sendOutPlayerPokemon()));
-		}));
+		stateStack.push(
+			new BattleMessageState(`A wild ${this.opponentPokemon.name} appeared!`, 0, () => {
+				stateStack.push(
+					new BattleMessageState(`Go ${this.playerPokemon.name}!`, 0, () =>
+						this.sendOutPlayerPokemon()
+					)
+				);
+			})
+		);
 	}
 
 	sendOutPlayerPokemon() {
-		timer.tween(this.playerPokemon.position, { x: Pokemon.BACK_POSITION.end.x }, 0.75, Easing.linear, () => {
-			sounds.play(this.playerPokemon.name.toLowerCase());
-			stateStack.push(new BattleMenuState(this))
-		});
+		timer.tween(
+			this.playerPokemon.position,
+			{ x: Pokemon.BACK_POSITION.end.x },
+			0.75,
+			Easing.linear,
+			() => {
+				sounds.play(this.playerPokemon.name.toLowerCase());
+				stateStack.push(new BattleMenuState(this));
+			}
+		);
 	}
 
 	exitBattle() {
@@ -120,6 +170,6 @@ export default class BattleState extends State {
 			sounds.stop(SoundName.BattleLoop);
 			sounds.stop(SoundName.BattleVictory);
 			sounds.play(SoundName.Route);
-		})
+		});
 	}
 }

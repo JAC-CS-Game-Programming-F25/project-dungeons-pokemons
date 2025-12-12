@@ -46,12 +46,15 @@ export default class GameEntity {
 	 * @param {number} y
 	 * @param {GameEntity} cameraEntity
 	 */
-	render(x, y, cameraEntity) {
+	render(x, y, cameraEntity = null) {
 		this.stateMachine?.render();
-		this.sprites[this.currentFrame].render(
-			x + OFFSET_X * Tile.SIZE - cameraEntity.canvasPosition.x,
-			y + OFFSET_Y * Tile.SIZE - cameraEntity.canvasPosition.y
-		);
+
+		if (cameraEntity !== null)
+			this.sprites[this.currentFrame].render(
+				x + OFFSET_X * Tile.SIZE - cameraEntity.canvasPosition.x,
+				y + OFFSET_Y * Tile.SIZE - cameraEntity.canvasPosition.y
+			);
+		else this.sprites[this.currentFrame].render(x, y);
 	}
 
 	changeState(state, params) {

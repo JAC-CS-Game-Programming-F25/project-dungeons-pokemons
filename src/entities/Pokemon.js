@@ -1,8 +1,8 @@
-import GameEntity from './GameEntity.js';
-import { getRandomPositiveInteger } from '../../lib/Random.js';
-import Sprite from '../../lib/Sprite.js';
-import Vector from '../../lib/Vector.js';
-import { context, images } from '../globals.js';
+import GameEntity from "./GameEntity.js";
+import { getRandomPositiveInteger } from "../../lib/Random.js";
+import Sprite from "../../lib/Sprite.js";
+import Vector from "../../lib/Vector.js";
+import { context, images } from "../globals.js";
 
 export default class Pokemon extends GameEntity {
 	static FRONT_POSITION = {
@@ -39,36 +39,12 @@ export default class Pokemon extends GameEntity {
 		this.attackPosition = new Vector();
 
 		this.battleSprites = [
-			new Sprite(
-				images.get(`${this.name.toLowerCase()}-front`),
-				0,
-				0,
-				160,
-				160
-			),
-			new Sprite(
-				images.get(`${this.name.toLowerCase()}-back`),
-				0,
-				0,
-				160,
-				160
-			),
+			new Sprite(images.get(`${this.name.toLowerCase()}-front`), 0, 0, 160, 160),
+			new Sprite(images.get(`${this.name.toLowerCase()}-back`), 0, 0, 160, 160),
 		];
 		this.iconSprites = [
-			new Sprite(
-				images.get(`${this.name.toLowerCase()}-icon`),
-				0,
-				0,
-				64,
-				64
-			),
-			new Sprite(
-				images.get(`${this.name.toLowerCase()}-icon`),
-				64,
-				0,
-				64,
-				64
-			),
+			new Sprite(images.get(`${this.name.toLowerCase()}-icon`), 0, 0, 64, 64),
+			new Sprite(images.get(`${this.name.toLowerCase()}-icon`), 64, 0, 64, 64),
 		];
 		this.sprites = this.battleSprites;
 
@@ -177,11 +153,7 @@ export default class Pokemon extends GameEntity {
 
 	calculateHealth() {
 		return (
-			Math.floor(
-				((2 * this.baseHealth + this.healthIV) * this.level) / 100
-			) +
-			this.level +
-			10
+			Math.floor(((2 * this.baseHealth + this.healthIV) * this.level) / 100) + this.level + 10
 		);
 	}
 
@@ -198,11 +170,7 @@ export default class Pokemon extends GameEntity {
 		const damage = Math.max(
 			1,
 			Math.floor(
-				(((2 * this.level) / 5 + 2) *
-					power *
-					(this.attack / defender.defense)) /
-					50 +
-					2
+				(((2 * this.level) / 5 + 2) * power * (this.attack / defender.defense)) / 50 + 2
 			)
 		);
 
@@ -213,9 +181,14 @@ export default class Pokemon extends GameEntity {
 		return `${Math.floor(this.currentHealth)} / ${this.health}`;
 	}
 
+	// Gets the current health percentage
+	getHealthPercentage() {
+		return this.currentHealth / this.health;
+	}
+
 	getExperienceMeter() {
-		return `${Math.floor(
-			this.currentExperience - this.levelExperience
-		)} / ${this.targetExperience - this.levelExperience}`;
+		return `${Math.floor(this.currentExperience - this.levelExperience)} / ${
+			this.targetExperience - this.levelExperience
+		}`;
 	}
 }
