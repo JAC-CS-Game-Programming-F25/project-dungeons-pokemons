@@ -27,6 +27,11 @@
 
 			"position": { "x": 3, "y": 3 },
 			"dimensions": { "x": 16, "y": 16 }
+		},
+		{
+			"type": "Crystal",
+			"position": { "x": 4, "y": 3 },
+			"dimensions": { "x": 16, "y": 16 }
 		}
 	],
 	"house": [

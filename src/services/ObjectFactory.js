@@ -1,5 +1,6 @@
 import ObjectNames from "../enums/ObjectNames.js";
 import Chest from "../objects/Chest.js";
+import SaveCrystal from "../objects/Crystal.js";
 import Map from "./Map.js";
 
 /**
@@ -9,14 +10,15 @@ export default class ObjectFactory {
 	/**
 	 *
 	 * @param {string} type the type of the npc
-	 * @param {object} npcDefinition the definition of the npc in npc.json
+	 * @param {object} objectDefinition the definition of the npc in npc.json
 	 * @returns a new instance of the npc type
 	 */
-	static createInstance(type, npcDefinition) {
+	static createInstance(type, objectDefinition) {
 		switch (type) {
 			case ObjectNames.Chest:
-				return new Chest(npcDefinition);
+				return new Chest(objectDefinition);
 			case ObjectNames.SaveCrystal:
+				return new SaveCrystal(objectDefinition);
 		}
 	}
 }

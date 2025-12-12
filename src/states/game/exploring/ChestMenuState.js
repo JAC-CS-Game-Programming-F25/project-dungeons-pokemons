@@ -1,6 +1,6 @@
-import State from "../../../lib/State.js";
-import Panel from "../elements/Panel.js";
-import GridSelection from "../elements/GridSelections.js";
+import State from "../../../../lib/State.js";
+import Panel from "../../../user-interface/elements/Panel.js";
+import GridSelection from "../../../user-interface/elements/GridSelections.js";
 
 export default class ChestMenuState extends State {
 	constructor(player, chestContents) {
@@ -43,7 +43,7 @@ export default class ChestMenuState extends State {
 				if (!item.taken)
 					this.items.push({
 						text: item.text,
-						onSelect: () => this.selectItem(i),
+						onSelect: () => this.selectItem(i, chestContents),
 					});
 			} else {
 				this.items.push({
@@ -55,17 +55,15 @@ export default class ChestMenuState extends State {
 	}
 
 	// Handles selecting an item from the chest
-	selectItem(index) {
-		this.player.inventory.push(this.items[index]);
+	selectItem(index, chestContents) {
+		this.player.inventory.push(chestContents[index]);
 
 		for (let i = 0; i < this.moveGrid.items.length; i++) {
 			if (i === index) {
 				this.moveGrid.items[i].text = "-";
 				this.moveGrid.items[i].onSelect = null;
-				return;
+				chestContents[i].taken = true;
 			}
 		}
-
-		item.taken = true;
 	}
 }

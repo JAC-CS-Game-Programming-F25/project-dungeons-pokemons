@@ -9,6 +9,7 @@ const ImageName = {
 	TrainerMay: "trainer-may",
 	ChestClosed: "chest-closed",
 	ChestOpening: "chest-opening",
+	Crystal: "crystal",
 };
 
 export default ImageName;

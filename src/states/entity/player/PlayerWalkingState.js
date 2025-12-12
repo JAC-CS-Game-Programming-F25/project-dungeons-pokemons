@@ -18,6 +18,7 @@ import Map from "../../../services/Map.js";
 import { Maps } from "../../../enums/MapNames.js";
 import Vector from "../../../../lib/Vector.js";
 import { getCollisionDirection } from "../../../../lib/CollisionHelpers.js";
+import InventoryState from "../../game/exploring/InventoryState.js";
 
 export default class PlayerWalkingState extends State {
 	static ENCOUNTER_CHANCE = 0.1;
@@ -54,7 +55,6 @@ export default class PlayerWalkingState extends State {
 		this.player.currentAnimation = this.animation[this.player.direction];
 
 		this.handleMovement();
-		this.interact();
 	}
 
 	handleMovement() {
@@ -280,45 +280,5 @@ export default class PlayerWalkingState extends State {
 				this.tweenMovement(this.player.position.x, this.player.position.y);
 			}
 		);
-	}
-
-	/**
-	 * Checks whether there is an npc on the tile beside the player is facing
-	 */
-	interact() {
-		let x = this.player.position.x;
-		let y = this.player.position.y;
-
-		switch (this.player.direction) {
-			case Direction.Up:
-				y--;
-				break;
-			case Direction.Down:
-				y++;
-				break;
-			case Direction.Left:
-				x--;
-				break;
-			case Direction.Right:
-				x++;
-				break;
-		}
-
-		// Looks each npc to see if the x and y are equal to the npc position.x and position.y
-		this.player.map.mapNPCs.forEach((npc) => {
-			if (input.isKeyPressed(Input.KEYS.ENTER))
-				if (x === npc.position.x)
-					if (y === npc.position.y) {
-						npc.dialogue(this.player.direction);
-					}
-		});
-
-		this.player.map.mapObjects.forEach((object) => {
-			if (input.isKeyPressed(Input.KEYS.ENTER))
-				if (x === object.position.x)
-					if (y === object.position.y) {
-						object.interact(this.player);
-					}
-		});
 	}
 }

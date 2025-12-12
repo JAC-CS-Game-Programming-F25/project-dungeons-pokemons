@@ -2,7 +2,7 @@ import Animation from "../../lib/Animation.js";
 import Sprite from "../../lib/Sprite.js";
 import ImageName from "../enums/ImageName.js";
 import { stateStack, images } from "../globals.js";
-import ChestMenuState from "../user-interface/exploring/ChestMenu.js";
+import ChestMenuState from "../states/game/exploring/ChestMenuState.js";
 import GameObject from "./GameObject.js";
 
 const CHEST_WIDTH = 16;

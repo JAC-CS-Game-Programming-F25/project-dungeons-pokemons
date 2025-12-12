@@ -3,8 +3,9 @@ import State from "../../../../lib/State.js";
 import Player from "../../../entities/Player.js";
 import Direction from "../../../enums/Direction.js";
 import PlayerStateName from "../../../enums/entities/state/PlayerStateName.js";
-import { input } from "../../../globals.js";
+import { input, stateStack } from "../../../globals.js";
 import Input from "../../../../lib/Input.js";
+import InventoryState from "../../game/exploring/InventoryState.js";
 
 export default class PlayerIdlingState extends State {
 	/**
@@ -44,7 +45,8 @@ export default class PlayerIdlingState extends State {
 			this.player.changeState(PlayerStateName.Walking);
 		}
 
-		this.interactWithObject();
+		this.interact();
+		this.checkInventory();
 	}
 
 	/**
@@ -72,7 +74,7 @@ export default class PlayerIdlingState extends State {
 		}
 	}
 
-	interactWithObject() {
+	interact() {
 		if (!input.isKeyPressed(Input.KEYS.ENTER)) return;
 
 		let x = this.player.position.x;
@@ -107,6 +109,12 @@ export default class PlayerIdlingState extends State {
 
 		if (object) {
 			object.interact(this.player);
+		}
+	}
+
+	checkInventory() {
+		if (input.isKeyPressed(Input.KEYS.I)) {
+			stateStack.push(new InventoryState(this.player));
 		}
 	}
 }

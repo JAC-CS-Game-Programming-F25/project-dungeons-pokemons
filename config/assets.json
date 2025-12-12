@@ -131,6 +131,12 @@
 			"path": "./assets/images/objects/chest/chest_opening.png",
 			"width": 80,
 			"height": 16
+		},
+		{
+			"name": "crystal",
+			"path": "./assets/images/objects/crystal/crystal.png",
+			"width": 96,
+			"height": 16
 		}
 	],
 	"fonts": [

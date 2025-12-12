@@ -1,6 +1,6 @@
 import UserInterfaceElement from "../UserInterfaceElement.js";
 import SoundName from "../../enums/SoundName.js";
-import { context, input, sounds } from "../../globals.js";
+import { context, input, sounds, stateStack } from "../../globals.js";
 import Vector from "../../../lib/Vector.js";
 import Input from "../../../lib/Input.js";
 
@@ -34,6 +34,11 @@ export default class Selection extends UserInterfaceElement {
 			this.navigateDown();
 		} else if (input.isKeyPressed(Input.KEYS.ENTER) || input.isKeyPressed(Input.KEYS.SPACE)) {
 			this.select();
+		} else if (
+			input.isKeyPressed(Input.KEYS.SHIFT_LEFT) ||
+			input.isKeyPressed(Input.KEYS.SHIFT_RIGHT)
+		) {
+			stateStack.pop();
 		}
 	}
 
