@@ -48,7 +48,10 @@ export default class TitleScreenState extends State {
 		const mapDefinition = maps.get(mapName);
 
 		this.map = new Map(mapDefinition, null, ImageName.Tiles, mapName);
-		this.player = new Player({ position: new Vector(7, 5) }, this.map);
+		this.player = new Player(
+			JSON.parse(localStorage.getItem("playerData")) ?? { position: new Vector(7, 5) },
+			this.map
+		);
 		this.map.player = this.player;
 
 		// this.currentPokemonIndex = 0;

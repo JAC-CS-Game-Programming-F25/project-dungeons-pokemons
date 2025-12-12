@@ -41,6 +41,7 @@ export default class SaveState extends State {
 			JSON.stringify({
 				position: this.player.position,
 				inventory: this.player.inventory,
+				direction: this.player.direction,
 			})
 		);
 		stateStack.pop();

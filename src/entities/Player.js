@@ -31,7 +31,7 @@ export default class Player extends GameEntity {
 		this.velocity = new Vector(0, 0);
 
 		// This is how the player will carry items
-		this.inventory = [];
+		this.inventory = entityDefinition.inventory ?? [];
 	}
 
 	update(dt) {
