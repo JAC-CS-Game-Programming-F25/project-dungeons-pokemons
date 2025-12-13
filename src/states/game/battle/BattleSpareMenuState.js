@@ -6,6 +6,7 @@ import SparePanel from "../../../user-interface/battle/SparePanel.js";
 import Menu from "../../../user-interface/elements/Menu.js";
 import Panel from "../../../user-interface/elements/Panel.js";
 import ProgressBar from "../../../user-interface/elements/ProgressBar.js";
+import BattleMessageState from "./BattleMessageState.js";
 import BattleTurnState from "./BattleTurnState.js";
 
 export default class BattleSpareMenuState extends State {
@@ -23,8 +24,21 @@ export default class BattleSpareMenuState extends State {
 				text: `${opponent.name}`,
 				mercyMeter: opponent.mercyMeter,
 				onSelect: () => {
-					new BattleTurnState(battleState);
-					opponent.spare();
+					if (opponent.mercyMeter >= 100) {
+						stateStack.pop();
+						stateStack.pop();
+						stateStack.push(
+							new BattleMessageState(`You spared ${opponent.name}!`, 0, () => {
+								opponent.spare();
+								stateStack.push(new BattleTurnState(battleState));
+							})
+						);
+					} else {
+						stateStack.push(
+							new BattleMessageState(`${opponent.name} growls at you`),
+							0
+						);
+					}
 				},
 			});
 		});

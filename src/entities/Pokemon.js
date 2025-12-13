@@ -84,8 +84,9 @@ export default class Pokemon extends GameEntity {
 		this.defense = 0;
 		this.speed = 0;
 
-		// This is used for the spared mechanic
+		// These are used for the spared mechanic
 		this.mercyMeter = 0;
+		this.spared = false;
 
 		this.calculateStats();
 
@@ -267,6 +268,7 @@ export default class Pokemon extends GameEntity {
 		// Twinkle animation
 
 		// tween to the right
-		timer.tween(this.canvasPosition, { x: CANVAS_WIDTH }, 0.5, Easing.easeOutQuad);
+		timer.tweenAsync(this.position, { x: CANVAS_WIDTH }, 0.5, Easing.easeOutQuad);
+		this.spared = true;
 	}
 }
