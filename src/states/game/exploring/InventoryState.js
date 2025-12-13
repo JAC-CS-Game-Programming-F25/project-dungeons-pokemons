@@ -2,6 +2,7 @@ import State from "../../../../lib/State.js";
 import Panel from "../../../user-interface/elements/Panel.js";
 import GridSelection from "../../../user-interface/elements/GridSelections.js";
 import Menu from "../../../user-interface/elements/Menu.js";
+import Equipment from "../../../objects/equipment/Equipment.js";
 
 export default class InventoryState extends State {
 	constructor(player) {
@@ -34,6 +35,10 @@ export default class InventoryState extends State {
 
 	// Fills the menu with items from the chest, adding dashes if less than 4
 
+	/**
+	 * Initialises all the equipment the player owns
+	 * @param {Equipment[]} inventory
+	 */
 	initializeItems(inventory) {
 		for (let i = 0; i < 4; i++) {
 			// Makes sure we don't go out of bounds
@@ -42,7 +47,7 @@ export default class InventoryState extends State {
 
 				// Puts item only if it has not been taken yet
 				this.items.push({
-					text: item.text,
+					text: item.name,
 					onSelect: () => this.selectItem(i),
 				});
 			} else {
@@ -56,14 +61,12 @@ export default class InventoryState extends State {
 
 	// Handles selecting an item from the chest
 	selectItem(index) {
-		// this.player.inventory.push(this.items[index]);
-		// for (let i = 0; i < this.moveGrid.items.length; i++) {
-		// 	if (i === index) {
-		// 		this.moveGrid.items[i].text = "-";
-		// 		this.moveGrid.items[i].onSelect = null;
-		// 		return;
-		// 	}
-		// }
-		// item.taken = true;
+		for (let i = 0; i < this.moveGrid.items.length; i++) {
+			if (i === index) {
+				this.moveGrid.items[i].text = "-";
+				this.moveGrid.items[i].onSelect = null;
+				return;
+			}
+		}
 	}
 }

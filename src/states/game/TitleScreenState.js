@@ -40,8 +40,6 @@ export default class TitleScreenState extends State {
 	constructor(mapName) {
 		super();
 
-		// this.pokemon = this.initializePokemon();
-
 		// I create the map within the title screen since I need to be able to pass the player instance to the map
 		// This removes the issue of having a bunch of player instances in the game.
 
