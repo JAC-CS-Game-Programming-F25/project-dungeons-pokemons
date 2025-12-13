@@ -42,7 +42,8 @@
 					"description": "omg more of my love??",
 					"damage": 20,
 					"elementalType": "Fire",
-					"quantity": 1
+					"quantity": 1,
+					"effect": {}
 				}
 			],
 

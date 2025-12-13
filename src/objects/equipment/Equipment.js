@@ -1,4 +1,4 @@
-import EffectFactory from "../../services/EffectFactory";
+import EffectFactory from "../../services/EffectFactory.js";
 
 export default class Equipment {
 	constructor(equipmentDefinition) {

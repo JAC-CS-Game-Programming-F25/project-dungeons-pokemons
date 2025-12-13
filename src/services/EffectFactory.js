@@ -21,6 +21,8 @@ export default class EffectFactory {
 				return new Heal();
 			case EffectName.Open:
 				return new Open();
+			default:
+				return null;
 		}
 	}
 }
