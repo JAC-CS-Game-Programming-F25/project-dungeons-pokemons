@@ -71,10 +71,6 @@ export default class BattleTurnState extends State {
 
 			this.attack(this.secondAttacker, this.firstAttacker, this.secondMove, () => {
 				if (this.checkBattleEnded()) {
-					this.player.canvasPosition = new Vector(
-						Math.floor(this.player.position.x * Tile.SIZE),
-						Math.floor(this.player.position.y * Tile.SIZE)
-					);
 					stateStack.pop();
 					return;
 				}

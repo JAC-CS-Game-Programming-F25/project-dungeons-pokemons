@@ -14,6 +14,7 @@ import Opponent from "../../entities/Opponent.js";
 import Easing from "../../../lib/Easing.js";
 import ProgressBar from "../../user-interface/elements/ProgressBar.js";
 import Tile from "../../services/Tile.js";
+import Vector from "../../../lib/Vector.js";
 
 export default class BattleState extends State {
 	static PLAYER_PLATFORM = { x: 0, y: 200 };
@@ -136,6 +137,10 @@ export default class BattleState extends State {
 			sounds.stop(SoundName.BattleLoop);
 			sounds.stop(SoundName.BattleVictory);
 			sounds.play(SoundName.Route);
+			this.player.canvasPosition = new Vector(
+				Math.floor(this.player.position.x * Tile.SIZE),
+				Math.floor(this.player.position.y * Tile.SIZE)
+			);
 		});
 	}
 }

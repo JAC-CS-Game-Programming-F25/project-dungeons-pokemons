@@ -17,9 +17,9 @@ import TypeEffectiveness from "../services/TypeEffectiveness.js";
 export default class Player extends GameEntity {
 	static BATTLE_POSITION = {
 		sprite: 0,
-		start: { x: -160, y: 96 },
-		end: { x: 30, y: 96 },
-		attack: { x: 50, y: 96 },
+		start: { x: -160, y: 120 },
+		end: { x: 80, y: 120 },
+		attack: { x: 100, y: 120 },
 	};
 
 	/**
@@ -149,10 +149,8 @@ export default class Player extends GameEntity {
 		return [pokemon];
 	}
 
-	healParty() {
-		this.party.forEach((pokemon) => {
-			pokemon.heal();
-		});
+	heal(amount = this.maxHealth) {
+		this.currentHealth = Math.min(this.maxHealth, this.currentHealth + amount);
 	}
 
 	//#region Experience and Leveling
