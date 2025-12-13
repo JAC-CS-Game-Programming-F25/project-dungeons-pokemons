@@ -31,7 +31,7 @@ export default class BattleMenuState extends State {
 			{ text: BattleMenuState.MENU_OPTIONS.Fight, onSelect: () => this.fight() },
 			{ text: BattleMenuState.MENU_OPTIONS.Act, onSelect: () => this.act() },
 			{ text: BattleMenuState.MENU_OPTIONS.Items, onSelect: () => this.showInventory() },
-			{ text: BattleMenuState.MENU_OPTIONS.Spare, onSelect: () => this.status() },
+			{ text: BattleMenuState.MENU_OPTIONS.Spare, onSelect: () => this.showSpareMenu() },
 		];
 
 		this.battleMenu = new Menu(
@@ -60,7 +60,7 @@ export default class BattleMenuState extends State {
 	act() {
 		stateStack.push(
 			new BattleMessageState(`You did something silly, the pokemon liked that`, 2, () => {
-				this.battleState.opponentPokemon.mercyMeter += 0.25;
+				this.battleState.opponentPokemon.mercyMeter += 25;
 			})
 		);
 	}
@@ -79,7 +79,7 @@ export default class BattleMenuState extends State {
 		}
 	}
 
-	spare() {
-		stateStack.push(new BattleSpareMenuState(this.battleState));
+	showSpareMenu() {
+		stateStack.push(new BattleSpareMenuState([this.battleState.opponentPokemon]));
 	}
 }

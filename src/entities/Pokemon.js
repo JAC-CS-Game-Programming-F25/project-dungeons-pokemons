@@ -20,6 +20,7 @@ export default class Pokemon extends GameEntity {
 		attack: { x: 50, y: 96 },
 	};
 	static LOW_HEALTH_THRESHOLD = 0.25;
+	static MERCY_NEEDED = 100;
 
 	//MYUPDATES
 	static moveData = null; // this will get the moves.json data

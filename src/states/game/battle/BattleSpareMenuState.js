@@ -1,5 +1,8 @@
+import Input from "../../../../lib/Input.js";
 import State from "../../../../lib/State.js";
 import Pokemon from "../../../entities/Pokemon.js";
+import { input, stateStack } from "../../../globals.js";
+import SparePanel from "../../../user-interface/battle/SparePanel.js";
 import Menu from "../../../user-interface/elements/Menu.js";
 import Panel from "../../../user-interface/elements/Panel.js";
 import ProgressBar from "../../../user-interface/elements/ProgressBar.js";
@@ -12,21 +15,26 @@ export default class BattleSpareMenuState extends State {
 	constructor(opponents) {
 		super();
 
-		this.spareBars = [];
-		this.items = [];
-
-		opponents.forEach((opponent) => {
-			items.push({ text: `${opponent.name}`, onSelect: () => opponent.spare() });
-			this.spareBars.push(new ProgressBar(Panel));
-		});
-		const items = [];
-
-		this.spareMenu = new Menu(
+		this.sparePanel = new SparePanel(
 			Panel.BOTTOM_DIALOGUE.x,
 			Panel.BOTTOM_DIALOGUE.y,
 			Panel.BOTTOM_DIALOGUE.width,
 			Panel.BOTTOM_DIALOGUE.height,
-			items
+			opponents
 		);
+	}
+
+	update() {
+		this.sparePanel.update();
+		if (
+			input.isKeyPressed(Input.KEYS.SHIFT_LEFT) ||
+			input.isKeyPressed(Input.KEYS.SHIFT_RIGHT)
+		) {
+			stateStack.pop();
+		}
+	}
+
+	render() {
+		this.sparePanel.render();
 	}
 }
