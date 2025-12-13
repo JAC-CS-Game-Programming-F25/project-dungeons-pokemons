@@ -7,6 +7,8 @@ import BattleMessageState from "./BattleMessageState.js";
 import BattleState from "./BattleState.js";
 import { oneInXChance } from "../../../lib/Random.js";
 import Easing from "../../../lib/Easing.js";
+import Vector from "../../../lib/Vector.js";
+import Tile from "../../services/Tile.js";
 
 export default class BattleTurnState extends State {
 	/**
@@ -36,7 +38,7 @@ export default class BattleTurnState extends State {
 		// Determine the order of attack based on the Pokemons' speed.
 		//passing first move and second move
 		if (this.player.speed > this.opponentPokemon.speed) {
-			//MYUPDATE
+			// Now the two attackers are always the player himself and the opposing pokemon
 			this.firstAttacker = this.player;
 			this.secondAttacker = this.opponentPokemon;
 			this.firstMove = this.playerMove;
@@ -69,6 +71,10 @@ export default class BattleTurnState extends State {
 
 			this.attack(this.secondAttacker, this.firstAttacker, this.secondMove, () => {
 				if (this.checkBattleEnded()) {
+					this.player.canvasPosition = new Vector(
+						Math.floor(this.player.position.x * Tile.SIZE),
+						Math.floor(this.player.position.y * Tile.SIZE)
+					);
 					stateStack.pop();
 					return;
 				}
@@ -95,13 +101,13 @@ export default class BattleTurnState extends State {
 		stateStack.push(
 			new BattleMessageState(`${attacker.name} used ${move.name}!`, 1, () => {
 				timer.tween(
-					attacker.position,
+					attacker.canvasPosition,
 					{ x: attacker.attackPosition.x, y: attacker.attackPosition.y },
 					0.1,
 					Easing.linear,
 					() => {
 						timer.tween(
-							attacker.position,
+							attacker.canvasPosition,
 							{ x: attacker.battlePosition.x, y: attacker.battlePosition.y },
 							0.1,
 							Easing.linear,
@@ -179,7 +185,7 @@ export default class BattleTurnState extends State {
 	 */
 	processDefeat() {
 		sounds.play(SoundName.PokemonFaint);
-		timer.tween(this.player.position, { y: CANVAS_HEIGHT }, 0.2, Easing.linear, () => {
+		timer.tween(this.player.canvasPosition, { y: CANVAS_HEIGHT }, 0.2, Easing.linear, () => {
 			stateStack.push(
 				new BattleMessageState(`${this.player.name} fainted!`, 0, () =>
 					this.battleState.exitBattle()

@@ -35,7 +35,6 @@ export default class BattleState extends State {
 		this.playerPokemon = player.party[0];
 		this.opponentPokemon = opponent.party[0];
 
-		this.playerPokemon.prepareForBattle(Pokemon.BACK_POSITION);
 		this.opponentPokemon.prepareForBattle(Pokemon.FRONT_POSITION);
 
 		this.didBattleStart = false;
@@ -63,6 +62,11 @@ export default class BattleState extends State {
 		);
 	}
 
+	enter() {
+		// Have to do it here to avoid seeing player teleport before we tween in
+		if (!this.didBattleStart) this.player.prepareForBattle(Player.BATTLE_POSITION);
+	}
+
 	update() {
 		if (!this.didBattleStart) {
 			this.triggerBattleStart();
@@ -79,7 +83,7 @@ export default class BattleState extends State {
 	}
 
 	renderForeground() {
-		this.playerPokemon.render(this.player);
+		this.player.render();
 		this.opponentPokemon.render(this.player);
 		this.panel.render();
 		this.playerPanel.render();
@@ -114,8 +118,8 @@ export default class BattleState extends State {
 
 	sendOutPlayerPokemon() {
 		timer.tween(
-			this.playerPokemon.position,
-			{ x: Pokemon.BACK_POSITION.end.x },
+			this.player.canvasPosition,
+			{ x: Player.BATTLE_POSITION.end.x },
 			0.75,
 			Easing.linear,
 			() => {

@@ -15,6 +15,13 @@ import Move from "../services/Moves.js";
 import TypeEffectiveness from "../services/TypeEffectiveness.js";
 
 export default class Player extends GameEntity {
+	static BATTLE_POSITION = {
+		sprite: 0,
+		start: { x: -160, y: 96 },
+		end: { x: 30, y: 96 },
+		attack: { x: 50, y: 96 },
+	};
+
 	/**
 	 * The character that the player controls in the map.
 	 * Has a party of Pokemon they can use to battle other Pokemon.
@@ -151,8 +158,8 @@ export default class Player extends GameEntity {
 	//#region Experience and Leveling
 
 	levelUp() {
-		// upon level up, store old stats //MYUPDATE
-		this.oldHealth = this.health;
+		// upon level up, store old stats
+		this.oldHealth = this.maxHealth;
 		this.oldAttack = this.attack;
 		this.oldDefense = this.defense;
 		this.oldSpeed = this.speed;
@@ -182,8 +189,9 @@ export default class Player extends GameEntity {
 	//#region Stats Calculation
 	calculateStats() {
 		this.maxHealth = this.calculateHealth();
-		// current health should be max health whenever pokemon level's up
-		this.currentHealth = this.health; // MYUPDATE
+
+		// current health should increase by the difference upon level up
+		this.currentHealth += this.maxHealth - this.oldHealth;
 		this.attack = this.calculateStat(this.baseAttack);
 		this.defense = this.calculateStat(this.baseDefense);
 		this.speed = this.calculateStat(this.baseSpeed);
@@ -232,5 +240,15 @@ export default class Player extends GameEntity {
 
 		defender.currentHealth = Math.max(0, defender.currentHealth - damage);
 		return getMutiplier;
+	}
+
+	prepareForBattle(position) {
+		// Copies the value of the old position
+		// this.oldPosition = { ...this.position };
+		// this.sprites = this.battleSprites;
+		this.currentFrame = position.sprite;
+		this.canvasPosition.set(position.start.x, position.start.y);
+		this.battlePosition.set(position.end.x, position.end.y);
+		this.attackPosition.set(position.attack.x, position.attack.y);
 	}
 }
