@@ -21,22 +21,15 @@ export default class SparePanel extends Panel {
 	 * @param {Pokemon[]} opponents
 	 * @param {object} options Options for the super Panel.
 	 */
-	constructor(x, y, width, height, opponents, options = {}) {
+	constructor(x, y, width, height, items, options = {}) {
 		super(x, y, width, height, options);
 
 		this.spareBars = [];
-		this.items = [];
-		this.opponents = opponents;
 
 		// Selection that will be on the left of the panel
+		this.options = new Selection(x, y, width - 11, height, items);
 
-		opponents.forEach((opponent) => {
-			this.items.push({ text: `${opponent.name}`, onSelect: () => opponent.spare() });
-		});
-
-		this.options = new Selection(x + 20, y, width - 11, height, this.items);
-
-		opponents.forEach((opponent, index) => {
+		items.forEach((opponent, index) => {
 			this.spareBars.push(
 				new ProgressBar(
 					this.position.x + this.dimensions.x - SparePanel.SPARE_BAR_WIDTH - 20,
@@ -69,41 +62,13 @@ export default class SparePanel extends Panel {
 		});
 	}
 
-	/**
-	 * All the magic number offsets here are to
-	 * arrange all the pieces nicely in the space.
-	 */
-	renderStatistics() {
-		context.save();
-		context.textBaseline = "top";
-		context.fillStyle = Colour.Black;
-		context.font = `${UserInterfaceElement.FONT_SIZE}px ${UserInterfaceElement.FONT_FAMILY}`;
-		context.fillText(
-			this.pokemon.name.toUpperCase(),
-			this.position.x + 15,
-			this.position.y + 12
-		);
-		context.textAlign = "right";
-		context.fillText(
-			`HP: ${this.pokemon.getHealthMeter()}`,
-			this.position.x + this.dimensions.x - 30,
-			this.position.y + this.dimensions.y - 25
-		);
-		context.fillText(
-			`Lv${this.pokemon.level}`,
-			this.position.x + this.dimensions.x - 10,
-			this.position.y + 12
-		);
-		context.restore();
-	}
-
 	renderPercentage(spareBar, index) {
 		context.save();
 		context.textBaseline = "top";
 		context.fillStyle = Colour.Black;
 		context.font = `12px ${UserInterfaceElement.FONT_FAMILY}`;
 		context.fillText(
-			`${this.opponents[index].mercyMeter}%`,
+			`${this.items[index].mercyMeter}%`,
 			spareBar.x + 5,
 			spareBar.y + spareBar.height / 2 - 6
 		);
