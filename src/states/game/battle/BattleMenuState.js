@@ -59,8 +59,9 @@ export default class BattleMenuState extends State {
 
 	act() {
 		stateStack.push(
-			new BattleMessageState(`You did something silly, the pokemon liked that`, 2, () => {
-				this.battleState.opponentPokemon.mercyMeter += 25;
+			new BattleMessageState(`You did something silly, the pokemon liked that`, 0, () => {
+				if (this.battleState.opponentPokemon.mercyMeter < 100)
+					this.battleState.opponentPokemon.mercyMeter += 25;
 			})
 		);
 	}
@@ -80,6 +81,8 @@ export default class BattleMenuState extends State {
 	}
 
 	showSpareMenu() {
-		stateStack.push(new BattleSpareMenuState([this.battleState.opponentPokemon]));
+		stateStack.push(
+			new BattleSpareMenuState([this.battleState.opponentPokemon], this.battleState)
+		);
 	}
 }

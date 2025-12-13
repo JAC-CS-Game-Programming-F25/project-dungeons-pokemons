@@ -169,6 +169,9 @@ export default class BattleTurnState extends State {
 			this.processDefeat();
 			return true;
 		} else if (this.opponentPokemon.currentHealth <= 0) {
+			this.processVictory(() => this.processExperience());
+			return true;
+		} else if (this.opponentPokemon.mercyMeter === Pokemon.MERCY_NEEDED) {
 			this.processVictory();
 			return true;
 		}
@@ -194,12 +197,12 @@ export default class BattleTurnState extends State {
 	 * Tween the Opponent Pokemon off the bottom of the screen.
 	 * Process experience gained by the Player Pokemon.
 	 */
-	processVictory() {
+	processVictory(callback = () => {}) {
 		sounds.play(SoundName.PokemonFaint);
 		timer.tween(this.opponentPokemon.position, { y: CANVAS_HEIGHT }, 0.4, Easing.linear, () => {
 			sounds.stop(SoundName.BattleLoop);
 			sounds.play(SoundName.BattleVictory);
-			stateStack.push(new BattleMessageState("You won!", 0, () => this.processExperience()));
+			stateStack.push(new BattleMessageState("You won!", 0, callback));
 		});
 	}
 

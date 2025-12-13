@@ -26,6 +26,8 @@ export default class SparePanel extends Panel {
 
 		this.spareBars = [];
 
+		this.items = items;
+
 		// Selection that will be on the left of the panel
 		this.options = new Selection(x, y, width - 11, height, items);
 
