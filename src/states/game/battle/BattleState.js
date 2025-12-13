@@ -1,20 +1,20 @@
-import State from "../../../lib/State.js";
-import Player from "../../entities/Player.js";
-import ImageName from "../../enums/ImageName.js";
-import SoundName from "../../enums/SoundName.js";
-import { images, sounds, stateStack, timer } from "../../globals.js";
-import BattleOpponentPanel from "../../user-interface/battle/OpponentPanel.js";
-import BattlePlayerPanel from "../../user-interface/battle/PlayerPanel.js";
-import Panel from "../../user-interface/elements/Panel.js";
-import Pokemon from "../../entities/Pokemon.js";
+import State from "../../../../lib/State.js";
+import Player from "../../../entities/Player.js";
+import ImageName from "../../../enums/ImageName.js";
+import SoundName from "../../../enums/SoundName.js";
+import { images, sounds, stateStack, timer } from "../../../globals.js";
+import BattleOpponentPanel from "../../../user-interface/battle/OpponentPanel.js";
+import BattlePlayerPanel from "../../../user-interface/battle/PlayerPanel.js";
+import Panel from "../../../user-interface/elements/Panel.js";
+import Pokemon from "../../../entities/Pokemon.js";
 import BattleMenuState from "./BattleMenuState.js";
 import BattleMessageState from "./BattleMessageState.js";
-import TransitionState from "./TransitionState.js";
-import Opponent from "../../entities/Opponent.js";
-import Easing from "../../../lib/Easing.js";
-import ProgressBar from "../../user-interface/elements/ProgressBar.js";
-import Tile from "../../services/Tile.js";
-import Vector from "../../../lib/Vector.js";
+import TransitionState from "../TransitionState.js";
+import Opponent from "../../../entities/Opponent.js";
+import Easing from "../../../../lib/Easing.js";
+import ProgressBar from "../../../user-interface/elements/ProgressBar.js";
+import Tile from "../../../services/Tile.js";
+import Vector from "../../../../lib/Vector.js";
 
 export default class BattleState extends State {
 	static PLAYER_PLATFORM = { x: 0, y: 200 };

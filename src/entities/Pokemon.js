@@ -82,6 +82,9 @@ export default class Pokemon extends GameEntity {
 		this.defense = 0;
 		this.speed = 0;
 
+		// This is used for the spared mechanic
+		this.mercyMeter = 0;
+
 		this.calculateStats();
 
 		this.targetExperience = this.experienceFromLevel(level + 1);

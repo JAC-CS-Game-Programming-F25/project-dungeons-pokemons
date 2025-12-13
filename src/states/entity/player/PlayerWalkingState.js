@@ -9,7 +9,7 @@ import SoundName from "../../../enums/SoundName.js";
 import Input from "../../../../lib/Input.js";
 import { input, sounds, stateStack, timer, maps } from "../../../globals.js";
 import Tile from "../../../services/Tile.js";
-import BattleState from "../../game/BattleState.js";
+import BattleState from "../../game/battle/BattleState.js";
 import BuildingState from "../../game/BuildingState.js";
 import TransitionState from "../../game/TransitionState.js";
 import Easing from "../../../../lib/Easing.js";
