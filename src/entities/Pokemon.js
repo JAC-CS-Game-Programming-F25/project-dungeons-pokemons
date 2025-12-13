@@ -2,9 +2,10 @@ import GameEntity from "./GameEntity.js";
 import { getRandomPositiveInteger } from "../../lib/Random.js";
 import Sprite from "../../lib/Sprite.js";
 import Vector from "../../lib/Vector.js";
-import { context, images } from "../globals.js";
+import { CANVAS_WIDTH, context, images, timer } from "../globals.js";
 import Move from "../services/Moves.js";
 import TypeEffectiveness from "../services/TypeEffectiveness.js";
+import Easing from "../../lib/Easing.js";
 
 export default class Pokemon extends GameEntity {
 	static FRONT_POSITION = {
@@ -20,6 +21,7 @@ export default class Pokemon extends GameEntity {
 		attack: { x: 50, y: 96 },
 	};
 	static LOW_HEALTH_THRESHOLD = 0.25;
+	static MERCY_NEEDED = 100;
 
 	//MYUPDATES
 	static moveData = null; // this will get the moves.json data
@@ -82,8 +84,9 @@ export default class Pokemon extends GameEntity {
 		this.defense = 0;
 		this.speed = 0;
 
-		// This is used for the spared mechanic
+		// These are used for the spared mechanic
 		this.mercyMeter = 0;
+		this.spared = false;
 
 		this.calculateStats();
 
@@ -259,5 +262,13 @@ export default class Pokemon extends GameEntity {
 		return `${Math.floor(this.currentExperience - this.levelExperience)} / ${
 			this.targetExperience - this.levelExperience
 		}`;
+	}
+
+	spare() {
+		// Twinkle animation
+
+		// tween to the right
+		timer.tweenAsync(this.position, { x: CANVAS_WIDTH }, 0.5, Easing.easeOutQuad);
+		this.spared = true;
 	}
 }

@@ -1,6 +1,6 @@
 import State from "../../../../lib/State.js";
 import SoundName from "../../../enums/SoundName.js";
-import { CANVAS_HEIGHT, sounds, stateStack, timer } from "../../../globals.js";
+import { CANVAS_HEIGHT, CANVAS_WIDTH, sounds, stateStack, timer } from "../../../globals.js";
 import Pokemon from "../../../entities/Pokemon.js";
 import BattleMenuState from "./BattleMenuState.js";
 import BattleMessageState from "./BattleMessageState.js";
@@ -63,6 +63,11 @@ export default class BattleTurnState extends State {
 
 	// Additional first and second move passed as parameter
 	enter() {
+		if (this.checkBattleEnded()) {
+			stateStack.pop();
+			return;
+		}
+
 		this.attack(this.firstAttacker, this.secondAttacker, this.firstMove, () => {
 			if (this.checkBattleEnded()) {
 				stateStack.pop();
@@ -169,7 +174,13 @@ export default class BattleTurnState extends State {
 			this.processDefeat();
 			return true;
 		} else if (this.opponentPokemon.currentHealth <= 0) {
-			this.processVictory();
+			this.processVictory(() => this.processExperience());
+			return true;
+		} else if (
+			this.opponentPokemon.mercyMeter === Pokemon.MERCY_NEEDED &&
+			this.opponentPokemon.spared
+		) {
+			this.processVictory(() => this.battleState.exitBattle(), {});
 			return true;
 		}
 		return false;
@@ -194,12 +205,12 @@ export default class BattleTurnState extends State {
 	 * Tween the Opponent Pokemon off the bottom of the screen.
 	 * Process experience gained by the Player Pokemon.
 	 */
-	processVictory() {
+	processVictory(callback = () => {}, tweenParameter = { y: CANVAS_HEIGHT }) {
 		sounds.play(SoundName.PokemonFaint);
-		timer.tween(this.opponentPokemon.position, { y: CANVAS_HEIGHT }, 0.4, Easing.linear, () => {
+		timer.tween(this.opponentPokemon.position, tweenParameter, 0.4, Easing.linear, () => {
 			sounds.stop(SoundName.BattleLoop);
 			sounds.play(SoundName.BattleVictory);
-			stateStack.push(new BattleMessageState("You won!", 0, () => this.processExperience()));
+			stateStack.push(new BattleMessageState("You won!", 0, callback));
 		});
 	}
 
