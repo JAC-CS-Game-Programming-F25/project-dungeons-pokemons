@@ -48,7 +48,7 @@ export default class InventoryState extends State {
 				// Puts item only if it has not been taken yet
 				this.items.push({
 					text: item.name,
-					onSelect: () => this.selectItem(i),
+					onSelect: () => this.selectItem(i, item),
 				});
 			} else {
 				this.items.push({
@@ -63,6 +63,7 @@ export default class InventoryState extends State {
 	selectItem(index) {
 		for (let i = 0; i < this.moveGrid.items.length; i++) {
 			if (i === index) {
+				item.useEffect();
 				this.moveGrid.items[i].text = "-";
 				this.moveGrid.items[i].onSelect = null;
 				return;

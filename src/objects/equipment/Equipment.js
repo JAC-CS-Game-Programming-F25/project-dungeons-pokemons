@@ -6,4 +6,6 @@ export default class Equipment {
 		this.description = equipmentDefinition.description;
 		this.effect = EffectFactory.getEffect(equipmentDefinition.effect) ?? null;
 	}
+
+	useEffect() {}
 }
