@@ -2,7 +2,9 @@ import Animation from "../../lib/Animation.js";
 import Sprite from "../../lib/Sprite.js";
 import ImageName from "../enums/ImageName.js";
 import { stateStack, images } from "../globals.js";
+import EquipmentFactory from "../services/EquipmentFactory.js";
 import ChestMenuState from "../states/game/exploring/ChestMenuState.js";
+import Equipment from "./equipment/Equipment.js";
 import GameObject from "./GameObject.js";
 
 const CHEST_WIDTH = 16;
@@ -20,7 +22,7 @@ export default class Chest extends GameObject {
 		this.currentAnimation = this.animations.closed;
 
 		// Gets the items from the definition
-		this.items = chestDefinition.items || [];
+		this.items = this.initializeItems(chestDefinition.items) ?? [];
 		this.isOpened = false;
 
 		// Gets the sprites for the chest
@@ -57,5 +59,14 @@ export default class Chest extends GameObject {
 			CHEST_WIDTH,
 			CHEST_HEIGHT
 		);
+	}
+
+	/**
+	 * Returns a list of equipment created using the json definition
+	 * @param {Object} itemDefinitions All the items inside of a chest
+	 * @returns
+	 */
+	initializeItems(itemDefinitions) {
+		return itemDefinitions.map((item) => EquipmentFactory.createInstance(item));
 	}
 }

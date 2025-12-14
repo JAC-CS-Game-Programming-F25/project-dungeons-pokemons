@@ -4,24 +4,46 @@
 			"type": "Chest",
 			"items": [
 				{
-					"text": "josh",
+					"name": "josh",
+					"type": "josh",
+					"description": "A josh",
 					"quantity": 1,
-					"effect": "revive"
+					"effect": {
+						"type": "Heal",
+						"healing": 10
+					}
 				},
 				{
-					"text": "havertz",
+					"name": "havertz",
+					"type": "KeyItem",
+					"description": "A havertz",
 					"quantity": 1,
-					"effect": "revive"
+					"effect": {
+						"type": "Open",
+						"map": "town",
+						"door": { "x": 2, "y": 2 }
+					}
 				},
 				{
-					"text": "Bella mio",
+					"name": "Bella mio",
+					"type": "Armor",
+					"description": "my love",
 					"quantity": 1,
-					"effect": "revive"
+					"armorClass": 20,
+					"elementalType": "Water",
+					"effect": {
+						"type": "Heal",
+						"healing": 1000
+					}
 				},
 				{
-					"text": "Bella mio",
+					"name": "Bella mio",
+					"type": "Weapon",
+					"description": "omg more of my love??",
+					"damage": 20,
+					"elementalType": "Fire",
 					"quantity": 1,
-					"effect": "revive"
+					"effect": {}
 				}
 			],
 
