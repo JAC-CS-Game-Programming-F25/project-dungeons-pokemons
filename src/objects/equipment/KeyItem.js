@@ -6,6 +6,4 @@ export default class KeyItem extends Equipment {
 
 		//TODO: Find more properties
 	}
-
-	useEffect() {}
 }

@@ -18,9 +18,9 @@ export default class EffectFactory {
 	static getEffect(effect) {
 		switch (effect.type) {
 			case EffectName.Heal:
-				return new Heal();
+				return new Heal(effect);
 			case EffectName.Open:
-				return new Open();
+				return new Open(effect);
 			default:
 				return null;
 		}

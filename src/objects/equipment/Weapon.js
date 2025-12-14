@@ -10,5 +10,5 @@ export default class Weapon extends Equipment {
 
 	calculateDamage(opponent) {}
 
-	useEffect() {}
+	// useEffect() {}
 }

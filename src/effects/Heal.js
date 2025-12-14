@@ -1,3 +1,6 @@
 export default class Heal {
-	constructor(effectDefinition) {}
+	constructor(effectDefinition) {
+		this.type = effectDefinition.type;
+		this.healing = effectDefinition.health;
+	}
 }

@@ -8,5 +8,5 @@ export default class Armor extends Equipment {
 		this.elementalType = armorDefinition.elementalType;
 	}
 
-	useEffect() {}
+	// useEffect() {}
 }

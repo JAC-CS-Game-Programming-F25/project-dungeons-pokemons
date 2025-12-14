@@ -59,13 +59,18 @@ export default class InventoryState extends State {
 		}
 	}
 
-	// Handles selecting an item from the chest
-	selectItem(index) {
-		for (let i = 0; i < this.moveGrid.items.length; i++) {
+	/**
+	 * Handles selecting an item from the inventory
+	 * @param {number} index
+	 * @param {Equipment} item
+	 * @returns
+	 */
+	selectItem(index, item) {
+		for (let i = 0; i < this.moveGrid.selection.items.length; i++) {
 			if (i === index) {
 				item.useEffect();
-				this.moveGrid.items[i].text = "-";
-				this.moveGrid.items[i].onSelect = null;
+				this.moveGrid.selection.items[i].text = "-";
+				this.moveGrid.selection.items[i].onSelect = null;
 				return;
 			}
 		}
