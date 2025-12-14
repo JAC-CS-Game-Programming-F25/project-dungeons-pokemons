@@ -24,12 +24,6 @@ import Vector from "../../../lib/Vector.js";
 import Map from "../../services/Map.js";
 
 export default class TitleScreenState extends State {
-	static POSITION = {
-		start: { x: 480, y: 150 },
-		mid: { x: 160, y: 150 },
-		end: { x: -160, y: 150 },
-	};
-
 	/**
 	 * Consists of some text fields and a carousel of
 	 * sprites that are displayed on the screen. There
@@ -54,8 +48,6 @@ export default class TitleScreenState extends State {
 		);
 		this.map.player = this.player;
 
-		// this.currentPokemonIndex = 0;
-		// this.currentPokemon = this.pokemon[0];
 		this.playState = new PlayState(this.map);
 	}
 
@@ -85,17 +77,15 @@ export default class TitleScreenState extends State {
 
 	renderTitle() {
 		images.render(ImageName.Title, 0, 0);
-		context.font = "80px Pokemon";
-		context.textAlign = "center";
-		context.fillStyle = Colour.DodgerBlue;
-		context.fillText("Pokémon", CANVAS_WIDTH / 2, 100);
-		context.fillStyle = Colour.Gold;
-		context.fillText("Pokémon", CANVAS_WIDTH / 2 + 8, 108);
-	}
 
-	renderTeam() {
-		images.render(ImageName.TrainerMay, CANVAS_WIDTH / 2 + 20, 120);
-		this.currentPokemon.render();
+		// Here 600 is the value for "semiBold"
+		context.font = "500 40px CormorantUnicase";
+		context.textAlign = "center";
+		context.fillStyle = Colour.White;
+		context.fillText("Dungeons & Pokemons", CANVAS_WIDTH / 2, 100);
+		context.font = "600 35px CormorantUnicase";
+		context.fillStyle = Colour.Gold;
+		context.fillText("Remastered", CANVAS_WIDTH / 2 + 8, 150);
 	}
 
 	renderText() {
@@ -120,47 +110,6 @@ export default class TitleScreenState extends State {
 		});
 
 		return pokemon;
-	}
-
-	getNextIndex() {
-		this.currentPokemonIndex++;
-		this.currentPokemonIndex %= this.pokemon.length;
-
-		return this.currentPokemonIndex;
-	}
-
-	revolvePokemon() {
-		this.timer = timer.addTask(() => this.slideOn(), 3);
-	}
-
-	slideOn() {
-		timer.tween(
-			this.currentPokemon.position,
-			{ x: TitleScreenState.POSITION.mid.x, y: TitleScreenState.POSITION.mid.y },
-			0.5,
-			Easing.linear,
-			() => this.slideOff()
-		);
-	}
-
-	slideOff() {
-		timer.wait(1.5, () => {
-			timer.tween(
-				this.currentPokemon.position,
-				{ x: TitleScreenState.POSITION.end.x, y: TitleScreenState.POSITION.end.y },
-				0.5,
-				Easing.linear,
-				() => this.reset()
-			);
-		});
-	}
-
-	reset() {
-		this.currentPokemon.position.set(
-			TitleScreenState.POSITION.start.x,
-			TitleScreenState.POSITION.start.y
-		);
-		this.currentPokemon = this.pokemon[this.getNextIndex()];
 	}
 
 	play() {
