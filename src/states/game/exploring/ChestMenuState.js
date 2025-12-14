@@ -42,8 +42,8 @@ export default class ChestMenuState extends State {
 				// Puts item only if it has not been taken yet
 				if (!item.taken)
 					this.items.push({
-						text: item.text,
-						onSelect: () => this.selectItem(i, chestContents),
+						text: item.name,
+						onSelect: () => this.selectItem(i, item),
 					});
 			} else {
 				this.items.push({
@@ -55,14 +55,14 @@ export default class ChestMenuState extends State {
 	}
 
 	// Handles selecting an item from the chest
-	selectItem(index, chestContents) {
-		this.player.inventory.push(chestContents[index]);
+	selectItem(index, item) {
+		this.player.inventory.push(item);
 
 		for (let i = 0; i < this.moveGrid.items.length; i++) {
 			if (i === index) {
 				this.moveGrid.items[i].text = "-";
 				this.moveGrid.items[i].onSelect = null;
-				chestContents[i].taken = true;
+				item.taken = true;
 			}
 		}
 	}

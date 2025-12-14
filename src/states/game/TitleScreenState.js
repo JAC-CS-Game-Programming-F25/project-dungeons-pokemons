@@ -22,6 +22,7 @@ import Easing from "../../../lib/Easing.js";
 import Player from "../../entities/Player.js";
 import Vector from "../../../lib/Vector.js";
 import Map from "../../services/Map.js";
+import EquipmentFactory from "../../services/EquipmentFactory.js";
 
 export default class TitleScreenState extends State {
 	/**
@@ -34,8 +35,6 @@ export default class TitleScreenState extends State {
 	constructor(mapName) {
 		super();
 
-		// this.pokemon = this.initializePokemon();
-
 		// I create the map within the title screen since I need to be able to pass the player instance to the map
 		// This removes the issue of having a bunch of player instances in the game.
 
@@ -43,7 +42,7 @@ export default class TitleScreenState extends State {
 
 		this.map = new Map(mapDefinition, null, ImageName.Tiles, mapName);
 		this.player = new Player(
-			JSON.parse(localStorage.getItem("playerData")) ?? { position: new Vector(7, 5) },
+			this.initializePlayer() ?? { position: new Vector(7, 5) },
 			this.map
 		);
 		this.map.player = this.player;
@@ -94,22 +93,15 @@ export default class TitleScreenState extends State {
 		context.fillText("Press Enter to Start", CANVAS_WIDTH / 2, 320);
 	}
 
-	initializePokemon() {
-		const pokemon = [
-			pokemonFactory.createInstance(PokemonName.Bulbasaur),
-			pokemonFactory.createInstance(PokemonName.Charmander),
-			pokemonFactory.createInstance(PokemonName.Squirtle),
-		];
+	initializePlayer() {
+		const playerData = JSON.parse(localStorage.getItem("playerData"));
 
-		pokemon.forEach((pokemon) => {
-			pokemon.sprites = pokemon.battleSprites;
-			pokemon.position.set(
-				TitleScreenState.POSITION.start.x,
-				TitleScreenState.POSITION.start.y
-			);
+		if (playerData === null) return null;
+		playerData.inventory = playerData.inventory.map((item) => {
+			return EquipmentFactory.createInstance(item);
 		});
 
-		return pokemon;
+		return playerData;
 	}
 
 	play() {
