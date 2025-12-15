@@ -23,6 +23,7 @@ import Player from "../../entities/Player.js";
 import Vector from "../../../lib/Vector.js";
 import Map from "../../services/Map.js";
 import EquipmentFactory from "../../services/EquipmentFactory.js";
+import Selection from "../../user-interface/elements/Selection.js";
 
 export default class TitleScreenState extends State {
 	/**
@@ -39,15 +40,28 @@ export default class TitleScreenState extends State {
 		// This removes the issue of having a bunch of player instances in the game.
 
 		const mapDefinition = maps.get(mapName);
+		const options = [
+			{
+				text: "New Game",
+				onSelect: () => {
+					this.setData("New Game");
+					this.play();
+				},
+			},
+		];
+
+		if (JSON.parse(localStorage.getItem("playerData")))
+			options.push({
+				text: "Continue",
+				onSelect: () => {
+					this.setData("Continue");
+					this.play();
+				},
+			});
 
 		this.map = new Map(mapDefinition, null, ImageName.Tiles, mapName);
-		this.player = new Player(
-			this.initializePlayer() ?? { position: new Vector(7, 5) },
-			this.map
-		);
-		this.map.player = this.player;
 
-		this.playState = new PlayState(this.map);
+		this.selection = new Selection(4, 8, 2, 2, options);
 	}
 
 	enter() {
@@ -61,16 +75,18 @@ export default class TitleScreenState extends State {
 	}
 
 	update() {
-		if (input.isKeyHeld(Input.KEYS.ENTER)) {
-			this.play();
-		}
+		// if (input.isKeyHeld(Input.KEYS.ENTER)) {
+		// 	this.play();
+		// }
+		this.selection.update();
 	}
 
 	render() {
+		this.selection.render();
+
 		context.save();
 		this.renderTitle();
-		// this.renderTeam();
-		this.renderText();
+		// this.renderText();
 		context.restore();
 	}
 
@@ -91,6 +107,23 @@ export default class TitleScreenState extends State {
 		context.font = "40px PowerRed";
 		context.fillStyle = Colour.White;
 		context.fillText("Press Enter to Start", CANVAS_WIDTH / 2, 320);
+	}
+
+	setData(option) {
+		switch (option) {
+			case "New Game": {
+				this.player = new Player({ position: new Vector(7, 5) }, this.map);
+				this.map.player = this.player;
+				break;
+			}
+			case "Continue": {
+				this.player = new Player(this.initializePlayer(), this.map);
+				this.map.player = this.player;
+				break;
+			}
+		}
+
+		this.playState = new PlayState(this.map);
 	}
 
 	initializePlayer() {
