@@ -46,8 +46,8 @@ export default class PlayState extends State {
 	update(dt) {
 		this.map.update(dt);
 
-		if (this.map.player.party.every((pokemon) => pokemon.currentHealth === 0)) {
-			this.healFaintedPokemon();
+		if (this.map.player.currentHealth === 0) {
+			this.processDeath();
 		}
 
 		if (input.isKeyPressed(Input.KEYS.ESCAPE)) {
@@ -69,11 +69,11 @@ export default class PlayState extends State {
 	 * to the Pokemon Center. Since we don't have one, we're
 	 * going to use this as a temporary measure instead.
 	 */
-	healFaintedPokemon() {
+	processDeath() {
 		sounds.pause(SoundName.Route);
 		sounds.play(SoundName.Heal);
 
-		this.map.player.healParty();
+		this.map.player.heal();
 
 		const message = `Your Pokemon have been healed back to full health...\n \n\
 						Be extra careful next time!`;

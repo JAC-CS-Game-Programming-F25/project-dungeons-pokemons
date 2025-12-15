@@ -70,6 +70,11 @@ maps.load({ house: houseMapDefinition, town: mapDefinition });
 npcs.load(npcDefinitions);
 objects.load(objectDefinitions);
 
+// Gets the move definitions
+const pokemonMovesDefinition = await fetch("./config/moves.json").then((response) =>
+	response.json()
+);
+
 const pokemonDefinitions = await fetch("./config/pokemon.json").then((response) => response.json());
 
 // Load all the assets from their definitions.

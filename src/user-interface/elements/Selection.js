@@ -58,11 +58,6 @@ export default class Selection extends UserInterfaceElement {
 
 		if (input.isKeyPressed(Input.KEYS.ENTER) || input.isKeyPressed(Input.KEYS.SPACE)) {
 			this.select();
-		} else if (
-			input.isKeyPressed(Input.KEYS.SHIFT_LEFT) ||
-			input.isKeyPressed(Input.KEYS.SHIFT_RIGHT)
-		) {
-			stateStack.pop();
 		}
 	}
 

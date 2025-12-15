@@ -74,6 +74,10 @@ export default class PlayerIdlingState extends State {
 		}
 	}
 
+	/**
+	 * Interacts with an NPC or object in front of the player
+	 * @returns if enter jey has not been pressed
+	 */
 	interact() {
 		if (!input.isKeyPressed(Input.KEYS.ENTER)) return;
 
