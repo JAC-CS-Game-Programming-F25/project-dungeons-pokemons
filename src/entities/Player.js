@@ -10,6 +10,7 @@ import { pickRandomElement } from "../../lib/Random.js";
 import Character from "../enums/entities/Character.js";
 import PokemonName from "../enums/entities/PokemonName.js";
 import Map from "../services/Map.js";
+import Inventory from "../services/Inventory.js";
 
 export default class Player extends GameEntity {
 	/**
@@ -31,7 +32,7 @@ export default class Player extends GameEntity {
 		this.velocity = new Vector(0, 0);
 
 		// This is how the player will carry items
-		this.inventory = entityDefinition.inventory ?? [];
+		this.inventory = new Inventory(entityDefinition.inventory) ?? Inventory();
 	}
 
 	update(dt) {
