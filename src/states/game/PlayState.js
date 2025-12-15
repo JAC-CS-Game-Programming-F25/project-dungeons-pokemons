@@ -4,7 +4,6 @@ import Input from "../../../lib/Input.js";
 import { input, sounds, stateStack, maps } from "../../globals.js";
 import Panel from "../../user-interface/elements/Panel.js";
 import DialogueState from "./DialogueState.js";
-import PokemonStatsState from "./PokemonStatsState.js";
 
 export default class PlayState extends State {
 	/**
