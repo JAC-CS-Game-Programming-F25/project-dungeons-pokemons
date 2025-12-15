@@ -3,34 +3,35 @@ import Panel from "../../../user-interface/elements/Panel.js";
 import GridSelection from "../../../user-interface/elements/GridSelections.js";
 import Menu from "../../../user-interface/elements/Menu.js";
 import Equipment from "../../../objects/equipment/Equipment.js";
+import InventoryPanel from "../../../user-interface/exploring/InventoryPanel.js";
 
 export default class InventoryState extends State {
 	constructor(player) {
 		super();
 
-		this.player = player;
+		this.items = this.initializeItems(player.inventory.items);
+		this.armors = this.initializeItems(player.inventory.armors);
+		this.weapons = this.initializeItems(player.inventory.weapons);
+		this.keyItems = this.initializeItems(player.inventory.keyItems);
 
-		// Create menu items from the Pokémon's moves
-		// Always create 4 slots, fill empty ones with dashes
-		this.items = [];
-
-		this.initializeItems(this.player.inventory);
-
-		this.moveGrid = new Menu(
-			Panel.POKEMON_STATS.x,
-			Panel.POKEMON_STATS.y,
-			Panel.POKEMON_STATS.width,
-			Panel.POKEMON_STATS.height,
-			this.items
+		this.inventoryPanel = new InventoryPanel(
+			1,
+			1,
+			13,
+			9,
+			this.items,
+			this.armors,
+			this.weapons,
+			this.keyItems
 		);
 	}
 
 	update() {
-		this.moveGrid.update();
+		this.inventoryPanel.update();
 	}
 
 	render() {
-		this.moveGrid.render();
+		this.inventoryPanel.render();
 	}
 
 	// Fills the menu with items from the chest, adding dashes if less than 4
@@ -40,23 +41,35 @@ export default class InventoryState extends State {
 	 * @param {Equipment[]} inventory
 	 */
 	initializeItems(inventory) {
-		for (let i = 0; i < 4; i++) {
-			// Makes sure we don't go out of bounds
-			if (i < inventory.length) {
-				const item = inventory[i];
+		const items = [];
+		const itemsPerPage = 6; // 2 columns x 3 rows
 
-				// Puts item only if it has not been taken yet
-				this.items.push({
-					text: item.name,
-					onSelect: () => this.selectItem(i, item),
-				});
-			} else {
-				this.items.push({
-					text: "-",
-					onSelect: null,
-				});
-			}
+		// Process all chest contents
+		for (let i = 0; i < inventory.length; i++) {
+			const item = inventory[i];
+
+			// Puts item only if it has not been taken yet
+			items.push({
+				text: item.name,
+				value: item.value,
+				onSelect: () => this.selectItem(i, item),
+			});
 		}
+
+		// Calculate how many slots we need to fill the last page
+		const totalPages = Math.ceil(items.length / itemsPerPage); // rounds to the highest closest integer (ex: if ans = 0.8 returns 1)
+		const totalSlotsNeeded = totalPages <= 0 ? itemsPerPage : totalPages * itemsPerPage;
+		const emptySlots = totalSlotsNeeded - items.length; // calculates the amount of empty slots
+
+		// Fill remaining slots with empty placeholders
+		for (let i = 0; i < emptySlots; i++) {
+			items.push({
+				text: "-",
+				onSelect: null,
+			});
+		}
+
+		return items;
 	}
 
 	/**

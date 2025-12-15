@@ -7,8 +7,10 @@ import Player from "../../entities/Player.js";
 import Selection from "../elements/Selection.js";
 import Menu from "../elements/Menu.js";
 import GridSelection from "../elements/GridSelections.js";
+import InfoPanel from "../elements/InfoPanel.js";
+import PanelOrientation from "../../enums/PanelOrientation.js";
 
-export default class InventoryPanel extends Panel {
+export default class SubInventoryPanel extends Panel {
 	/**
 	 * The Panel displayed beside the Player's Pokemon
 	 * during battle that displays their name, health,
@@ -18,55 +20,23 @@ export default class InventoryPanel extends Panel {
 	 * @param {number} y
 	 * @param {number} width
 	 * @param {number} height
-	 * @param {Player} player
+	 * @param {Player} info\
 	 * @param {object} options Options for the super Panel.
 	 */
-	constructor(x, y, width, height, item, relatedItems, options = {}) {
+	constructor(x, y, width, height, title, relatedItems, info, options = {}) {
 		super(x, y, width, height, options);
 
-		this.currentItem = item;
-
-		this.itemsSubMenu = new GridSelection(1, 1, 1, 1, relatedItems);
+		this.infoPanel = new InfoPanel(1, 1, 3, 6, title, info);
+		this.itemsSubMenu = new Menu(4, 1, 3, 6, relatedItems, PanelOrientation.Vertical);
 	}
 
 	update() {
-		if (!this.subMenuInUse) this.naveBar.update();
+		this.itemsSubMenu.update();
 	}
 
 	render() {
 		super.render();
-	}
-
-	/**
-	 * All the magic number offsets here are to
-	 * arrange all the pieces nicely in the space.
-	 */
-	renderStatistics() {
-		context.save();
-		context.textBaseline = "top";
-		context.fillStyle = Colour.Black;
-		context.font = `${UserInterfaceElement.FONT_SIZE}px ${UserInterfaceElement.FONT_FAMILY}`;
-		context.fillText(
-			this.pokemon.name.toUpperCase(),
-			this.position.x + 15,
-			this.position.y + 12
-		);
-		context.textAlign = "right";
-		context.fillText(
-			`Lv${this.pokemon.level}`,
-			this.position.x + this.dimensions.x - 10,
-			this.position.y + 12
-		);
-		context.fillText(
-			`HP: ${this.pokemon.getHealthMeter()}`,
-			this.position.x + this.dimensions.x - 30,
-			this.position.y + this.dimensions.y - 50
-		);
-		context.fillText(
-			`EXP: ${this.pokemon.getExperienceMeter()}`,
-			this.position.x + this.dimensions.x - 30,
-			this.position.y + this.dimensions.y - 25
-		);
-		context.restore();
+		this.infoPanel.render();
+		this.itemsSubMenu.render();
 	}
 }

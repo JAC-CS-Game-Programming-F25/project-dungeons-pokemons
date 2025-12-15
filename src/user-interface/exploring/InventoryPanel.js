@@ -7,6 +7,8 @@ import Player from "../../entities/Player.js";
 import Selection from "../elements/Selection.js";
 import Menu from "../elements/Menu.js";
 import GridSelection from "../elements/GridSelections.js";
+import SubInventoryPanel from "./SubInventoryPanel.js";
+import PanelOrientation from "../../enums/PanelOrientation.js";
 
 export default class InventoryPanel extends Panel {
 	/**
@@ -21,45 +23,56 @@ export default class InventoryPanel extends Panel {
 	 * @param {Player} player
 	 * @param {object} options Options for the super Panel.
 	 */
-	constructor(x, y, width, height, player, options = {}) {
+	constructor(x, y, width, height, items, armors, weapons, keyItems, options = {}) {
 		super(x, y, width, height, options);
 
-		this.player = player;
 		this.subMenuInUse = false;
-		this.firstSubMenu = undefined;
-		this.naveBar = new Selection(1, 1, 1, 1, [
-			{
-				text: "Items",
-				onSelect: () => {
-					this.subMenuInUse = true;
-					// Selects the subinventory as the state
+		this.naveBar = new Selection(
+			1,
+			1,
+			13,
+			1.5,
+			[
+				{
+					text: "Items",
+					onSelect: () => {
+						this.subMenuInUse = true;
+						// Selects the subinventory as the state
+					},
 				},
-			},
-			{
-				text: "Armor",
-				onSelect: () => {
-					this.subMenuInUse = true;
-					// Selects the subinventory as the state
+				{
+					text: "Armor",
+					onSelect: () => {
+						this.subMenuInUse = true;
+						// Selects the subinventory as the state
+					},
 				},
-			},
-			{
-				text: "Weapons",
-				onSelect: () => {
-					this.subMenuInUse = true;
-					// Selects the subinventory as the state
+				{
+					text: "Weapons",
+					onSelect: () => {
+						this.subMenuInUse = true;
+						// Selects the subinventory as the state
+					},
 				},
-			},
-			{
-				text: "Key Items",
-				onSelect: () => {
-					this.subMenuInUse = true;
-					// Selects the subinventory as the state
+				{
+					text: "Key",
+					onSelect: () => {
+						this.subMenuInUse = true;
+						// Selects the subinventory as the state
+					},
 				},
-			},
-		]);
+			],
+			PanelOrientation.Horizontal
+		);
 
-		this.itemsSubMenu = new GridSelection(1, 1, 1, 1, this.player.inventory.items);
-		this.keyItemSubMenu = new GridSelection(1, 1, 1, 1, this.player.inventory.keyItems);
+		this.itemsSubMenu = new GridSelection(1, 2.5, 13, 7.5, items);
+		this.keyItemSubMenu = new GridSelection(1, 2.5, 13, 7.5, keyItems);
+		this.armorSubMenu = new SubInventoryPanel(1, 2.5, 13, 7.5, "Current", armors, [
+			{ text: "Defense", value: 2 },
+		]);
+		this.weaponSubMenu = new SubInventoryPanel(1, 2.5, 13, 7.5, "Current", weapons, [
+			{ text: "Attack", value: 2 },
+		]);
 	}
 
 	update() {
@@ -76,11 +89,11 @@ export default class InventoryPanel extends Panel {
 				break;
 			}
 			case 1: {
-				this.renderArmors();
+				this.armorSubMenu.render();
 				break;
 			}
 			case 2: {
-				this.renderWeapons();
+				this.weaponSubMenu.render();
 				break;
 			}
 			case 3: {

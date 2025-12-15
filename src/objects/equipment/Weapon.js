@@ -4,8 +4,8 @@ export default class Weapon extends Equipment {
 	constructor(weaponDefinition) {
 		super(weaponDefinition);
 
-		this.damage = weaponDefinition.damage;
-		this.damageType = weaponDefinition.elementalType;
+		this.value = weaponDefinition.value;
+		this.elementalType = weaponDefinition.elementalType;
 	}
 
 	calculateDamage(opponent) {}
