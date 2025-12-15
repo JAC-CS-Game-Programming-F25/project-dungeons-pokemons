@@ -23,10 +23,10 @@ export default class SubInventoryPanel extends Panel {
 	 * @param {Player} info\
 	 * @param {object} options Options for the super Panel.
 	 */
-	constructor(x, y, width, height, title, relatedItems, info, options = {}) {
+	constructor(x, y, width, height, title, relatedItems, info, current, options = {}) {
 		super(x, y, width, height, options);
 
-		this.infoPanel = new InfoPanel(1, 2.5, 3, 6, title, info);
+		this.infoPanel = new InfoPanel(1, 2.5, 3, 6, title, current, info);
 		this.itemsSubMenu = new Menu(8, 2.5, 6, 7.5, relatedItems, PanelOrientation.Vertical);
 	}
 

@@ -37,18 +37,20 @@ export default class InventoryState extends State {
 			2.5,
 			13,
 			7.5,
-			"Current",
+			"Stats",
 			this.initializeItems(player.inventory.armors),
-			[{ text: "Defense", value: player.attack ?? 2 }]
+			[{ text: "Defense", value: player.defense ?? 2 }],
+			[{ text: player.equippedArmor.name }]
 		);
 		this.weaponSubMenu = new SubInventoryPanel(
 			1,
 			2.5,
 			13,
 			7.5,
-			"Current",
+			"Stats",
 			this.initializeItems(player.inventory.weapons),
-			[{ text: "Attack", value: player.defense ?? 2 }]
+			[{ text: "Attack", value: player.attack ?? 2 }],
+			[{ text: player.equippedWeapon.name }]
 		);
 
 		this.navBarOptions = [
@@ -155,6 +157,25 @@ export default class InventoryState extends State {
 				item.useEffect();
 				this.moveGrid.selection.items[i].text = "-";
 				this.moveGrid.selection.items[i].onSelect = null;
+				return;
+			}
+		}
+	}
+
+	/**
+	 *
+	 * @param {object} item
+	 * @param {number} index
+	 * @param {SubInventoryPanel} subInv
+	 * @returns
+	 */
+	swapItem(item, index, subInv) {
+		const temp = item;
+
+		for (let i = 0; i < subInv.itemsSubMenu.selection.items.length; i++) {
+			if (i === index) {
+				subInv.itemsSubMenu.selection.items[i].text = "-";
+				subInv.itemsSubMenu.selection.items[i].onSelect = () => this.swapItem(i, item);
 				return;
 			}
 		}

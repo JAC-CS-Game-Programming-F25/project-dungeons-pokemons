@@ -14,6 +14,8 @@ import Pokemon from "./Pokemon.js";
 import Move from "../services/Moves.js";
 import TypeEffectiveness from "../services/TypeEffectiveness.js";
 import Inventory from "../services/Inventory.js";
+import Weapon from "../objects/equipment/Weapon.js";
+import Armor from "../objects/equipment/Armor.js";
 
 export default class Player extends GameEntity {
 	static BATTLE_POSITION = {
@@ -82,6 +84,26 @@ export default class Player extends GameEntity {
 		// For now the player only has one move
 		this.move = new Move("Lethal Strike", { type: "Normal", basePower: 300 });
 		this.inventory = new Inventory(entityDefinition.inventory) ?? Inventory();
+		this.equippedWeapon =
+			entityDefinition.weapon ??
+			new Weapon({
+				type: "Weapon",
+				name: "Some stick",
+				description: "a very old and dull stick",
+				effect: {},
+				value: 5,
+				elementalType: "Normal",
+			});
+		this.equippedArmor =
+			entityDefinition.armor ??
+			new Armor({
+				type: "Armor",
+				name: "Cloth Clothes",
+				description: "smelly",
+				effect: {},
+				value: 5,
+				elementalType: "Normal",
+			});
 	}
 
 	update(dt) {
