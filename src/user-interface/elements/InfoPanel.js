@@ -6,6 +6,7 @@ import Input from "../../../lib/Input.js";
 import PanelOrientation from "../../enums/PanelOrientation.js";
 import Colour from "../../enums/Colour.js";
 import Panel from "./Panel.js";
+import Tile from "../../services/Tile.js";
 
 export default class InfoPanel extends Panel {
 	/**
@@ -45,18 +46,20 @@ export default class InfoPanel extends Panel {
 	renderTitle() {
 		context.save();
 		context.fillStyle = Colour.Gold;
-		context.font = "14px CormorantUnicase";
+		context.font = "20px CormorantUnicase";
 		context.textBaseline = "middle";
 
 		// Title
-		context.fillText(this.title, 100, 16);
+		context.fillText(this.title, 3.3 * Tile.SIZE, 3.3 * Tile.SIZE);
 
 		// Title divider lines
+
+		context.strokeStyle = Colour.White;
 		context.beginPath();
-		context.moveTo(12, 16);
-		context.lineTo(80, 16);
-		context.moveTo(160, 16);
-		context.lineTo(248, 16);
+		context.moveTo(1.5 * Tile.SIZE, 3.3 * Tile.SIZE);
+		context.lineTo(3 * Tile.SIZE, 3.3 * Tile.SIZE);
+		context.moveTo(6 * Tile.SIZE, 3.3 * Tile.SIZE);
+		context.lineTo(7.5 * Tile.SIZE, 3.3 * Tile.SIZE);
 		context.stroke();
 		context.restore();
 	}
@@ -66,16 +69,9 @@ export default class InfoPanel extends Panel {
 		// context.textAlign = "center";
 		context.textBaseline = "middle";
 		context.fillStyle = Colour.White;
-		context.beginPath();
-		context.moveTo(18, 34);
-		context.lineTo(26, 42);
-		context.lineTo(24, 44);
-		context.lineTo(16, 36);
-		context.closePath();
-		context.stroke();
 
-		context.fillText(item.text, 40, 40);
-		context.fillText(item.value, 140, 40);
+		context.fillText(item.text, 2 * Tile.SIZE, 4.5 * Tile.SIZE);
+		context.fillText(item.value, 6.5 * Tile.SIZE, 4.5 * Tile.SIZE);
 		context.restore();
 	}
 

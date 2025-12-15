@@ -9,6 +9,37 @@ export default class InventoryState extends State {
 	constructor(player) {
 		super();
 
+		this.navBarOptions = [
+			{
+				text: "Items",
+				onSelect: () => {
+					this.subMenuInUse = true;
+					// Selects the subinventory as the state
+				},
+			},
+			{
+				text: "Armor",
+				onSelect: () => {
+					this.subMenuInUse = true;
+					// Selects the subinventory as the state
+				},
+			},
+			{
+				text: "Weapons",
+				onSelect: () => {
+					this.subMenuInUse = true;
+					// Selects the subinventory as the state
+				},
+			},
+			{
+				text: "Key",
+				onSelect: () => {
+					this.subMenuInUse = true;
+					// Selects the subinventory as the state
+				},
+			},
+		];
+
 		this.items = this.initializeItems(player.inventory.items);
 		this.armors = this.initializeItems(player.inventory.armors);
 		this.weapons = this.initializeItems(player.inventory.weapons);
@@ -19,6 +50,7 @@ export default class InventoryState extends State {
 			1,
 			13,
 			9,
+			this.navBarOptions,
 			this.items,
 			this.armors,
 			this.weapons,

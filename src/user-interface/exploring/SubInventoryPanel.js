@@ -26,8 +26,8 @@ export default class SubInventoryPanel extends Panel {
 	constructor(x, y, width, height, title, relatedItems, info, options = {}) {
 		super(x, y, width, height, options);
 
-		this.infoPanel = new InfoPanel(1, 1, 3, 6, title, info);
-		this.itemsSubMenu = new Menu(4, 1, 3, 6, relatedItems, PanelOrientation.Vertical);
+		this.infoPanel = new InfoPanel(1, 2.5, 3, 6, title, info);
+		this.itemsSubMenu = new Menu(8, 2.5, 6, 7.5, relatedItems, PanelOrientation.Vertical);
 	}
 
 	update() {

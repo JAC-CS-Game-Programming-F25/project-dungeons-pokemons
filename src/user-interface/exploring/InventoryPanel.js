@@ -23,47 +23,11 @@ export default class InventoryPanel extends Panel {
 	 * @param {Player} player
 	 * @param {object} options Options for the super Panel.
 	 */
-	constructor(x, y, width, height, items, armors, weapons, keyItems, options = {}) {
+	constructor(x, y, width, height, navBar, items, armors, weapons, keyItems, options = {}) {
 		super(x, y, width, height, options);
 
 		this.subMenuInUse = false;
-		this.naveBar = new Selection(
-			1,
-			1,
-			13,
-			1.5,
-			[
-				{
-					text: "Items",
-					onSelect: () => {
-						this.subMenuInUse = true;
-						// Selects the subinventory as the state
-					},
-				},
-				{
-					text: "Armor",
-					onSelect: () => {
-						this.subMenuInUse = true;
-						// Selects the subinventory as the state
-					},
-				},
-				{
-					text: "Weapons",
-					onSelect: () => {
-						this.subMenuInUse = true;
-						// Selects the subinventory as the state
-					},
-				},
-				{
-					text: "Key",
-					onSelect: () => {
-						this.subMenuInUse = true;
-						// Selects the subinventory as the state
-					},
-				},
-			],
-			PanelOrientation.Horizontal
-		);
+		this.naveBar = new Selection(1, 1, 13, 1.5, navBar, PanelOrientation.Horizontal);
 
 		this.itemsSubMenu = new GridSelection(1, 2.5, 13, 7.5, items);
 		this.keyItemSubMenu = new GridSelection(1, 2.5, 13, 7.5, keyItems);
