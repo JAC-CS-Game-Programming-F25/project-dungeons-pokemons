@@ -26,21 +26,16 @@ export default class InventoryPanel extends Panel {
 	constructor(x, y, width, height, navBar, items, armors, weapons, keyItems, options = {}) {
 		super(x, y, width, height, options);
 
-		this.subMenuInUse = false;
 		this.naveBar = new Selection(1, 1, 13, 1.5, navBar, PanelOrientation.Horizontal);
 
-		this.itemsSubMenu = new GridSelection(1, 2.5, 13, 7.5, items);
-		this.keyItemSubMenu = new GridSelection(1, 2.5, 13, 7.5, keyItems);
-		this.armorSubMenu = new SubInventoryPanel(1, 2.5, 13, 7.5, "Current", armors, [
-			{ text: "Defense", value: 2 },
-		]);
-		this.weaponSubMenu = new SubInventoryPanel(1, 2.5, 13, 7.5, "Current", weapons, [
-			{ text: "Attack", value: 2 },
-		]);
+		this.itemsSubMenu = items;
+		this.keyItemSubMenu = keyItems;
+		this.armorSubMenu = armors;
+		this.weaponSubMenu = weapons;
 	}
 
 	update() {
-		if (!this.subMenuInUse) this.naveBar.update();
+		this.naveBar.update();
 	}
 
 	render() {

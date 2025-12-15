@@ -4,46 +4,78 @@ import GridSelection from "../../../user-interface/elements/GridSelections.js";
 import Menu from "../../../user-interface/elements/Menu.js";
 import Equipment from "../../../objects/equipment/Equipment.js";
 import InventoryPanel from "../../../user-interface/exploring/InventoryPanel.js";
+import SubInventoryPanel from "../../../user-interface/exploring/SubInventoryPanel.js";
+import { stateStack } from "../../../globals.js";
+import SubInventoryState from "./SubInventoryState.js";
+import Player from "../../../entities/Player.js";
 
 export default class InventoryState extends State {
+	/**
+	 * Inventory of the player
+	 * @param {Player} player
+	 */
 	constructor(player) {
 		super();
+
+		this.itemsSubMenu = new GridSelection(
+			1,
+			2.5,
+			13,
+			7.5,
+			this.initializeItems(player.inventory.items)
+		);
+		this.keyItemSubMenu = new GridSelection(
+			1,
+			2.5,
+			13,
+			7.5,
+			this.initializeItems(player.inventory.keyItems)
+		);
+		this.armorSubMenu = new SubInventoryPanel(
+			1,
+			2.5,
+			13,
+			7.5,
+			"Current",
+			this.initializeItems(player.inventory.armors),
+			[{ text: "Defense", value: player.attack ?? 2 }]
+		);
+		this.weaponSubMenu = new SubInventoryPanel(
+			1,
+			2.5,
+			13,
+			7.5,
+			"Current",
+			this.initializeItems(player.inventory.weapons),
+			[{ text: "Attack", value: player.defense ?? 2 }]
+		);
 
 		this.navBarOptions = [
 			{
 				text: "Items",
 				onSelect: () => {
-					this.subMenuInUse = true;
-					// Selects the subinventory as the state
+					stateStack.push(new SubInventoryState(this.itemsSubMenu, this));
 				},
 			},
 			{
 				text: "Armor",
 				onSelect: () => {
-					this.subMenuInUse = true;
-					// Selects the subinventory as the state
+					stateStack.push(new SubInventoryState(this.armorSubMenu, this));
 				},
 			},
 			{
 				text: "Weapons",
 				onSelect: () => {
-					this.subMenuInUse = true;
-					// Selects the subinventory as the state
+					stateStack.push(new SubInventoryState(this.weaponSubMenu, this));
 				},
 			},
 			{
 				text: "Key",
 				onSelect: () => {
-					this.subMenuInUse = true;
-					// Selects the subinventory as the state
+					stateStack.push(new SubInventoryState(this.keyItemSubMenu, this));
 				},
 			},
 		];
-
-		this.items = this.initializeItems(player.inventory.items);
-		this.armors = this.initializeItems(player.inventory.armors);
-		this.weapons = this.initializeItems(player.inventory.weapons);
-		this.keyItems = this.initializeItems(player.inventory.keyItems);
 
 		this.inventoryPanel = new InventoryPanel(
 			1,
@@ -51,10 +83,10 @@ export default class InventoryState extends State {
 			13,
 			9,
 			this.navBarOptions,
-			this.items,
-			this.armors,
-			this.weapons,
-			this.keyItems
+			this.itemsSubMenu,
+			this.armorSubMenu,
+			this.weaponSubMenu,
+			this.keyItemSubMenu
 		);
 	}
 

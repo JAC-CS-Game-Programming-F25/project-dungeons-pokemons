@@ -66,7 +66,6 @@ export default class InfoPanel extends Panel {
 
 	renderItem(item) {
 		context.save();
-		// context.textAlign = "center";
 		context.textBaseline = "middle";
 		context.fillStyle = Colour.White;
 
