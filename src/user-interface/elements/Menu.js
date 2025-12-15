@@ -16,8 +16,8 @@ export default class Menu extends Panel {
 	 * @param {array} items Elements are objects that each
 	 * have a string `text` and function `onSelect` property.
 	 */
-	constructor(x, y, width, height, items) {
-		super(x, y, width, height);
+	constructor(x, y, width, height, items, options = {}) {
+		super(x, y, width, height, options);
 
 		this.selection = new Selection(x, y, width, height, items);
 	}
