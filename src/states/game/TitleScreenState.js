@@ -24,6 +24,7 @@ import Vector from "../../../lib/Vector.js";
 import Map from "../../services/Map.js";
 import EquipmentFactory from "../../services/EquipmentFactory.js";
 import Selection from "../../user-interface/elements/Selection.js";
+import Menu from "../../user-interface/elements/Menu.js";
 
 export default class TitleScreenState extends State {
 	/**
@@ -61,7 +62,11 @@ export default class TitleScreenState extends State {
 
 		this.map = new Map(mapDefinition, null, ImageName.Tiles, mapName);
 
-		this.selection = new Selection(4, 8, 2, 2, options);
+		this.menu = new Menu(5.5, 8, 4, 2.5, options, {
+			borderColour: Colour.White,
+			panelColour: Colour.Black,
+		});
+		// this.selection = new Selection(4, 8, 4, 3, options);
 	}
 
 	enter() {
@@ -78,14 +83,14 @@ export default class TitleScreenState extends State {
 		// if (input.isKeyHeld(Input.KEYS.ENTER)) {
 		// 	this.play();
 		// }
-		this.selection.update();
+		this.menu.update();
 	}
 
 	render() {
-		this.selection.render();
-
 		context.save();
 		this.renderTitle();
+		this.menu.render();
+
 		// this.renderText();
 		context.restore();
 	}
