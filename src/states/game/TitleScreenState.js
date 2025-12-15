@@ -25,6 +25,7 @@ import Map from "../../services/Map.js";
 import EquipmentFactory from "../../services/EquipmentFactory.js";
 import Selection from "../../user-interface/elements/Selection.js";
 import Menu from "../../user-interface/elements/Menu.js";
+import PanelOrientation from "../../enums/PanelOrientation.js";
 
 export default class TitleScreenState extends State {
 	/**
@@ -62,7 +63,7 @@ export default class TitleScreenState extends State {
 
 		this.map = new Map(mapDefinition, null, ImageName.Tiles, mapName);
 
-		this.menu = new Menu(5.5, 8, 4, 2.5, options, {
+		this.menu = new Menu(5.5, 8, 4, 2.5, options, PanelOrientation.Vertical, {
 			borderColour: Colour.White,
 			panelColour: Colour.Black,
 		});

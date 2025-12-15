@@ -20,24 +20,43 @@ export default class Selection extends UserInterfaceElement {
 	 * @param {array} items Elements are objects that each
 	 * have a string `text` and function `onSelect` property.
 	 */
-	constructor(x, y, width, height, items, orientation = PanelOrientation.Vertical) {
+	constructor(x, y, width, height, items, orientation) {
 		super(x, y, width, height);
 
 		if (orientation === PanelOrientation.Horizontal)
 			this.gap = this.dimensions.x / (items.length + 1);
 		else this.gap = this.dimensions.y / (items.length + 1);
 
+		this.orientation = orientation ?? PanelOrientation.Vertical;
 		this.items = this.initializeItems(items, orientation);
 		this.currentSelection = 0;
 		this.font = this.initializeFont();
 	}
 
 	update() {
-		if (input.isKeyPressed(Input.KEYS.W) || input.isKeyPressed(Input.KEYS.ARROW_UP)) {
-			this.navigateUp();
-		} else if (input.isKeyPressed(Input.KEYS.S) || input.isKeyPressed(Input.KEYS.ARROW_DOWN)) {
-			this.navigateDown();
-		} else if (input.isKeyPressed(Input.KEYS.ENTER) || input.isKeyPressed(Input.KEYS.SPACE)) {
+		if (this.orientation === PanelOrientation.Vertical) {
+			if (input.isKeyPressed(Input.KEYS.W) || input.isKeyPressed(Input.KEYS.ARROW_UP)) {
+				this.navigateUp();
+			} else if (
+				input.isKeyPressed(Input.KEYS.S) ||
+				input.isKeyPressed(Input.KEYS.ARROW_DOWN)
+			) {
+				this.navigateDown();
+			}
+		}
+
+		if (this.orientation === PanelOrientation.Horizontal) {
+			if (input.isKeyPressed(Input.KEYS.A) || input.isKeyPressed(Input.KEYS.ARROW_LEFT)) {
+				this.navigateUp();
+			} else if (
+				input.isKeyPressed(Input.KEYS.D) ||
+				input.isKeyPressed(Input.KEYS.ARROW_RIGHT)
+			) {
+				this.navigateDown();
+			}
+		}
+
+		if (input.isKeyPressed(Input.KEYS.ENTER) || input.isKeyPressed(Input.KEYS.SPACE)) {
 			this.select();
 		} else if (
 			input.isKeyPressed(Input.KEYS.SHIFT_LEFT) ||
@@ -70,9 +89,13 @@ export default class Selection extends UserInterfaceElement {
 	}
 
 	renderSelectionArrow(item) {
+		const textWidth = context.measureText(item.text).width;
+
 		context.save();
 		context.fillStyle = Colour.Gold;
-		context.translate(this.position.x + 10, item.position.y - 5);
+		if (this.orientation === PanelOrientation.Horizontal)
+			context.translate(item.position.x - textWidth / 2 - 15, item.position.y - 5);
+		else context.translate(this.position.x + 10, item.position.y - 5);
 		context.beginPath();
 		context.moveTo(0, 0);
 		context.lineTo(6, 5);
