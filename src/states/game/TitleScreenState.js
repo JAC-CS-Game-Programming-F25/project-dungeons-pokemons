@@ -23,14 +23,10 @@ import Player from "../../entities/Player.js";
 import Vector from "../../../lib/Vector.js";
 import Map from "../../services/Map.js";
 import EquipmentFactory from "../../services/EquipmentFactory.js";
+import Selection from "../../user-interface/elements/Selection.js";
+import Menu from "../../user-interface/elements/Menu.js";
 
 export default class TitleScreenState extends State {
-	static POSITION = {
-		start: { x: 480, y: 150 },
-		mid: { x: 160, y: 150 },
-		end: { x: -160, y: 150 },
-	};
-
 	/**
 	 * Consists of some text fields and a carousel of
 	 * sprites that are displayed on the screen. There
@@ -45,17 +41,32 @@ export default class TitleScreenState extends State {
 		// This removes the issue of having a bunch of player instances in the game.
 
 		const mapDefinition = maps.get(mapName);
+		const options = [
+			{
+				text: "New Game",
+				onSelect: () => {
+					this.setData("New Game");
+					this.play();
+				},
+			},
+		];
+
+		if (JSON.parse(localStorage.getItem("playerData")))
+			options.push({
+				text: "Continue",
+				onSelect: () => {
+					this.setData("Continue");
+					this.play();
+				},
+			});
 
 		this.map = new Map(mapDefinition, null, ImageName.Tiles, mapName);
-		this.player = new Player(
-			this.initializePlayer() ?? { position: new Vector(7, 5) },
-			this.map
-		);
-		this.map.player = this.player;
 
-		// this.currentPokemonIndex = 0;
-		// this.currentPokemon = this.pokemon[0];
-		this.playState = new PlayState(this.map);
+		this.menu = new Menu(5.5, 8, 4, 2.5, options, {
+			borderColour: Colour.White,
+			panelColour: Colour.Black,
+		});
+		// this.selection = new Selection(4, 8, 4, 3, options);
 	}
 
 	enter() {
@@ -69,38 +80,57 @@ export default class TitleScreenState extends State {
 	}
 
 	update() {
-		if (input.isKeyHeld(Input.KEYS.ENTER)) {
-			this.play();
-		}
+		// if (input.isKeyHeld(Input.KEYS.ENTER)) {
+		// 	this.play();
+		// }
+		this.menu.update();
 	}
 
 	render() {
 		context.save();
 		this.renderTitle();
-		// this.renderTeam();
-		this.renderText();
+		this.menu.render();
+
+		// this.renderText();
 		context.restore();
 	}
 
 	renderTitle() {
 		images.render(ImageName.Title, 0, 0);
-		context.font = "80px Pokemon";
-		context.textAlign = "center";
-		context.fillStyle = Colour.DodgerBlue;
-		context.fillText("Pokémon", CANVAS_WIDTH / 2, 100);
-		context.fillStyle = Colour.Gold;
-		context.fillText("Pokémon", CANVAS_WIDTH / 2 + 8, 108);
-	}
 
-	renderTeam() {
-		images.render(ImageName.TrainerMay, CANVAS_WIDTH / 2 + 20, 120);
-		this.currentPokemon.render();
+		// Here 600 is the value for "semiBold"
+		context.font = "500 40px CormorantUnicase";
+		context.textAlign = "center";
+		context.fillStyle = Colour.White;
+		context.fillText("Dungeons & Pokemons", CANVAS_WIDTH / 2, 100);
+		context.font = "600 35px CormorantUnicase";
+		context.fillStyle = Colour.Gold;
+		context.fillText("Remastered", CANVAS_WIDTH / 2 + 8, 150);
 	}
 
 	renderText() {
 		context.font = "40px PowerRed";
 		context.fillStyle = Colour.White;
 		context.fillText("Press Enter to Start", CANVAS_WIDTH / 2, 320);
+	}
+
+	setData(option) {
+		switch (option) {
+			case "New Game": {
+				localStorage.setItem("newGame", true);
+				this.player = new Player({ position: new Vector(7, 5) }, this.map);
+				this.map.player = this.player;
+				break;
+			}
+			case "Continue": {
+				localStorage.setItem("newGame", false);
+				this.player = new Player(this.initializePlayer(), this.map);
+				this.map.player = this.player;
+				break;
+			}
+		}
+
+		this.playState = new PlayState(this.map);
 	}
 
 	initializePlayer() {
@@ -112,47 +142,6 @@ export default class TitleScreenState extends State {
 		});
 
 		return playerData;
-	}
-
-	getNextIndex() {
-		this.currentPokemonIndex++;
-		this.currentPokemonIndex %= this.pokemon.length;
-
-		return this.currentPokemonIndex;
-	}
-
-	revolvePokemon() {
-		this.timer = timer.addTask(() => this.slideOn(), 3);
-	}
-
-	slideOn() {
-		timer.tween(
-			this.currentPokemon.position,
-			{ x: TitleScreenState.POSITION.mid.x, y: TitleScreenState.POSITION.mid.y },
-			0.5,
-			Easing.linear,
-			() => this.slideOff()
-		);
-	}
-
-	slideOff() {
-		timer.wait(1.5, () => {
-			timer.tween(
-				this.currentPokemon.position,
-				{ x: TitleScreenState.POSITION.end.x, y: TitleScreenState.POSITION.end.y },
-				0.5,
-				Easing.linear,
-				() => this.reset()
-			);
-		});
-	}
-
-	reset() {
-		this.currentPokemon.position.set(
-			TitleScreenState.POSITION.start.x,
-			TitleScreenState.POSITION.start.y
-		);
-		this.currentPokemon = this.pokemon[this.getNextIndex()];
 	}
 
 	play() {

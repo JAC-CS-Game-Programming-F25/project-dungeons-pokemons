@@ -37,6 +37,7 @@ import {
 	objects,
 } from "./globals.js";
 import { Maps } from "./enums/MapNames.js";
+import TransitionState from "./states/game/TransitionState.js";
 
 // Set the dimensions of the play area.
 canvas.width = CANVAS_WIDTH;
@@ -78,7 +79,10 @@ sounds.load(soundDefinitions);
 pokemonFactory.load(pokemonDefinitions);
 
 // Add all the states to the state machine.
-stateStack.push(new TitleScreenState(Maps.town));
+
+TransitionState.fade(() => {
+	stateStack.push(new TitleScreenState(Maps.town));
+});
 
 const game = new Game(stateStack, context, timer, CANVAS_WIDTH, CANVAS_HEIGHT);
 

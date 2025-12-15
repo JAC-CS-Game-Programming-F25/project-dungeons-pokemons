@@ -149,8 +149,8 @@
 			"path": "./assets/fonts/PowerRedBold.ttf"
 		},
 		{
-			"name": "Pokemon",
-			"path": "./assets/fonts/Pokemon.ttf"
+			"name": "CormorantUnicase",
+			"path": "./assets/fonts/CormorantUnicase-Regular.ttf"
 		}
 	],
 	"sounds": [
