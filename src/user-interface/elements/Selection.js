@@ -4,6 +4,7 @@ import { context, input, sounds, stateStack } from "../../globals.js";
 import Vector from "../../../lib/Vector.js";
 import Input from "../../../lib/Input.js";
 import PanelOrientation from "../../enums/PanelOrientation.js";
+import Colour from "../../enums/Colour.js";
 
 export default class Selection extends UserInterfaceElement {
 	/**
@@ -53,7 +54,10 @@ export default class Selection extends UserInterfaceElement {
 	}
 
 	renderSelectionItem(item, index) {
+		context.fillStyle = Colour.White;
+
 		if (index === this.currentSelection) {
+			context.fillStyle = Colour.Gold;
 			this.renderSelectionArrow(item);
 		}
 
@@ -67,6 +71,7 @@ export default class Selection extends UserInterfaceElement {
 
 	renderSelectionArrow(item) {
 		context.save();
+		context.fillStyle = Colour.Gold;
 		context.translate(this.position.x + 10, item.position.y - 5);
 		context.beginPath();
 		context.moveTo(0, 0);
@@ -126,6 +131,8 @@ export default class Selection extends UserInterfaceElement {
 				currentX += this.gap;
 			});
 		} else {
+			let currentY = this.position.y;
+
 			items.forEach((item) => {
 				const padding = currentY + this.gap;
 

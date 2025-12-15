@@ -80,9 +80,6 @@ export default class TitleScreenState extends State {
 	}
 
 	update() {
-		// if (input.isKeyHeld(Input.KEYS.ENTER)) {
-		// 	this.play();
-		// }
 		this.menu.update();
 	}
 
@@ -90,8 +87,6 @@ export default class TitleScreenState extends State {
 		context.save();
 		this.renderTitle();
 		this.menu.render();
-
-		// this.renderText();
 		context.restore();
 	}
 
@@ -106,12 +101,6 @@ export default class TitleScreenState extends State {
 		context.font = "600 35px CormorantUnicase";
 		context.fillStyle = Colour.Gold;
 		context.fillText("Remastered", CANVAS_WIDTH / 2 + 8, 150);
-	}
-
-	renderText() {
-		context.font = "40px PowerRed";
-		context.fillStyle = Colour.White;
-		context.fillText("Press Enter to Start", CANVAS_WIDTH / 2, 320);
 	}
 
 	setData(option) {

@@ -26,8 +26,8 @@ export default class GridSelection extends UserInterfaceElement {
 		this.items = this.initializeItems(items);
 		this.currentSelection = 0;
 		this.font = `${UserInterfaceElement.FONT_SIZE}px ${UserInterfaceElement.FONT_FAMILY}`;
-		this.borderColour = Colour.Grey;
-		this.panelColour = Colour.White;
+		this.borderColour = Colour.White;
+		this.panelColour = Colour.Black;
 	}
 
 	update() {
@@ -87,7 +87,9 @@ export default class GridSelection extends UserInterfaceElement {
 	}
 
 	renderGridItem(item, index) {
+		context.fillStyle = Colour.White;
 		if (index === this.currentSelection) {
+			context.fillStyle = Colour.Gold;
 			this.renderSelectionArrow(item);
 		}
 
@@ -95,14 +97,13 @@ export default class GridSelection extends UserInterfaceElement {
 		context.textAlign = "left";
 		context.textBaseline = "middle";
 		context.font = this.font;
-		context.fillStyle = "black";
+
 		context.fillText(item.text, item.position.x, item.position.y);
 		context.restore();
 	}
 
 	renderSelectionArrow(item) {
 		context.save();
-		context.fillStyle = "black";
 		context.translate(item.position.x - 15, item.position.y - 5);
 		context.beginPath();
 		context.moveTo(0, 0);

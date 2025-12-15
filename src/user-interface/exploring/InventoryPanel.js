@@ -60,7 +60,6 @@ export default class InventoryPanel extends Panel {
 
 		this.itemsSubMenu = new GridSelection(1, 1, 1, 1, this.player.inventory.items);
 		this.keyItemSubMenu = new GridSelection(1, 1, 1, 1, this.player.inventory.keyItems);
-		this;
 	}
 
 	update() {
