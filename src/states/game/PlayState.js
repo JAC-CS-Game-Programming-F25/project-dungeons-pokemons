@@ -28,18 +28,20 @@ export default class PlayState extends State {
 
 		// We do this to rebuild the render queue with the player inside
 		this.map.renderQueue = this.map.buildEntityRenderQueue();
-		stateStack.push(
-			new DialogueState(
-				`Welcome to the world of Pokémon! \n\n\
+
+		if (JSON.parse(localStorage.getItem("newGame")))
+			stateStack.push(
+				new DialogueState(
+					`Welcome to the world of Pokémon! \n\n\
 			Press Enter to advance the text... \n\
 			To start fighting Pokémon with your own \
 			randomly assigned Pokémon, walk in the tall grass. \n\n\
 			If you need to heal, press 'P' in the field! \n\n\
 			Press 'Esc' to view your Pokémon's stats. \n\
 			Good luck!`,
-				Panel.TOP_DIALOGUE
-			)
-		);
+					Panel.TOP_DIALOGUE
+				)
+			);
 	}
 
 	update(dt) {
