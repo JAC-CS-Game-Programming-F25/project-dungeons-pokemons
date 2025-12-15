@@ -34,7 +34,7 @@ export default class ChestMenuState extends State {
 	// Fills the menu with items from the chest, adding dashes if less than 4
 
 	initializeItems(chestContents) {
-		for (let i = 0; i < 4; i++) {
+		for (let i = 0; i < chestContents.length; i++) {
 			// Makes sure we don't go out of bounds
 			if (i < chestContents.length) {
 				const item = chestContents[i];

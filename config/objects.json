@@ -44,6 +44,42 @@
 					"elementalType": "Fire",
 					"quantity": 1,
 					"effect": {}
+				},
+				{
+					"name": "Bella mio",
+					"type": "Weapon",
+					"description": "omg more of my love??",
+					"damage": 20,
+					"elementalType": "Fire",
+					"quantity": 1,
+					"effect": {}
+				},
+				{
+					"name": "Bella mio",
+					"type": "Weapon",
+					"description": "omg more of my love??",
+					"damage": 20,
+					"elementalType": "Fire",
+					"quantity": 1,
+					"effect": {}
+				},
+				{
+					"name": "Bella mio",
+					"type": "Weapon",
+					"description": "omg more of my love??",
+					"damage": 20,
+					"elementalType": "Fire",
+					"quantity": 1,
+					"effect": {}
+				},
+				{
+					"name": "Bella mio",
+					"type": "Weapon",
+					"description": "omg more of my love??",
+					"damage": 20,
+					"elementalType": "Fire",
+					"quantity": 1,
+					"effect": {}
 				}
 			],
 
