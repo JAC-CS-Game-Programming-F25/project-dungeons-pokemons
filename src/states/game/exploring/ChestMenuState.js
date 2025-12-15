@@ -43,23 +43,32 @@ export default class ChestMenuState extends State {
 	// Fills the menu with items from the chest, adding dashes if less than 4
 
 	initializeItems(chestContents) {
-		for (let i = 0; i < 4; i++) {
-			// Makes sure we don't go out of bounds
-			if (i < chestContents.length) {
-				const item = chestContents[i];
+		const itemsPerPage = 6; // 2 columns x 3 rows
 
-				// Puts item only if it has not been taken yet
-				if (!item.taken)
-					this.items.push({
-						text: item.name,
-						onSelect: () => this.selectItem(i, item),
-					});
-			} else {
+		// Process all chest contents
+		for (let i = 0; i < chestContents.length; i++) {
+			const item = chestContents[i];
+
+			// Puts item only if it has not been taken yet
+			if (!item.taken) {
 				this.items.push({
-					text: "-",
-					onSelect: null,
+					text: item.name,
+					onSelect: () => this.selectItem(i, item),
 				});
 			}
+		}
+
+		// Calculate how many slots we need to fill the last page
+		const totalPages = Math.ceil(this.items.length / itemsPerPage); // rounds to the highest closest integer (ex: if ans = 0.8 returns 1)
+		const totalSlotsNeeded = totalPages * itemsPerPage;
+		const emptySlots = totalSlotsNeeded - this.items.length; // calculates the amount of empty slots
+
+		// Fill remaining slots with empty placeholders
+		for (let i = 0; i < emptySlots; i++) {
+			this.items.push({
+				text: "-",
+				onSelect: null,
+			});
 		}
 	}
 

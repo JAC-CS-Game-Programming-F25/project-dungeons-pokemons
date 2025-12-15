@@ -25,6 +25,7 @@ import Map from "../../services/Map.js";
 import EquipmentFactory from "../../services/EquipmentFactory.js";
 import Selection from "../../user-interface/elements/Selection.js";
 import Menu from "../../user-interface/elements/Menu.js";
+import PanelOrientation from "../../enums/PanelOrientation.js";
 
 export default class TitleScreenState extends State {
 	/**
@@ -62,7 +63,7 @@ export default class TitleScreenState extends State {
 
 		this.map = new Map(mapDefinition, null, ImageName.Tiles, mapName);
 
-		this.menu = new Menu(5.5, 8, 4, 2.5, options, {
+		this.menu = new Menu(5.5, 8, 4, 2.5, options, PanelOrientation.Vertical, {
 			borderColour: Colour.White,
 			panelColour: Colour.Black,
 		});
@@ -80,9 +81,6 @@ export default class TitleScreenState extends State {
 	}
 
 	update() {
-		// if (input.isKeyHeld(Input.KEYS.ENTER)) {
-		// 	this.play();
-		// }
 		this.menu.update();
 	}
 
@@ -90,8 +88,6 @@ export default class TitleScreenState extends State {
 		context.save();
 		this.renderTitle();
 		this.menu.render();
-
-		// this.renderText();
 		context.restore();
 	}
 
@@ -106,12 +102,6 @@ export default class TitleScreenState extends State {
 		context.font = "600 35px CormorantUnicase";
 		context.fillStyle = Colour.Gold;
 		context.fillText("Remastered", CANVAS_WIDTH / 2 + 8, 150);
-	}
-
-	renderText() {
-		context.font = "40px PowerRed";
-		context.fillStyle = Colour.White;
-		context.fillText("Press Enter to Start", CANVAS_WIDTH / 2, 320);
 	}
 
 	setData(option) {

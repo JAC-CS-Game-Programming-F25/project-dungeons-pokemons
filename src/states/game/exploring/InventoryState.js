@@ -4,25 +4,90 @@ import Menu from "../../../user-interface/elements/Menu.js";
 import { input, stateStack } from "../../../globals.js";
 import Input from "../../../../lib/Input.js";
 import Equipment from "../../../objects/equipment/Equipment.js";
+import InventoryPanel from "../../../user-interface/exploring/InventoryPanel.js";
+import SubInventoryPanel from "../../../user-interface/exploring/SubInventoryPanel.js";
+import { stateStack } from "../../../globals.js";
+import SubInventoryState from "./SubInventoryState.js";
+import Player from "../../../entities/Player.js";
 
 export default class InventoryState extends State {
+	/**
+	 * Inventory of the player
+	 * @param {Player} player
+	 */
 	constructor(player) {
 		super();
 
-		this.player = player;
+		this.itemsSubMenu = new GridSelection(
+			1,
+			2.5,
+			13,
+			7.5,
+			this.initializeItems(player.inventory.items)
+		);
+		this.keyItemSubMenu = new GridSelection(
+			1,
+			2.5,
+			13,
+			7.5,
+			this.initializeItems(player.inventory.keyItems)
+		);
+		this.armorSubMenu = new SubInventoryPanel(
+			1,
+			2.5,
+			13,
+			7.5,
+			"Current",
+			this.initializeItems(player.inventory.armors),
+			[{ text: "Defense", value: player.attack ?? 2 }]
+		);
+		this.weaponSubMenu = new SubInventoryPanel(
+			1,
+			2.5,
+			13,
+			7.5,
+			"Current",
+			this.initializeItems(player.inventory.weapons),
+			[{ text: "Attack", value: player.defense ?? 2 }]
+		);
 
-		// Create menu items from the Pokémon's moves
-		// Always create 4 slots, fill empty ones with dashes
-		this.items = [];
+		this.navBarOptions = [
+			{
+				text: "Items",
+				onSelect: () => {
+					stateStack.push(new SubInventoryState(this.itemsSubMenu, this));
+				},
+			},
+			{
+				text: "Armor",
+				onSelect: () => {
+					stateStack.push(new SubInventoryState(this.armorSubMenu, this));
+				},
+			},
+			{
+				text: "Weapons",
+				onSelect: () => {
+					stateStack.push(new SubInventoryState(this.weaponSubMenu, this));
+				},
+			},
+			{
+				text: "Key",
+				onSelect: () => {
+					stateStack.push(new SubInventoryState(this.keyItemSubMenu, this));
+				},
+			},
+		];
 
-		this.initializeItems(this.player.inventory);
-
-		this.moveGrid = new Menu(
-			Panel.POKEMON_STATS.x,
-			Panel.POKEMON_STATS.y,
-			Panel.POKEMON_STATS.width,
-			Panel.POKEMON_STATS.height,
-			this.items
+		this.inventoryPanel = new InventoryPanel(
+			1,
+			1,
+			13,
+			9,
+			this.navBarOptions,
+			this.itemsSubMenu,
+			this.armorSubMenu,
+			this.weaponSubMenu,
+			this.keyItemSubMenu
 		);
 	}
 
@@ -34,10 +99,11 @@ export default class InventoryState extends State {
 		) {
 			stateStack.pop();
 		}
+		this.inventoryPanel.update();
 	}
 
 	render() {
-		this.moveGrid.render();
+		this.inventoryPanel.render();
 	}
 
 	// Fills the menu with items from the chest, adding dashes if less than 4
@@ -47,23 +113,35 @@ export default class InventoryState extends State {
 	 * @param {Equipment[]} inventory
 	 */
 	initializeItems(inventory) {
-		for (let i = 0; i < 4; i++) {
-			// Makes sure we don't go out of bounds
-			if (i < inventory.length) {
-				const item = inventory[i];
+		const items = [];
+		const itemsPerPage = 6; // 2 columns x 3 rows
 
-				// Puts item only if it has not been taken yet
-				this.items.push({
-					text: item.name,
-					onSelect: () => this.selectItem(i, item),
-				});
-			} else {
-				this.items.push({
-					text: "-",
-					onSelect: null,
-				});
-			}
+		// Process all chest contents
+		for (let i = 0; i < inventory.length; i++) {
+			const item = inventory[i];
+
+			// Puts item only if it has not been taken yet
+			items.push({
+				text: item.name,
+				value: item.value,
+				onSelect: () => this.selectItem(i, item),
+			});
 		}
+
+		// Calculate how many slots we need to fill the last page
+		const totalPages = Math.ceil(items.length / itemsPerPage); // rounds to the highest closest integer (ex: if ans = 0.8 returns 1)
+		const totalSlotsNeeded = totalPages <= 0 ? itemsPerPage : totalPages * itemsPerPage;
+		const emptySlots = totalSlotsNeeded - items.length; // calculates the amount of empty slots
+
+		// Fill remaining slots with empty placeholders
+		for (let i = 0; i < emptySlots; i++) {
+			items.push({
+				text: "-",
+				onSelect: null,
+			});
+		}
+
+		return items;
 	}
 
 	/**

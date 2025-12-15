@@ -13,6 +13,7 @@ import Map from "../services/Map.js";
 import Pokemon from "./Pokemon.js";
 import Move from "../services/Moves.js";
 import TypeEffectiveness from "../services/TypeEffectiveness.js";
+import Inventory from "../services/Inventory.js";
 
 export default class Player extends GameEntity {
 	static BATTLE_POSITION = {
@@ -41,7 +42,6 @@ export default class Player extends GameEntity {
 		this.velocity = new Vector(0, 0);
 
 		// This is how the player will carry items
-		this.inventory = entityDefinition.inventory ?? [];
 
 		this.name = entityDefinition.name || "John Doe";
 		this.level = entityDefinition.level ?? 1;
@@ -81,6 +81,7 @@ export default class Player extends GameEntity {
 
 		// For now the player only has one move
 		this.move = new Move("Lethal Strike", { type: "Normal", basePower: 300 });
+		this.inventory = new Inventory(entityDefinition.inventory) ?? Inventory();
 	}
 
 	update(dt) {
