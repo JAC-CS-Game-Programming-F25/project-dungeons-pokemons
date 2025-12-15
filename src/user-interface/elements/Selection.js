@@ -3,6 +3,7 @@ import SoundName from "../../enums/SoundName.js";
 import { context, input, sounds, stateStack } from "../../globals.js";
 import Vector from "../../../lib/Vector.js";
 import Input from "../../../lib/Input.js";
+import PanelOrientation from "../../enums/PanelOrientation.js";
 
 export default class Selection extends UserInterfaceElement {
 	/**
@@ -18,11 +19,14 @@ export default class Selection extends UserInterfaceElement {
 	 * @param {array} items Elements are objects that each
 	 * have a string `text` and function `onSelect` property.
 	 */
-	constructor(x, y, width, height, items) {
+	constructor(x, y, width, height, items, orientation = PanelOrientation.Vertical) {
 		super(x, y, width, height);
 
-		this.gapHeight = this.dimensions.y / (items.length + 1);
-		this.items = this.initializeItems(items);
+		if (orientation === PanelOrientation.Horizontal)
+			this.gap = this.dimensions.x / (items.length + 1);
+		else this.gap = this.dimensions.y / (items.length + 1);
+
+		this.items = this.initializeItems(items, orientation);
 		this.currentSelection = 0;
 		this.font = this.initializeFont();
 	}
@@ -110,16 +114,26 @@ export default class Selection extends UserInterfaceElement {
 	 * @param {array} items
 	 * @returns The items array where each item now has a position property.
 	 */
-	initializeItems(items) {
-		let currentY = this.position.y;
+	initializeItems(items, orientation) {
+		if (orientation === PanelOrientation.Horizontal) {
+			let currentX = this.position.x;
 
-		items.forEach((item) => {
-			const padding = currentY + this.gapHeight;
+			items.forEach((item) => {
+				const padding = currentX + this.gap;
 
-			item.position = new Vector(this.position.x + this.dimensions.x / 2, padding);
+				item.position = new Vector(padding, this.position.y + this.dimensions.y / 2);
 
-			currentY += this.gapHeight;
-		});
+				currentX += this.gap;
+			});
+		} else {
+			items.forEach((item) => {
+				const padding = currentY + this.gap;
+
+				item.position = new Vector(this.position.x + this.dimensions.x / 2, padding);
+
+				currentY += this.gap;
+			});
+		}
 
 		return items;
 	}
@@ -128,7 +142,7 @@ export default class Selection extends UserInterfaceElement {
 	 * Scales the font size based on the size of this Selection element.
 	 */
 	initializeFont() {
-		return `${Math.min(UserInterfaceElement.FONT_SIZE, this.gapHeight)}px ${
+		return `${Math.min(UserInterfaceElement.FONT_SIZE, this.gap)}px ${
 			UserInterfaceElement.FONT_FAMILY
 		}`;
 	}

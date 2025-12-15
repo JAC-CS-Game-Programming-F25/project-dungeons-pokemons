@@ -21,46 +21,12 @@ export default class InventoryPanel extends Panel {
 	 * @param {Player} player
 	 * @param {object} options Options for the super Panel.
 	 */
-	constructor(x, y, width, height, player, options = {}) {
+	constructor(x, y, width, height, item, relatedItems, options = {}) {
 		super(x, y, width, height, options);
 
-		this.player = player;
-		this.subMenuInUse = false;
-		this.firstSubMenu = undefined;
-		this.naveBar = new Selection(1, 1, 1, 1, [
-			{
-				text: "Items",
-				onSelect: () => {
-					this.subMenuInUse = true;
-					// Selects the subinventory as the state
-				},
-			},
-			{
-				text: "Armor",
-				onSelect: () => {
-					this.subMenuInUse = true;
-					// Selects the subinventory as the state
-				},
-			},
-			{
-				text: "Weapons",
-				onSelect: () => {
-					this.subMenuInUse = true;
-					// Selects the subinventory as the state
-				},
-			},
-			{
-				text: "Key Items",
-				onSelect: () => {
-					this.subMenuInUse = true;
-					// Selects the subinventory as the state
-				},
-			},
-		]);
+		this.currentItem = item;
 
-		this.itemsSubMenu = new GridSelection(1, 1, 1, 1, this.player.inventory.items);
-		this.keyItemSubMenu = new GridSelection(1, 1, 1, 1, this.player.inventory.keyItems);
-		this;
+		this.itemsSubMenu = new GridSelection(1, 1, 1, 1, relatedItems);
 	}
 
 	update() {
@@ -69,26 +35,6 @@ export default class InventoryPanel extends Panel {
 
 	render() {
 		super.render();
-
-		this.naveBar.render();
-		switch (this.naveBar.currentSelection) {
-			case 0: {
-				this.itemsSubMenu.render();
-				break;
-			}
-			case 1: {
-				this.renderArmors();
-				break;
-			}
-			case 2: {
-				this.renderWeapons();
-				break;
-			}
-			case 3: {
-				this.keyItemSubMenu.render();
-				break;
-			}
-		}
 	}
 
 	/**
