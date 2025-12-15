@@ -1,7 +1,8 @@
 import State from "../../../../lib/State.js";
 import Panel from "../../../user-interface/elements/Panel.js";
-import GridSelection from "../../../user-interface/elements/GridSelections.js";
 import Menu from "../../../user-interface/elements/Menu.js";
+import { input, stateStack } from "../../../globals.js";
+import Input from "../../../../lib/Input.js";
 import Equipment from "../../../objects/equipment/Equipment.js";
 
 export default class InventoryState extends State {
@@ -27,6 +28,12 @@ export default class InventoryState extends State {
 
 	update() {
 		this.moveGrid.update();
+		if (
+			input.isKeyPressed(Input.KEYS.SHIFT_LEFT) ||
+			input.isKeyPressed(Input.KEYS.SHIFT_RIGHT)
+		) {
+			stateStack.pop();
+		}
 	}
 
 	render() {

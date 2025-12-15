@@ -5,10 +5,14 @@ export default class PokemonFactory {
 	constructor(context) {
 		this.context = context;
 		this.pokemon = {};
+		this.moves = {};
 	}
 
-	load(pokemonDefinitions) {
+	load(pokemonDefinitions, moveDefinition = {}) {
 		this.pokemon = pokemonDefinitions;
+		this.moves = moveDefinition;
+
+		Pokemon.setMoveData(moveDefinition);
 
 		Object.keys(pokemonDefinitions).forEach((name) => {
 			PokemonName[name] = name;

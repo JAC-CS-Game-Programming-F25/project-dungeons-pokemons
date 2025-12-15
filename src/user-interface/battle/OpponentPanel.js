@@ -3,6 +3,7 @@ import Colour from "../../enums/Colour.js";
 import { context } from "../../globals.js";
 import Pokemon from "../../entities/Pokemon.js";
 import UserInterfaceElement from "../UserInterfaceElement.js";
+import ProgressBar from "../elements/ProgressBar.js";
 
 export default class BattleOpponentPanel extends Panel {
 	/**
@@ -20,12 +21,37 @@ export default class BattleOpponentPanel extends Panel {
 		super(x, y, width, height, options);
 
 		this.pokemon = pokemon;
+
+		this.healthBar = new ProgressBar(
+			this.position.x + 55,
+			this.position.y + this.dimensions.y - 78,
+			this.dimensions.x - 100,
+			8,
+			this.pokemon.currentHealth,
+			this.pokemon.health,
+			"yellow"
+		);
+	}
+
+	update() {
+		//MYUPDATE
+		this.healthBar.maxValue = this.pokemon.health;
 	}
 
 	render() {
-		super.render();
+		// super.render();
 
-		this.renderStatistics();
+		const healthPercent = this.pokemon.getHealthPercentage();
+		if (healthPercent <= 0.25) {
+			this.healthBar.setColor("red");
+		} else if (healthPercent <= 0.5) {
+			this.healthBar.setColor("orange");
+		} else {
+			this.healthBar.setColor("yellow");
+		}
+
+		// this.renderStatistics();
+		this.healthBar.render();
 	}
 
 	/**
@@ -34,17 +60,25 @@ export default class BattleOpponentPanel extends Panel {
 	 */
 	renderStatistics() {
 		context.save();
-		context.textBaseline = 'top';
+		context.textBaseline = "top";
 		context.fillStyle = Colour.Black;
 		context.font = `${UserInterfaceElement.FONT_SIZE}px ${UserInterfaceElement.FONT_FAMILY}`;
-		context.fillText(this.pokemon.name.toUpperCase(), this.position.x + 15, this.position.y + 12);
-		context.textAlign = 'right';
+		context.fillText(
+			this.pokemon.name.toUpperCase(),
+			this.position.x + 15,
+			this.position.y + 12
+		);
+		context.textAlign = "right";
 		context.fillText(
 			`HP: ${this.pokemon.getHealthMeter()}`,
 			this.position.x + this.dimensions.x - 30,
 			this.position.y + this.dimensions.y - 25
 		);
-		context.fillText(`Lv${this.pokemon.level}`, this.position.x + this.dimensions.x - 10, this.position.y + 12);
+		context.fillText(
+			`Lv${this.pokemon.level}`,
+			this.position.x + this.dimensions.x - 10,
+			this.position.y + 12
+		);
 		context.restore();
 	}
 }

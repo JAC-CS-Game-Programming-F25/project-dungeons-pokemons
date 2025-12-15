@@ -9,16 +9,13 @@ import SoundName from "../../../enums/SoundName.js";
 import Input from "../../../../lib/Input.js";
 import { input, sounds, stateStack, timer, maps } from "../../../globals.js";
 import Tile from "../../../services/Tile.js";
-import BattleState from "../../game/BattleState.js";
+import BattleState from "../../game/battle/BattleState.js";
 import BuildingState from "../../game/BuildingState.js";
 import TransitionState from "../../game/TransitionState.js";
 import Easing from "../../../../lib/Easing.js";
 import ImageName from "../../../enums/ImageName.js";
 import Map from "../../../services/Map.js";
 import { Maps } from "../../../enums/MapNames.js";
-import Vector from "../../../../lib/Vector.js";
-import { getCollisionDirection } from "../../../../lib/CollisionHelpers.js";
-import InventoryState from "../../game/exploring/InventoryState.js";
 
 export default class PlayerWalkingState extends State {
 	static ENCOUNTER_CHANCE = 0.1;
@@ -199,10 +196,7 @@ export default class PlayerWalkingState extends State {
 	 * @returns Whether player is going to move to a grass tile. Succeeds 10% of the time.
 	 */
 	checkForEncounter(x, y) {
-		return (
-			this.bottomLayer.isTileGrass(x, y) &&
-			didSucceedPercentChance(PlayerWalkingState.ENCOUNTER_CHANCE)
-		);
+		return didSucceedPercentChance(PlayerWalkingState.ENCOUNTER_CHANCE);
 	}
 
 	/**

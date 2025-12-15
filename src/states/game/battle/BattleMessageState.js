@@ -1,7 +1,7 @@
-import State from "../../../lib/State.js";
-import Textbox from "../../user-interface/elements/Textbox.js";
-import Panel from "../../user-interface/elements/Panel.js";
-import { stateStack, timer } from "../../globals.js";
+import State from "../../../../lib/State.js";
+import Textbox from "../../../user-interface/elements/Textbox.js";
+import Panel from "../../../user-interface/elements/Panel.js";
+import { stateStack, timer } from "../../../globals.js";
 
 export default class BattleMessageState extends State {
 	/**
@@ -12,7 +12,7 @@ export default class BattleMessageState extends State {
 	 * @param {number} waitDuration How long to wait before auto-closing the textbox.
 	 * @param {function} onClose
 	 */
-	constructor(message, waitDuration = 0, onClose = () => { }) {
+	constructor(message, waitDuration = 0, onClose = () => {}) {
 		super();
 
 		this.textbox = new Textbox(
