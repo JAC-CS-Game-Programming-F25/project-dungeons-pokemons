@@ -5,7 +5,7 @@ import Menu from "../../../user-interface/elements/Menu.js";
 import Equipment from "../../../objects/equipment/Equipment.js";
 import SubInventoryPanel from "../../../user-interface/exploring/SubInventoryPanel.js";
 import InventoryState from "./InventoryState.js";
-import { input } from "../../../globals.js";
+import { input, stateStack } from "../../../globals.js";
 import Input from "../../../../lib/Input.js";
 
 export default class SubInventoryState extends State {
@@ -28,7 +28,7 @@ export default class SubInventoryState extends State {
 			input.isKeyPressed(Input.KEYS.SHIFT_LEFT) ||
 			input.isKeyPressed(Input.KEYS.SHIFT_RIGHT)
 		) {
-			this.inventoryState.inventoryPanel.subMenuInUse = false;
+			stateStack.pop();
 		}
 	}
 
