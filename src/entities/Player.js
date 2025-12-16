@@ -108,9 +108,12 @@ export default class Player extends GameEntity {
 
 		this.calculateStats();
 
-		this.targetExperience = this.experienceFromLevel(this.level + 1);
-		this.currentExperience = this.experienceFromLevel(this.level);
-		this.levelExperience = this.experienceFromLevel(this.level);
+		this.targetExperience =
+			entityDefinition.targetExperience ?? this.experienceFromLevel(this.level + 1);
+		this.currentExperience =
+			entityDefinition.currentExperience ?? this.experienceFromLevel(this.level);
+		this.levelExperience =
+			entityDefinition.levelExperience ?? this.experienceFromLevel(this.level);
 
 		this.currentHealth = this.maxHealth;
 
@@ -240,6 +243,16 @@ export default class Player extends GameEntity {
 		this.inventory = savedData !== null ? savedData.inventory : new Inventory();
 		this.direction = savedData !== null ? savedData.direction : Direction.Up;
 		this.level = savedData !== null ? savedData.level : 1;
+		this.targetExperience =
+			savedData !== null
+				? savedData.targetExperience
+				: this.experienceFromLevel(this.level + 1);
+		this.currentExperience =
+			savedData !== null ? savedData.currentExperience : this.experienceFromLevel(this.level);
+		this.levelExperience =
+			savedData !== null
+				? savedData.levelExperience
+				: this / this.experienceFromLevel(this.level);
 
 		this.canvasPosition = new Vector(
 			Math.floor(this.position.x * Tile.SIZE),

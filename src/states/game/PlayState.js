@@ -35,9 +35,9 @@ export default class PlayState extends State {
 					`Welcome to the dungeon...! \n\n\
 			Press Enter to advance the text... \n\n\
 			You will find strange creatures within these catacombs \
-			at random. Proceed with caution. I left some loot around \n\
-			for you to find, I hope it is useful to your survival.  \n\n\
-			Do not forget to rest and save your progress when finding a crystal, they will come in handy. \n\
+			at random. Proceed with caution.\n\n\
+			I left some loot around for you to find, I hope it is useful to your survival.  \n\n\
+			Do not forget to rest and save your progress when finding a crystal, they will come in handy. \n\n\
 			To interact/select press ENTER, to exit out of menu press SHIFT. For your inventory press I \n\n\
 			Good luck!`,
 					Panel.TOP_DIALOGUE

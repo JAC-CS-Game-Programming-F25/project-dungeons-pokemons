@@ -193,6 +193,10 @@
 		{
 			"name": "CormorantUnicase",
 			"path": "./assets/fonts/CormorantUnicase-Regular.ttf"
+		},
+		{
+			"name": "Deltarune",
+			"path": "./assets/fonts/deltarune.otf"
 		}
 	],
 	"sounds": [

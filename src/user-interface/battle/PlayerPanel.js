@@ -26,9 +26,9 @@ export default class BattlePlayerPanel extends Panel {
 		this.player = player;
 
 		this.healthBar = new ProgressBar(
-			this.position.x + 8 * Tile.SIZE,
+			this.position.x + 8 * Tile.SIZE + 5,
 			this.position.y + 12,
-			this.dimensions.x - 100,
+			this.dimensions.x - 90,
 			8,
 			player.currentHealth,
 			player.maxHealth,
@@ -71,7 +71,7 @@ export default class BattlePlayerPanel extends Panel {
 		context.textAlign = "right";
 		context.fillText(
 			`Lv${this.player.level}`,
-			this.position.x + this.dimensions.x / 2,
+			this.position.x + this.dimensions.x / 2 + 15,
 			this.position.y + 12
 		);
 

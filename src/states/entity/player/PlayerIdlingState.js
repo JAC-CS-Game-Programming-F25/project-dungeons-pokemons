@@ -3,9 +3,10 @@ import State from "../../../../lib/State.js";
 import Player from "../../../entities/Player.js";
 import Direction from "../../../enums/Direction.js";
 import PlayerStateName from "../../../enums/entities/state/PlayerStateName.js";
-import { input, stateStack } from "../../../globals.js";
+import { input, sounds, stateStack } from "../../../globals.js";
 import Input from "../../../../lib/Input.js";
 import InventoryState from "../../game/exploring/InventoryState.js";
+import SoundName from "../../../enums/SoundName.js";
 
 export default class PlayerIdlingState extends State {
 	/**
@@ -121,6 +122,7 @@ export default class PlayerIdlingState extends State {
 
 	checkInventory() {
 		if (input.isKeyPressed(Input.KEYS.I)) {
+			sounds.play(SoundName.MenuOpen);
 			stateStack.push(new InventoryState(this.player));
 		}
 	}

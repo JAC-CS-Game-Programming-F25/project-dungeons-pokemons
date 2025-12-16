@@ -90,8 +90,8 @@ export default class Selection extends UserInterfaceElement {
 		context.save();
 		context.fillStyle = Colour.Gold;
 		if (this.orientation === PanelOrientation.Horizontal)
-			context.translate(item.position.x - textWidth / 2 - 10, item.position.y - 3.5);
-		else context.translate(this.position.x + 7, item.position.y - 3.5);
+			context.translate(item.position.x - textWidth / 2 - 7, item.position.y - 3.5);
+		else context.translate(this.position.x + 4, item.position.y - 3.5);
 		context.beginPath();
 		context.moveTo(0, 0);
 		context.lineTo(3, 2.5);

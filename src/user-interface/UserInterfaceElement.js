@@ -4,7 +4,8 @@ import Tile from "../services/Tile.js";
 
 export default class UserInterfaceElement {
 	static FONT_SIZE = Tile.SIZE * 0.55;
-	static FONT_FAMILY = FontName.PowerRed;
+	// static FONT_FAMILY = FontName.PowerRed;
+	static FONT_FAMILY = FontName.Deltarune;
 
 	/**
 	 * The base UI element that all interface elements should extend.

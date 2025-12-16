@@ -57,6 +57,9 @@ export default class SaveState extends State {
 				inventory: this.player.inventory,
 				direction: this.player.direction,
 				level: this.player.level,
+				currentExperience: this.player.currentExperience,
+				levelExperience: this.player.levelExperience,
+				targetExperience: this.player.targetExperience,
 			})
 		);
 
