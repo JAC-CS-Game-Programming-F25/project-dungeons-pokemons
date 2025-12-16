@@ -25,6 +25,8 @@ const SoundName = {
 	Save: "save",
 	WeaponPull: "weapon-pull",
 	Swing: "swing",
+	Spare: "spare",
+	Act: "act",
 
 	// Pokemon
 	Charmander: "charmander",

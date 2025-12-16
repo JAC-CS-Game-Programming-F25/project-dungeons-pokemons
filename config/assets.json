@@ -250,7 +250,7 @@
 		},
 		{
 			"name": "heal",
-			"path": "./assets/sounds/effects/heal.ogg",
+			"path": "./assets/sounds/effects/heal.wav",
 			"size": 1,
 			"volume": 0.2
 		},
@@ -329,6 +329,18 @@
 		{
 			"name": "swing",
 			"path": "./assets/sounds/effects/swing.wav",
+			"size": 2,
+			"volume": 0.4
+		},
+		{
+			"name": "act",
+			"path": "./assets/sounds/effects/spellcast.wav",
+			"size": 2,
+			"volume": 0.2
+		},
+		{
+			"name": "spare",
+			"path": "./assets/sounds/effects/spare.wav",
 			"size": 2,
 			"volume": 0.4
 		},

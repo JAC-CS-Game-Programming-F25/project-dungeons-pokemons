@@ -202,6 +202,7 @@ export default class BattleTurnState extends State {
 	 * Fade out and transition back to the PlayState.
 	 */
 	processDefeat() {
+		this.player.fainted = true;
 		sounds.play(SoundName.PokemonFaint);
 		timer.tween(this.player.canvasPosition, { y: CANVAS_HEIGHT }, 0.2, Easing.linear, () => {
 			stateStack.push(
@@ -217,7 +218,7 @@ export default class BattleTurnState extends State {
 	 * Process experience gained by the Player Pokemon.
 	 */
 	processVictory(callback = () => {}, tweenParameter = { y: CANVAS_HEIGHT }) {
-		sounds.play(SoundName.PokemonFaint);
+		if (!this.opponentPokemon.spared) sounds.play(SoundName.PokemonFaint);
 		this.opponentPokemon.outOfBattle = true;
 		timer.tween(this.opponentPokemon.position, tweenParameter, 0.4, Easing.linear, () => {
 			sounds.stop(SoundName.BattleLoop);

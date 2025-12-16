@@ -2,10 +2,11 @@ import GameEntity from "./GameEntity.js";
 import { getRandomPositiveInteger } from "../../lib/Random.js";
 import Sprite from "../../lib/Sprite.js";
 import Vector from "../../lib/Vector.js";
-import { CANVAS_WIDTH, context, images, timer } from "../globals.js";
+import { CANVAS_WIDTH, context, images, sounds, timer } from "../globals.js";
 import Move from "../services/Moves.js";
 import TypeEffectiveness from "../services/TypeEffectiveness.js";
 import Easing from "../../lib/Easing.js";
+import SoundName from "../enums/SoundName.js";
 
 export default class Pokemon extends GameEntity {
 	static FRONT_POSITION = {
@@ -221,6 +222,8 @@ export default class Pokemon extends GameEntity {
 
 	spare() {
 		// Twinkle animation
+
+		sounds.play(SoundName.Spare);
 
 		// tween to the right
 		timer.tweenAsync(this.position, { x: CANVAS_WIDTH }, 0.5, Easing.easeOutQuad);

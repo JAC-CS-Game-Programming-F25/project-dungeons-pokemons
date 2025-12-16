@@ -141,10 +141,13 @@ export default class BattleState extends State {
 			sounds.stop(SoundName.BattleLoop);
 			sounds.stop(SoundName.BattleVictory);
 			sounds.play(SoundName.Route);
-			this.player.canvasPosition = new Vector(
-				Math.floor(this.player.position.x * Tile.SIZE),
-				Math.floor(this.player.position.y * Tile.SIZE)
-			);
+
+			if (!this.player.fainted)
+				this.player.canvasPosition = new Vector(
+					Math.floor(this.player.position.x * Tile.SIZE),
+					Math.floor(this.player.position.y * Tile.SIZE)
+				);
+			else this.player.revive();
 		});
 	}
 }

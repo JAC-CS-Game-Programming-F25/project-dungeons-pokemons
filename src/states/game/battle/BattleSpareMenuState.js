@@ -1,7 +1,8 @@
 import Input from "../../../../lib/Input.js";
 import State from "../../../../lib/State.js";
 import Pokemon from "../../../entities/Pokemon.js";
-import { input, stateStack } from "../../../globals.js";
+import SoundName from "../../../enums/SoundName.js";
+import { input, sounds, stateStack } from "../../../globals.js";
 import SparePanel from "../../../user-interface/battle/SparePanel.js";
 import Menu from "../../../user-interface/elements/Menu.js";
 import Panel from "../../../user-interface/elements/Panel.js";

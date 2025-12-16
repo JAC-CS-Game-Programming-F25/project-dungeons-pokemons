@@ -1,5 +1,6 @@
 import State from "../../../../lib/State.js";
-import { stateStack } from "../../../globals.js";
+import SoundName from "../../../enums/SoundName.js";
+import { sounds, stateStack } from "../../../globals.js";
 import GridSelection from "../../../user-interface/elements/GridSelections.js";
 import Menu from "../../../user-interface/elements/Menu.js";
 import Panel from "../../../user-interface/elements/Panel.js";
@@ -58,6 +59,7 @@ export default class BattleMenuState extends State {
 	}
 
 	act() {
+		sounds.play(SoundName.Act);
 		stateStack.push(
 			new BattleMessageState(`You did something silly, the pokemon liked that`, 0, () => {
 				if (this.battleState.opponentPokemon.mercyMeter < 100)

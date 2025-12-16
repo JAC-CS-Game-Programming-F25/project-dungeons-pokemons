@@ -21,6 +21,8 @@ import Animation from "../../lib/Animation.js";
 import Character_Fight from "../enums/entities/player/Character_fight.js";
 import SoundName from "../enums/SoundName.js";
 import EquipmentFactory from "../services/EquipmentFactory.js";
+import Direction from "../enums/Direction.js";
+import Tile from "../services/Tile.js";
 
 export default class Player extends GameEntity {
 	static BATTLE_POSITION = {
@@ -116,6 +118,7 @@ export default class Player extends GameEntity {
 
 		this.battlePosition = new Vector();
 		this.attackPosition = new Vector();
+		this.fainted = false;
 
 		// For now the player only has one move
 		this.move = new Move("Lethal Strike", { type: "Normal", basePower: 50 });
@@ -230,7 +233,20 @@ export default class Player extends GameEntity {
 	}
 
 	revive() {
+		this.fainted = false;
 		const savedData = Player.initializePlayer();
+
+		this.position = savedData !== null ? savedData.position : new Vector(19, 22);
+		this.inventory = savedData !== null ? savedData.inventory : new Inventory();
+		this.direction = savedData !== null ? savedData.direction : Direction.Up;
+		this.level = savedData !== null ? savedData.level : 1;
+
+		this.canvasPosition = new Vector(
+			Math.floor(this.position.x * Tile.SIZE),
+			Math.floor(this.position.y * Tile.SIZE)
+		);
+
+		this.calculateStats();
 	}
 
 	//#region Experience and Leveling
