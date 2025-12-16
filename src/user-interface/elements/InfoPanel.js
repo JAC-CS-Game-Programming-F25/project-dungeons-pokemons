@@ -52,9 +52,9 @@ export default class InfoPanel extends Panel {
 
 		if (this.title !== "") this.renderTitle(this.title, { y: 5.3 * Tile.SIZE });
 
-		this.items.forEach((item) => {
-			this.renderItem(item, { y: 6.3 * Tile.SIZE });
-		});
+		// this.items.forEach((item) => {
+		this.renderItem(this.items, { y: 6.3 * Tile.SIZE });
+		// });
 	}
 
 	renderTitle(title, options) {

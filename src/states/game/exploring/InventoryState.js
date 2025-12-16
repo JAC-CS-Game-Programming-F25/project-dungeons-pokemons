@@ -42,7 +42,7 @@ export default class InventoryState extends State {
 			7.5,
 			"Stats",
 			this.initializeItems(player.inventory.armors),
-			[{ text: "Defense", value: player.defense ?? 2 }],
+			{ text: "Defense", value: player.defense ?? 2 },
 			{ text: player.equippedArmor.name }
 		);
 		this.weaponSubMenu = new SubInventoryPanel(
@@ -52,7 +52,7 @@ export default class InventoryState extends State {
 			7.5,
 			"Stats",
 			this.initializeItems(player.inventory.weapons),
-			[{ text: "Attack", value: player.attack ?? 2 }],
+			{ text: "Attack", value: player.attack ?? 2 },
 			{ text: player.equippedWeapon.name }
 		);
 
@@ -191,15 +191,19 @@ export default class InventoryState extends State {
 					subInv[index] = { ...this.player.equippedWeapon };
 					this.player.equippedWeapon = { ...temp };
 					subMenu.infoPanel.currentEquipment.text = this.player.equippedWeapon.name;
+					this.player.calculateStats();
+					subMenu.infoPanel.items.value = this.player.attack;
 				} else if (subInv[index].type === EquipmentName.Armor) {
 					subInv[index] = { ...this.player.equippedArmor };
 					this.player.equippedArmor = { ...temp };
 					subMenu.infoPanel.currentEquipment.text = this.player.equippedArmor.name;
+					this.player.calculateStats();
+					subMenu.infoPanel.items.value = this.player.defense;
 				}
 
 				subMenu.itemsSubMenu.selection.items[i].text = subInv[index].name;
 				subMenu.itemsSubMenu.selection.items[i].onSelect = () => this.swapItem(i, subInv);
-
+				this.player.calculateStats();
 				return;
 			}
 		}
