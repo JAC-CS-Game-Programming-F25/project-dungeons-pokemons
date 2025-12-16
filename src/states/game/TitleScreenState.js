@@ -95,48 +95,32 @@ export default class TitleScreenState extends State {
 		images.render(ImageName.Title, 0, 0);
 
 		// Here 600 is the value for "semiBold"
-		context.font = "500 40px CormorantUnicase";
+		context.font = "500 20px CormorantUnicase";
 		context.textAlign = "center";
 		context.fillStyle = Colour.White;
-		context.fillText("Dungeons & Pokemons", CANVAS_WIDTH / 2, 100);
-		context.font = "600 35px CormorantUnicase";
+		context.fillText("Dungeons & Pokemons", CANVAS_WIDTH / 2, 45);
+		context.font = "600 15px CormorantUnicase";
 		context.fillStyle = Colour.Gold;
-		context.fillText("Remastered", CANVAS_WIDTH / 2 + 8, 150);
+		context.fillText("Remastered", CANVAS_WIDTH / 2, 65);
 	}
 
 	setData(option) {
 		switch (option) {
 			case "New Game": {
 				localStorage.setItem("newGame", true);
-				this.player = new Player({ position: new Vector(7, 5) }, this.map);
+				this.player = new Player({ position: new Vector(19, 22) }, this.map);
 				this.map.player = this.player;
 				break;
 			}
 			case "Continue": {
 				localStorage.setItem("newGame", false);
-				this.player = new Player(this.initializePlayer(), this.map);
+				this.player = new Player(Player.initializePlayer(), this.map);
 				this.map.player = this.player;
 				break;
 			}
 		}
 
 		this.playState = new PlayState(this.map);
-	}
-
-	initializePlayer() {
-		const playerData = JSON.parse(localStorage.getItem("playerData"));
-
-		if (playerData === null) return null;
-
-		const newInventory = {};
-
-		for (const [category, items] of Object.entries(playerData.inventory)) {
-			newInventory[category] = items.map((item) => EquipmentFactory.createInstance(item));
-		}
-
-		playerData.inventory = newInventory;
-
-		return playerData;
 	}
 
 	play() {

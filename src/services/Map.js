@@ -40,9 +40,10 @@ export default class Map {
 		this.topLayer = new Layer(mapDefinition.layers[Layer.TOP], sprites);
 		this.player = player;
 
-		npcs.get(mapName).forEach((npc) => {
-			this.mapNPCs.push(NPCFactory.createInstance(npc.character, npc, this));
-		});
+		if (npcs.get(mapName))
+			npcs.get(mapName).forEach((npc) => {
+				this.mapNPCs.push(NPCFactory.createInstance(npc.character, npc, this));
+			});
 
 		objects.get(mapName).forEach((object) => {
 			this.mapObjects.push(ObjectFactory.createInstance(object.type, object));

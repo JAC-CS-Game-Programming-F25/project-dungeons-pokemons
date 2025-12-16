@@ -14,5 +14,9 @@
 	"Vine Whip": {
 		"type": "Grass",
 		"basePower": 40
+	},
+	"Dark Pulse": {
+		"type": "Dark",
+		"basePower": 60
 	}
 }

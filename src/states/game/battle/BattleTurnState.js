@@ -20,13 +20,14 @@ export default class BattleTurnState extends State {
 	 *
 	 * @param {BattleState} battleState
 	 */
-	constructor(battleState) {
+	constructor(battleState, menuState) {
 		super();
 
 		//debuging MYUPDATE
 		//this.playerPokemon.attack = 100;
 		//this.playerPokemon.speed = 100;
 
+		this.menuState = menuState;
 		this.battleState = battleState;
 		this.player = battleState.player;
 		this.opponentPokemon = battleState.opponentPokemon;
@@ -86,8 +87,12 @@ export default class BattleTurnState extends State {
 		});
 	}
 
-	update() {
-		this.battleState.update();
+	update(dt) {
+		this.battleState.update(dt);
+	}
+
+	render() {
+		this.menuState.render();
 	}
 
 	/**
@@ -101,21 +106,24 @@ export default class BattleTurnState extends State {
 	attack(attacker, defender, move, callback) {
 		stateStack.push(
 			new BattleMessageState(`${attacker.name} used ${move.name}!`, 1, () => {
-				timer.tween(
-					attacker.canvasPosition,
-					{ x: attacker.attackPosition.x, y: attacker.attackPosition.y },
-					0.1,
-					Easing.linear,
-					() => {
-						timer.tween(
-							attacker.canvasPosition,
-							{ x: attacker.battlePosition.x, y: attacker.battlePosition.y },
-							0.1,
-							Easing.linear,
-							() => this.inflictDamage(attacker, defender, move, callback)
-						);
-					}
-				);
+				// attacker.attackBack(() => {
+				// 	timer.tween(
+				// 		attacker.canvasPosition,
+				// 		{ x: attacker.battlePosition.x, y: attacker.battlePosition.y },
+				// 		0.1,
+				// 		Easing.linear,
+				// 		() => this.inflictDamage(attacker, defender, move, callback)
+				// 	);
+				// });
+				// timer.tween(
+				// 	attacker.canvasPosition,
+				// 	{ x: attacker.attackPosition.x, y: attacker.attackPosition.y },
+				// 	0.1,
+				// 	Easing.linear,
+				// 	() => {
+				this.inflictDamage(attacker, defender, move, callback);
+				// 	}
+				// );
 			})
 		);
 	}
@@ -125,6 +133,8 @@ export default class BattleTurnState extends State {
 	 * When finished, decrease the defender's health bar with tweening.
 	 */
 	inflictDamage(attacker, defender, move, callback) {
+		attacker.attackAnimation();
+
 		const action = () => {
 			defender.alpha = defender.alpha === 1 ? 0.5 : 1;
 		};
@@ -137,6 +147,7 @@ export default class BattleTurnState extends State {
 			// Calculate damage
 			const damageEffectivness = attacker.inflictDamage(defender, move);
 
+			defender.gotHit();
 			if (damageEffectivness == 2) sounds.play(SoundName.HitSuperEffective);
 			else if (damageEffectivness == 0.5) sounds.play(SoundName.HitNotEffective);
 			else sounds.play(SoundName.BattleDamage);
@@ -191,6 +202,7 @@ export default class BattleTurnState extends State {
 	 * Fade out and transition back to the PlayState.
 	 */
 	processDefeat() {
+		this.player.fainted = true;
 		sounds.play(SoundName.PokemonFaint);
 		timer.tween(this.player.canvasPosition, { y: CANVAS_HEIGHT }, 0.2, Easing.linear, () => {
 			stateStack.push(
@@ -206,7 +218,8 @@ export default class BattleTurnState extends State {
 	 * Process experience gained by the Player Pokemon.
 	 */
 	processVictory(callback = () => {}, tweenParameter = { y: CANVAS_HEIGHT }) {
-		sounds.play(SoundName.PokemonFaint);
+		if (!this.opponentPokemon.spared) sounds.play(SoundName.PokemonFaint);
+		this.opponentPokemon.outOfBattle = true;
 		timer.tween(this.opponentPokemon.position, tweenParameter, 0.4, Easing.linear, () => {
 			sounds.stop(SoundName.BattleLoop);
 			sounds.play(SoundName.BattleVictory);

@@ -5,6 +5,7 @@ import UserInterfaceElement from "../UserInterfaceElement.js";
 import Panel from "../elements/Panel.js";
 import Player from "../../entities/Player.js";
 import ProgressBar from "../elements/ProgressBar.js";
+import Tile from "../../services/Tile.js";
 
 export default class BattlePlayerPanel extends Panel {
 	/**
@@ -25,9 +26,9 @@ export default class BattlePlayerPanel extends Panel {
 		this.player = player;
 
 		this.healthBar = new ProgressBar(
-			this.position.x + 40,
-			this.position.y + this.dimensions.y - 44,
-			this.dimensions.x - 60,
+			this.position.x + 8 * Tile.SIZE,
+			this.position.y + 12,
+			this.dimensions.x - 100,
 			8,
 			player.currentHealth,
 			player.maxHealth,
@@ -46,7 +47,7 @@ export default class BattlePlayerPanel extends Panel {
 	}
 
 	render() {
-		super.render();
+		// super.render();
 
 		this.renderStatistics();
 		this.healthBar.render();
@@ -60,7 +61,7 @@ export default class BattlePlayerPanel extends Panel {
 	renderStatistics() {
 		context.save();
 		context.textBaseline = "top";
-		context.fillStyle = Colour.Black;
+		context.fillStyle = Colour.White;
 		context.font = `${UserInterfaceElement.FONT_SIZE}px ${UserInterfaceElement.FONT_FAMILY}`;
 		context.fillText(
 			this.player.name.toUpperCase(),
@@ -70,18 +71,18 @@ export default class BattlePlayerPanel extends Panel {
 		context.textAlign = "right";
 		context.fillText(
 			`Lv${this.player.level}`,
-			this.position.x + this.dimensions.x - 10,
+			this.position.x + this.dimensions.x / 2,
 			this.position.y + 12
 		);
 
 		// HP Display
 		context.textAlign = "left";
-		context.fillText(`HP`, this.position.x + 15, this.position.y + this.dimensions.y - 50);
+		context.fillText(`HP`, this.position.x + 8 * Tile.SIZE - 13, this.position.y + 13);
 
 		context.fillText(
 			`${this.player.getHealthMeter()}`,
-			this.position.x + 80,
-			this.position.y + this.dimensions.y - 32
+			this.position.x + 9 * Tile.SIZE,
+			this.position.y + this.dimensions.y - 25
 		);
 
 		// context.fillText(

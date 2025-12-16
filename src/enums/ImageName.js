@@ -1,6 +1,5 @@
 const ImageName = {
-	Tiles: "tiles",
-	HouseTiles: "house",
+	Tiles: "dungeon",
 	Player: "player",
 	Npcs: "npcs",
 	BattleBackground: "battle-background",

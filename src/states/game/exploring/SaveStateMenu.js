@@ -2,9 +2,10 @@ import State from "../../../../lib/State.js";
 import Panel from "../../../user-interface/elements/Panel.js";
 import GridSelection from "../../../user-interface/elements/GridSelections.js";
 import Menu from "../../../user-interface/elements/Menu.js";
-import { input, stateStack } from "../../../globals.js";
+import { input, sounds, stateStack } from "../../../globals.js";
 import PanelOrientation from "../../../enums/PanelOrientation.js";
 import Input from "../../../../lib/Input.js";
+import SoundName from "../../../enums/SoundName.js";
 
 export default class SaveState extends State {
 	constructor(player) {
@@ -45,14 +46,25 @@ export default class SaveState extends State {
 
 	// Handles selecting an item from the chest
 	save() {
+		sounds.play(SoundName.Save);
+
+		this.player.heal();
+
 		localStorage.setItem(
 			"playerData",
 			JSON.stringify({
 				position: this.player.position,
 				inventory: this.player.inventory,
 				direction: this.player.direction,
+				level: this.player.level,
 			})
 		);
+
+		// TODO: Implement saving of chest contents
+
+		// localStorage.setItem("chests", {
+
+		// })
 		stateStack.pop();
 	}
 

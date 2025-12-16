@@ -68,7 +68,10 @@ export default class BattleState extends State {
 		if (!this.didBattleStart) this.player.prepareForBattle(Player.BATTLE_POSITION);
 	}
 
-	update() {
+	update(dt) {
+		this.player.currentAnimation.update(dt);
+		this.player.currentFrame = this.player.currentAnimation.currentFrame;
+
 		if (!this.didBattleStart) {
 			this.triggerBattleStart();
 		}
@@ -88,7 +91,8 @@ export default class BattleState extends State {
 		this.opponentPokemon.render(this.player);
 		this.panel.render();
 		this.playerPanel.render();
-		this.opponentPanel.render();
+
+		if (!this.opponentPokemon.outOfBattle) this.opponentPanel.render();
 	}
 
 	triggerBattleStart() {
@@ -124,7 +128,8 @@ export default class BattleState extends State {
 			0.75,
 			Easing.linear,
 			() => {
-				sounds.play(this.playerPokemon.name.toLowerCase());
+				this.player.attackAnimation(true);
+				sounds.play(SoundName.WeaponPull);
 				stateStack.push(new BattleMenuState(this));
 			}
 		);
@@ -133,14 +138,16 @@ export default class BattleState extends State {
 	exitBattle() {
 		TransitionState.fade(() => {
 			stateStack.pop();
-			sounds.stop(SoundName.LowHealth);
 			sounds.stop(SoundName.BattleLoop);
 			sounds.stop(SoundName.BattleVictory);
 			sounds.play(SoundName.Route);
-			this.player.canvasPosition = new Vector(
-				Math.floor(this.player.position.x * Tile.SIZE),
-				Math.floor(this.player.position.y * Tile.SIZE)
-			);
+
+			if (!this.player.fainted)
+				this.player.canvasPosition = new Vector(
+					Math.floor(this.player.position.x * Tile.SIZE),
+					Math.floor(this.player.position.y * Tile.SIZE)
+				);
+			else this.player.revive();
 		});
 	}
 }

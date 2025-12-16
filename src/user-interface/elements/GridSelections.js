@@ -7,7 +7,7 @@ import Colour from "../../enums/Colour.js";
 import { roundedRectangle } from "../../../lib/Drawing.js";
 
 export default class GridSelection extends UserInterfaceElement {
-	static BORDER_WIDTH = 10;
+	static BORDER_WIDTH = 5;
 	static ITEMS_PER_PAGE = 6; // 2 columns x 3 rows
 	static COLUMNS = 2;
 	static ROWS = 3;
@@ -161,8 +161,8 @@ export default class GridSelection extends UserInterfaceElement {
 		context.translate(item.position.x - textWidth / 2 - 15, item.position.y - 5);
 		context.beginPath();
 		context.moveTo(0, 0);
-		context.lineTo(6, 5);
-		context.lineTo(0, 10);
+		context.lineTo(3, 2.5);
+		context.lineTo(0, 5);
 		context.closePath();
 		context.fill();
 		context.restore();

@@ -7,7 +7,8 @@ import ProgressBar from "../elements/ProgressBar.js";
 import Selection from "../elements/Selection.js";
 
 export default class SparePanel extends Panel {
-	static SPARE_BAR_WIDTH = 80;
+	static SPARE_BAR_WIDTH = 60;
+	static SPARE_BAR_HEIGHT = 12;
 	static SPARE_MENU = { x: 0, y: 8, width: 4, height: 3 };
 
 	/**
@@ -35,9 +36,9 @@ export default class SparePanel extends Panel {
 			this.spareBars.push(
 				new ProgressBar(
 					this.position.x + this.dimensions.x - SparePanel.SPARE_BAR_WIDTH - 20,
-					this.options.items[index].position.y,
+					this.options.items[index].position.y - SparePanel.SPARE_BAR_HEIGHT / 2,
 					SparePanel.SPARE_BAR_WIDTH,
-					16,
+					SparePanel.SPARE_BAR_HEIGHT,
 					opponent.mercyMeter,
 					Pokemon.MERCY_NEEDED,
 					"yellow",

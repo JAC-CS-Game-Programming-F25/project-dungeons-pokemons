@@ -1,46 +1,70 @@
 {
 	"images": [
 		{
-			"name": "tiles",
-			"path": "./assets/images/tiles.png",
-			"width": 256,
-			"height": 16064
-		},
-		{
-			"name": "house",
-			"path": "./assets/images/player-house.png",
-			"width": 416,
-			"height": 320
-		},
-		{
-			"name": "red",
-			"path": "./assets/images/red.png",
-			"width": 128,
+			"name": "dungeon",
+			"path": "./assets/images/Dungeon tileset.png",
+			"width": 384,
 			"height": 192
 		},
 		{
-			"name": "green",
-			"path": "./assets/images/green.png",
-			"width": 128,
-			"height": 192
+			"name": "idle-down",
+			"path": "./assets/images/player/char_idle_down.png",
+			"width": 96,
+			"height": 16
 		},
 		{
-			"name": "brendan",
-			"path": "./assets/images/brendan.png",
-			"width": 128,
-			"height": 192
+			"name": "idle-left",
+			"path": "./assets/images/player/char_idle_left.png",
+			"width": 96,
+			"height": 16
 		},
 		{
-			"name": "trainer-may",
-			"path": "./assets/images/trainer-may.png",
-			"width": 128,
-			"height": 128
+			"name": "idle-right",
+			"path": "./assets/images/player/char_idle_right.png",
+			"width": 96,
+			"height": 16
 		},
 		{
-			"name": "may",
-			"path": "./assets/images/may.png",
-			"width": 128,
-			"height": 192
+			"name": "idle-up",
+			"path": "./assets/images/player/char_idle_up.png",
+			"width": 96,
+			"height": 16
+		},
+		{
+			"name": "run-down",
+			"path": "./assets/images/player/char_run_down.png",
+			"width": 96,
+			"height": 16
+		},
+		{
+			"name": "run-left",
+			"path": "./assets/images/player/char_run_left.png",
+			"width": 96,
+			"height": 16
+		},
+		{
+			"name": "run-right",
+			"path": "./assets/images/player/char_run_right.png",
+			"width": 96,
+			"height": 16
+		},
+		{
+			"name": "run-up",
+			"path": "./assets/images/player/char_run_up.png",
+			"width": 96,
+			"height": 16
+		},
+		{
+			"name": "attack",
+			"path": "./assets/images/player/char_attack.png",
+			"width": 192,
+			"height": 48
+		},
+		{
+			"name": "hit",
+			"path": "./assets/images/player/char_hit.png",
+			"width": 48,
+			"height": 16
 		},
 		{
 			"name": "npcs",
@@ -56,15 +80,9 @@
 		},
 		{
 			"name": "battle-background",
-			"path": "./assets/images/battle-background.png",
+			"path": "./assets/images/battle-background.gif",
 			"width": 512,
 			"height": 288
-		},
-		{
-			"name": "battle-grass",
-			"path": "./assets/images/battle-grass.png",
-			"width": 265,
-			"height": 126
 		},
 		{
 			"name": "bulbasaur-front",
@@ -91,10 +109,34 @@
 			"height": 160
 		},
 		{
-			"name": "charmander-back",
-			"path": "./assets/images/pokemon/back/CHARMANDER.png",
+			"name": "absol-front",
+			"path": "./assets/images/pokemon/front/ABSOL.png",
+			"width": 1536,
+			"height": 96
+		},
+		{
+			"name": "ceruledge-front",
+			"path": "./assets/images/pokemon/front/CERULEDGE.png",
+			"width": 600,
+			"height": 120
+		},
+		{
+			"name": "cofagrigus-front",
+			"path": "./assets/images/pokemon/front/COFAGRIGUS.png",
 			"width": 160,
 			"height": 160
+		},
+		{
+			"name": "cofagrigus-front",
+			"path": "./assets/images/pokemon/front/COFAGRIGUS.png",
+			"width": 8784,
+			"height": 122
+		},
+		{
+			"name": "necrozma-front",
+			"path": "./assets/images/pokemon/back/NECROZMA.png",
+			"width": 2784,
+			"height": 96
 		},
 		{
 			"name": "charmander-icon",
@@ -155,14 +197,8 @@
 	],
 	"sounds": [
 		{
-			"name": "battle-start",
-			"path": "./assets/sounds/music/battle-start.mp3",
-			"size": 1,
-			"volume": 0.1
-		},
-		{
-			"name": "battle-loop",
-			"path": "./assets/sounds/music/battle-loop.mp3",
+			"name": "battle",
+			"path": "./assets/sounds/music/battle.mp3",
 			"size": 1,
 			"volume": 0.1,
 			"loop": true
@@ -214,16 +250,9 @@
 		},
 		{
 			"name": "heal",
-			"path": "./assets/sounds/effects/heal.ogg",
+			"path": "./assets/sounds/effects/heal.wav",
 			"size": 1,
 			"volume": 0.2
-		},
-		{
-			"name": "low-health",
-			"path": "./assets/sounds/effects/low-health.mp3",
-			"size": 1,
-			"volume": 0.05,
-			"loop": true
 		},
 		{
 			"name": "menu-open",
@@ -245,13 +274,13 @@
 		},
 		{
 			"name": "selection-choice",
-			"path": "./assets/sounds/effects/selection-choice.ogg",
+			"path": "./assets/sounds/effects/selection-choice.wav",
 			"size": 5,
 			"volume": 0.2
 		},
 		{
 			"name": "selection-move",
-			"path": "./assets/sounds/effects/selection-move.ogg",
+			"path": "./assets/sounds/effects/selection-move.wav",
 			"size": 5,
 			"volume": 0.2
 		},
@@ -266,6 +295,54 @@
 			"path": "./assets/sounds/effects/door-exit.wav",
 			"size": 5,
 			"volume": 0.2
+		},
+		{
+			"name": "steps-1",
+			"path": "./assets/sounds/effects/step1.wav",
+			"size": 5,
+			"volume": 0.1
+		},
+		{
+			"name": "steps-2",
+			"path": "./assets/sounds/effects/step2.wav",
+			"size": 5,
+			"volume": 0.1
+		},
+		{
+			"name": "sparkle",
+			"path": "./assets/sounds/effects/sparkle.wav",
+			"size": 2,
+			"volume": 0.1
+		},
+		{
+			"name": "save",
+			"path": "./assets/sounds/effects/save.wav",
+			"size": 2,
+			"volume": 0.1
+		},
+		{
+			"name": "weapon-pull",
+			"path": "./assets/sounds/effects/weapon-pull.wav",
+			"size": 2,
+			"volume": 0.2
+		},
+		{
+			"name": "swing",
+			"path": "./assets/sounds/effects/swing.wav",
+			"size": 2,
+			"volume": 0.4
+		},
+		{
+			"name": "act",
+			"path": "./assets/sounds/effects/spellcast.wav",
+			"size": 2,
+			"volume": 0.2
+		},
+		{
+			"name": "spare",
+			"path": "./assets/sounds/effects/spare.wav",
+			"size": 2,
+			"volume": 0.4
 		},
 		{
 			"name": "charmander",

@@ -192,7 +192,7 @@ export default class InventoryState extends State {
 					this.player.equippedWeapon = { ...temp };
 					subMenu.infoPanel.currentEquipment.text = this.player.equippedWeapon.name;
 					this.player.calculateStats();
-					subMenu.infoPanel.items.value = this.player.attack;
+					subMenu.infoPanel.items.value = this.player.attackBack;
 				} else if (subInv[index].type === EquipmentName.Armor) {
 					subInv[index] = { ...this.player.equippedArmor };
 					this.player.equippedArmor = { ...temp };

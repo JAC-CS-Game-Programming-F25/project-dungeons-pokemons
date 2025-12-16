@@ -4,8 +4,8 @@ import Vector from "../../lib/Vector.js";
 import { OFFSET_X, OFFSET_Y } from "../globals.js";
 
 export default class GameEntity {
-	static WIDTH = 32;
-	static HEIGHT = 48;
+	static WIDTH = 16;
+	static HEIGHT = 16;
 
 	/**
 	 * The base class to be extended by all entities in the game.
@@ -46,7 +46,7 @@ export default class GameEntity {
 	 * @param {number} y
 	 * @param {GameEntity} cameraEntity
 	 */
-	render(x, y, cameraEntity = null) {
+	render(x, y, cameraEntity = null, scale = { x: 1, y: 1 }) {
 		this.stateMachine?.render();
 
 		if (cameraEntity !== null)
@@ -54,10 +54,12 @@ export default class GameEntity {
 				x + OFFSET_X * Tile.SIZE - cameraEntity.canvasPosition.x,
 				y + OFFSET_Y * Tile.SIZE - cameraEntity.canvasPosition.y
 			);
-		else this.sprites[this.currentFrame].render(x, y);
+		else this.sprites[this.currentFrame].render(x, y, scale);
 	}
 
 	changeState(state, params) {
 		this.stateMachine?.change(state, params);
 	}
+
+	attackAnimation(callback) {}
 }

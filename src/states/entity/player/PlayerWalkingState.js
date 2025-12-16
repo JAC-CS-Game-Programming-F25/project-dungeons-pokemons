@@ -18,7 +18,7 @@ import Map from "../../../services/Map.js";
 import { Maps } from "../../../enums/MapNames.js";
 
 export default class PlayerWalkingState extends State {
-	static ENCOUNTER_CHANCE = 0;
+	static ENCOUNTER_CHANCE = 1;
 
 	/**
 	 * In this state, the player can move around using the
@@ -34,21 +34,25 @@ export default class PlayerWalkingState extends State {
 		this.bottomLayer = this.player.map.bottomLayer;
 		this.collisionLayer = this.player.map.collisionLayer;
 		this.animation = {
-			[Direction.Up]: new Animation([12, 13, 14, 15], 0.2),
-			[Direction.Down]: new Animation([0, 1, 2, 3], 0.2),
-			[Direction.Left]: new Animation([4, 5, 6, 7], 0.2),
-			[Direction.Right]: new Animation([8, 9, 10, 11], 0.2),
+			[Direction.Up]: new Animation(this.player.walkingSprites[0], 0.1),
+			[Direction.Down]: new Animation(this.player.walkingSprites[1], 0.1),
+			[Direction.Left]: new Animation(this.player.walkingSprites[2], 0.1),
+			[Direction.Right]: new Animation(this.player.walkingSprites[3], 0.1),
 		};
 
 		this.isMoving = false;
+		this.stepped = false;
+		this.inBattle = false;
 	}
 
 	enter() {
+		this.player.sprites = this.player.walkingSprites[this.player.direction];
 		this.bottomLayer = this.player.map.bottomLayer;
 		this.collisionLayer = this.player.map.collisionLayer;
 	}
 
 	update(dt) {
+		this.player.sprites = this.player.walkingSprites[this.player.direction];
 		this.player.currentAnimation = this.animation[this.player.direction];
 
 		this.handleMovement();
@@ -117,15 +121,8 @@ export default class PlayerWalkingState extends State {
 
 		// I check for any door collision after I check that I hit something on the collision layer
 		if (!this.isValidMove(x, y)) {
-			if (this.checkForDoorUp(x, y)) {
-				this.enterBuilding(x, y);
-			} else if (this.checkForDoorDown(x, y)) {
-				this.exitBuilding(x, y);
-				return;
-			} else {
-				sounds.play(SoundName.PlayerBump);
-				return;
-			}
+			sounds.play(SoundName.PlayerBump);
+			return;
 		}
 
 		this.player.position.x = x;
@@ -136,6 +133,9 @@ export default class PlayerWalkingState extends State {
 
 	tweenMovement(x, y) {
 		this.isMoving = true;
+
+		this.stepped = !this.stepped;
+		sounds.play(this.stepped ? SoundName.Step2 : SoundName.Step1);
 
 		timer.tween(
 			this.player.canvasPosition,
@@ -196,83 +196,23 @@ export default class PlayerWalkingState extends State {
 	 * @returns Whether player is going to move to a grass tile. Succeeds 10% of the time.
 	 */
 	checkForEncounter(x, y) {
-		return didSucceedPercentChance(PlayerWalkingState.ENCOUNTER_CHANCE);
+		return didSucceedPercentChance(PlayerWalkingState.ENCOUNTER_CHANCE) && !this.inBattle;
 	}
 
 	/**
 	 * Starts the encounter by doing a fade transition into a new BattleState.
 	 */
 	startEncounter() {
+		this.inBattle = true;
 		const encounter = new BattleState(this.player, new Opponent());
 
-		sounds.stop(SoundName.Route);
-		sounds.play(SoundName.BattleStart);
-
-		TransitionState.fade(() => stateStack.push(encounter));
-	}
-
-	/**
-	 *
-	 * @param {number} x
-	 * @param {number} y
-	 * @returns Whether the player hits a closed door while going up.
-	 */
-	checkForDoorUp(x, y) {
-		return (
-			this.collisionLayer.isOutsideTileDoor(x, y) && this.player.direction === Direction.Up
-		);
-	}
-
-	/**
-	 *
-	 * @param {number} x
-	 * @param {number} y
-	 * @returns Whether the player hits a closed door while going down. should only be when inside a building
-	 */
-	checkForDoorDown(x, y) {
-		return (
-			this.collisionLayer.isInsideTileDoor(x, y) && this.player.direction === Direction.Down
-		);
-	}
-
-	/**
-	 * Function that makes the player enter the building
-	 */
-	enterBuilding(x, y) {
-		this.player.map.openDoor(x, y);
-		this.player.position.y -= 1;
-
-		this.tweenMovement(this.player.position.x, this.player.position.y);
-
-		TransitionState.fade(() => {
-			stateStack.top().savePlayerPositions();
-			this.player.changeState(PlayerStateName.Idling);
-			stateStack.push(
-				new BuildingState(
-					new Map(maps.get(Maps.house), this.player, ImageName.HouseTiles, Maps.house)
-				)
-			);
+		timer.wait(0.5, () => {
+			sounds.stop(SoundName.Route);
+			sounds.play(SoundName.BattleLoop);
+			TransitionState.fade(() => {
+				stateStack.push(encounter);
+				this.inBattle = false;
+			});
 		});
-	}
-
-	/**
-	 * Function that makes the player exit a building
-	 */
-	exitBuilding() {
-		sounds.play(SoundName.DoorExit);
-		TransitionState.fade(
-			() => {
-				stateStack.pop();
-				stateStack.top().resetPlayerPosition();
-				this.player.changeState(PlayerStateName.Idling);
-			},
-			() => {
-				// this code is ran after the player has fully transitioned
-				this.player.map.closedDoor();
-				this.player.position.y += 1;
-
-				this.tweenMovement(this.player.position.x, this.player.position.y);
-			}
-		);
 	}
 }

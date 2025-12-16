@@ -28,19 +28,22 @@ export default class PlayState extends State {
 		// We do this to rebuild the render queue with the player inside
 		this.map.renderQueue = this.map.buildEntityRenderQueue();
 
-		if (JSON.parse(localStorage.getItem("newGame")))
+		if (JSON.parse(localStorage.getItem("newGame"))) {
+			localStorage.removeItem("playerData");
 			stateStack.push(
 				new DialogueState(
-					`Welcome to the world of Pokémon! \n\n\
-			Press Enter to advance the text... \n\
-			To start fighting Pokémon with your own \
-			randomly assigned Pokémon, walk in the tall grass. \n\n\
-			If you need to heal, press 'P' in the field! \n\n\
-			Press 'Esc' to view your Pokémon's stats. \n\
+					`Welcome to the dungeon...! \n\n\
+			Press Enter to advance the text... \n\n\
+			You will find strange creatures within these catacombs \
+			at random. Proceed with caution. I left some loot around \n\
+			for you to find, I hope it is useful to your survival.  \n\n\
+			Do not forget to rest and save your progress when finding a crystal, they will come in handy. \n\
+			To interact/select press ENTER, to exit out of menu press SHIFT. For your inventory press I \n\n\
 			Good luck!`,
 					Panel.TOP_DIALOGUE
 				)
 			);
+		}
 	}
 
 	update(dt) {
@@ -48,14 +51,6 @@ export default class PlayState extends State {
 
 		if (this.map.player.currentHealth === 0) {
 			this.processDeath();
-		}
-
-		if (input.isKeyPressed(Input.KEYS.ESCAPE)) {
-			stateStack.push(new PokemonStatsState(this.map.player.party[0]));
-		}
-
-		if (input.isKeyPressed(Input.KEYS.p) || input.isKeyPressed(Input.KEYS.P)) {
-			this.healFaintedPokemon();
 		}
 	}
 
@@ -71,12 +66,10 @@ export default class PlayState extends State {
 	 */
 	processDeath() {
 		sounds.pause(SoundName.Route);
+		this.map.player.heal();
 		sounds.play(SoundName.Heal);
 
-		this.map.player.heal();
-
-		const message = `Your Pokemon have been healed back to full health...\n \n\
-						Be extra careful next time!`;
+		const message = `You're alive... be careful next time.`;
 
 		stateStack.push(
 			new DialogueState(message, Panel.BOTTOM_DIALOGUE, () => sounds.play(SoundName.Route))

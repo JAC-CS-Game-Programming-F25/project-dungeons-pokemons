@@ -1,12 +1,12 @@
 {
-	"town": [
+	"dungeon": [
 		{
 			"type": "Chest",
 			"items": [
 				{
-					"name": "josh",
-					"type": "josh",
-					"description": "A josh",
+					"name": "A potion",
+					"type": "item",
+					"description": "A potion of a good friend",
 					"quantity": 1,
 					"effect": {
 						"type": "Heal",
@@ -14,7 +14,7 @@
 					}
 				},
 				{
-					"name": "havertz",
+					"name": "GOAT",
 					"type": "KeyItem",
 					"description": "A havertz",
 					"quantity": 1,
@@ -25,57 +25,21 @@
 					}
 				},
 				{
-					"name": "Bella mio",
+					"name": "Chainmail",
 					"type": "Armor",
-					"description": "my love",
+					"description": "A lightweight yet sturdy piece of armor",
 					"quantity": 1,
 					"value": 20,
-					"elementalType": "Water",
+					"elementalType": "Steel",
 					"effect": {
 						"type": "Heal",
 						"healing": 1000
 					}
 				},
 				{
-					"name": "Bella mio",
+					"name": "Wand of Sparking",
 					"type": "Weapon",
-					"description": "omg more of my love??",
-					"value": 20,
-					"elementalType": "Fire",
-					"quantity": 1,
-					"effect": {}
-				},
-				{
-					"name": "Bella mio",
-					"type": "Weapon",
-					"description": "omg more of my love??",
-					"value": 20,
-					"elementalType": "Fire",
-					"quantity": 1,
-					"effect": {}
-				},
-				{
-					"name": "Bella mio",
-					"type": "Weapon",
-					"description": "omg more of my love??",
-					"value": 20,
-					"elementalType": "Fire",
-					"quantity": 1,
-					"effect": {}
-				},
-				{
-					"name": "Bella mio",
-					"type": "Weapon",
-					"description": "omg more of my love??",
-					"value": 20,
-					"elementalType": "Fire",
-					"quantity": 1,
-					"effect": {}
-				},
-				{
-					"name": "Bella mio",
-					"type": "Weapon",
-					"description": "omg more of my love??",
+					"description": "skadoosh",
 					"value": 20,
 					"elementalType": "Fire",
 					"quantity": 1,
@@ -83,41 +47,86 @@
 				}
 			],
 
-			"position": { "x": 3, "y": 3 },
+			"position": { "x": 35, "y": 17 },
+			"dimensions": { "x": 16, "y": 16 }
+		},
+		{
+			"type": "Chest",
+			"items": [
+				{
+					"name": "Healing potion",
+					"type": "item",
+					"description": "A potion of a good friend",
+					"quantity": 1,
+					"effect": {
+						"type": "Heal",
+						"healing": 10
+					}
+				},
+				{
+					"name": "Healing potion",
+					"type": "item",
+					"description": "A potion of a good friend",
+					"quantity": 1,
+					"effect": {
+						"type": "Heal",
+						"healing": 10
+					}
+				},
+				{
+					"name": "Healing potion",
+					"type": "item",
+					"description": "A potion of a good friend",
+					"quantity": 1,
+					"effect": {
+						"type": "Heal",
+						"healing": 10
+					}
+				},
+				{
+					"name": "Healing potion",
+					"type": "item",
+					"description": "A potion of a good friend",
+					"quantity": 1,
+					"effect": {
+						"type": "Heal",
+						"healing": 10
+					}
+				},
+				{
+					"name": "Healing potion",
+					"type": "item",
+					"description": "A potion of a good friend",
+					"quantity": 1,
+					"effect": {
+						"type": "Heal",
+						"healing": 10
+					}
+				},
+				{
+					"name": "Healing potion",
+					"type": "item",
+					"description": "A potion of a good friend",
+					"quantity": 1,
+					"effect": {
+						"type": "Heal",
+						"healing": 10
+					}
+				}
+			],
+
+			"position": { "x": 5, "y": 9 },
 			"dimensions": { "x": 16, "y": 16 }
 		},
 		{
 			"type": "Crystal",
-			"position": { "x": 4, "y": 3 },
+			"position": { "x": 25, "y": 6 },
 			"dimensions": { "x": 16, "y": 16 }
-		}
-	],
-	"house": [
+		},
 		{
-			"items": [
-				{
-					"text": "josh",
-					"quantity": 1,
-					"effect": "revive"
-				},
-				{
-					"text": "havertz",
-					"quantity": 1,
-					"effect": "revive"
-				},
-				{
-					"text": "rice",
-					"quantity": 1,
-					"effect": "revive"
-				},
-				{
-					"text": "Bella mio",
-					"quantity": 1,
-					"effect": "revive"
-				}
-			],
-
-			"position": { "x": 7, "y": 4 }
+			"type": "Crystal",
+			"position": { "x": 6, "y": 9 },
+			"dimensions": { "x": 16, "y": 16 }
 		}
 	]
 }

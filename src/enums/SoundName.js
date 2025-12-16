@@ -1,14 +1,13 @@
 const SoundName = {
 	// Music
 	BattleStart: "battle-start",
-	BattleLoop: "battle-loop",
+	BattleLoop: "battle",
 	BattleVictory: "battle-victory",
 	Route: "route",
 	Title: "title",
 
 	// Effects
 	BattleDamage: "battle-damage",
-	BattleRun: "battle-run",
 	ExperienceFull: "experience-full",
 	ExperienceGain: "experience-gain",
 	Heal: "heal",
@@ -20,6 +19,14 @@ const SoundName = {
 	SelectionMove: "selection-move",
 	DoorEnter: "door-enter",
 	DoorExit: "door-exit",
+	Step1: "steps-1",
+	Step2: "steps-2",
+	Sparkle: "sparkle",
+	Save: "save",
+	WeaponPull: "weapon-pull",
+	Swing: "swing",
+	Spare: "spare",
+	Act: "act",
 
 	// Pokemon
 	Charmander: "charmander",

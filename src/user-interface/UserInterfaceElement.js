@@ -3,7 +3,7 @@ import FontName from "../enums/FontName.js";
 import Tile from "../services/Tile.js";
 
 export default class UserInterfaceElement {
-	static FONT_SIZE = Tile.SIZE * 0.65;
+	static FONT_SIZE = Tile.SIZE * 0.55;
 	static FONT_FAMILY = FontName.PowerRed;
 
 	/**

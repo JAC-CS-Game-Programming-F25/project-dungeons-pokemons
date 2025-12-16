@@ -23,9 +23,9 @@ export default class BattleOpponentPanel extends Panel {
 		this.pokemon = pokemon;
 
 		this.healthBar = new ProgressBar(
-			this.position.x + 55,
-			this.position.y + this.dimensions.y - 78,
-			this.dimensions.x - 100,
+			this.position.x + 142,
+			this.position.y + 60,
+			this.dimensions.x - 60,
 			8,
 			this.pokemon.currentHealth,
 			this.pokemon.health,
@@ -34,13 +34,10 @@ export default class BattleOpponentPanel extends Panel {
 	}
 
 	update() {
-		//MYUPDATE
 		this.healthBar.maxValue = this.pokemon.health;
 	}
 
 	render() {
-		// super.render();
-
 		const healthPercent = this.pokemon.getHealthPercentage();
 		if (healthPercent <= 0.25) {
 			this.healthBar.setColor("red");

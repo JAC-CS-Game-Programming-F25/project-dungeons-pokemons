@@ -1,7 +1,8 @@
 import Animation from "../../lib/Animation.js";
 import Sprite from "../../lib/Sprite.js";
 import ImageName from "../enums/ImageName.js";
-import { stateStack, images } from "../globals.js";
+import SoundName from "../enums/SoundName.js";
+import { stateStack, images, timer, sounds } from "../globals.js";
 import EquipmentFactory from "../services/EquipmentFactory.js";
 import ChestMenuState from "../states/game/exploring/ChestMenuState.js";
 import Equipment from "./equipment/Equipment.js";
@@ -16,8 +17,8 @@ export default class Chest extends GameObject {
 
 		// Sets the two animations that will be used for the chest
 		this.animations = {
-			closed: new Animation(this.initializeSprites(ImageName.ChestClosed), 0.15),
-			opening: new Animation(this.initializeSprites(ImageName.ChestOpening), 0.2, 1),
+			closed: new Animation(this.initializeSprites(ImageName.ChestClosed), 0.1),
+			opening: new Animation(this.initializeSprites(ImageName.ChestOpening), 0.1, 1),
 		};
 		this.currentAnimation = this.animations.closed;
 
@@ -27,6 +28,7 @@ export default class Chest extends GameObject {
 
 		// Gets the sprites for the chest
 		this.sprites = this.initializeSprites(ImageName.ChestClosed);
+		this.player = null;
 	}
 
 	update(dt) {
@@ -46,11 +48,21 @@ export default class Chest extends GameObject {
 		 */
 		const y = Math.floor(this.canvasPosition.y - this.dimensions.y / 2);
 
-		super.render(x, y, cameraEntity, { x: 2, y: 2 });
+		super.render(x, y, cameraEntity);
 	}
 
 	interact(player) {
-		stateStack.push(new ChestMenuState(player, this.items));
+		if (!this.isOpened) {
+			this.sprites = this.animations.opening.frames;
+			this.currentAnimation = this.animations.opening;
+			sounds.play(SoundName.Sparkle);
+			timer.wait(0.5, () => {
+				this.isOpened = true;
+				stateStack.push(new ChestMenuState(player, this.items));
+			});
+		} else {
+			stateStack.push(new ChestMenuState(player, this.items));
+		}
 	}
 
 	initializeSprites(animation) {

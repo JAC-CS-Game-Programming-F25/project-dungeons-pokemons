@@ -60,7 +60,7 @@ export default class InfoPanel extends Panel {
 	renderTitle(title, options) {
 		context.save();
 		context.fillStyle = Colour.Gold;
-		context.font = "20px CormorantUnicase";
+		context.font = "12px CormorantUnicase";
 		context.textBaseline = "middle";
 
 		// Title
