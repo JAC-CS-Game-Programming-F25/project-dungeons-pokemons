@@ -18,7 +18,7 @@ import Map from "../../../services/Map.js";
 import { Maps } from "../../../enums/MapNames.js";
 
 export default class PlayerWalkingState extends State {
-	static ENCOUNTER_CHANCE = 0.1;
+	static ENCOUNTER_CHANCE = 0;
 
 	/**
 	 * In this state, the player can move around using the

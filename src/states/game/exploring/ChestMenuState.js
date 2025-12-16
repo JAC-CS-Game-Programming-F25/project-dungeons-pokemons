@@ -88,11 +88,15 @@ export default class ChestMenuState extends State {
 	selectItem(index, item, chestContents) {
 		this.player.inventory.Add(item);
 
+		index = this.contentView.currentPage > 0 ? index - this.contentView.currentPage * 6 : index;
+
 		for (let i = 0; i < this.contentView.items.length; i++) {
 			if (i === index) {
 				this.contentView.items[i].text = "-";
 				this.contentView.items[i].onSelect = null;
-				chestContents[i].taken = true;
+				chestContents[
+					this.contentView.currentPage > 0 ? i + this.contentView.currentPage * 6 : i
+				].taken = true;
 			}
 		}
 	}
