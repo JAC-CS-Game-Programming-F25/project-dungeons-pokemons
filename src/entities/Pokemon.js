@@ -10,9 +10,9 @@ import Easing from "../../lib/Easing.js";
 export default class Pokemon extends GameEntity {
 	static FRONT_POSITION = {
 		sprite: 0,
-		start: { x: 240, y: 15 },
-		end: { x: 150, y: 15 },
-		attack: { x: 100, y: 15 },
+		start: { x: 240, y: 23 },
+		end: { x: 150, y: 23 },
+		attack: { x: 100, y: 23 },
 	};
 	static BACK_POSITION = {
 		sprite: 1,
@@ -23,7 +23,6 @@ export default class Pokemon extends GameEntity {
 	static LOW_HEALTH_THRESHOLD = 0.25;
 	static MERCY_NEEDED = 100;
 
-	//MYUPDATES
 	static moveData = null; // this will get the moves.json data
 
 	static setMoveData(data) {
@@ -66,14 +65,11 @@ export default class Pokemon extends GameEntity {
 		this.baseSpeed = definition.baseSpeed;
 		this.baseExperience = definition.baseExperience;
 
-		// MYUPDATES
 		this.type = definition.type;
 		this.initializeIndividualValues();
 
-		// This initializes the moves for the specific pokemon //MYUPDATE
 		this.moves = this.initializePokemonMoves(definition.starterMoves);
 
-		// Old Stats MYUPDATE
 		this.oldHealth = 0;
 		this.oldAttack = 0;
 		this.oldDefense = 0;
@@ -87,12 +83,9 @@ export default class Pokemon extends GameEntity {
 		// These are used for the spared mechanic
 		this.mercyMeter = 0;
 		this.spared = false;
+		this.outOfBattle = false;
 
 		this.calculateStats();
-
-		this.targetExperience = this.experienceFromLevel(level + 1);
-		this.currentExperience = this.experienceFromLevel(level);
-		this.levelExperience = this.experienceFromLevel(level);
 
 		this.currentHealth = this.health;
 
@@ -120,7 +113,6 @@ export default class Pokemon extends GameEntity {
 	// this will intialize the moves by checking if pokemon starter move
 	// is within the moves.json
 	initializePokemonMoves(pokemonMoves) {
-		//MYUPDATE
 		if (!pokemonMoves || !Pokemon.moveData) {
 			return [];
 		}
@@ -162,37 +154,6 @@ export default class Pokemon extends GameEntity {
 		this.position.set(position.start.x, position.start.y);
 		this.battlePosition.set(position.end.x, position.end.y);
 		this.attackPosition.set(position.attack.x, position.attack.y);
-	}
-
-	levelUp() {
-		// upon level up, store old stats //MYUPDATE
-		this.oldHealth = this.health;
-		this.oldAttack = this.attack;
-		this.oldDefense = this.defense;
-		this.oldSpeed = this.speed;
-
-		this.level++;
-		this.levelExperience = this.experienceFromLevel(this.level);
-		this.targetExperience = this.experienceFromLevel(this.level + 1);
-
-		return this.calculateStats();
-	}
-
-	/**
-	 * @returns Using the Medium Fast formula.
-	 * @see https://bulbapedia.bulbagarden.net/wiki/Experience#Medium_Fast
-	 */
-	experienceFromLevel(level) {
-		return level === 1 ? 0 : level * level * level;
-	}
-
-	/**
-	 * @param {Pokemon} opponent
-	 * @returns The amount of experience to award the Pokemon that defeated this Pokemon.
-	 * @see https://bulbapedia.bulbagarden.net/wiki/Experience#Gain_formula
-	 */
-	calculateExperienceToAward(opponent) {
-		return Math.round((opponent.baseExperience * opponent.level) / 7);
 	}
 
 	heal(amount = this.health) {
@@ -256,12 +217,6 @@ export default class Pokemon extends GameEntity {
 	getHealthPercentage() {
 		//MYUPDATE
 		return this.currentHealth / this.health;
-	}
-
-	getExperienceMeter() {
-		return `${Math.floor(this.currentExperience - this.levelExperience)} / ${
-			this.targetExperience - this.levelExperience
-		}`;
 	}
 
 	spare() {

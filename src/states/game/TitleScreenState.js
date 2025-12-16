@@ -114,29 +114,13 @@ export default class TitleScreenState extends State {
 			}
 			case "Continue": {
 				localStorage.setItem("newGame", false);
-				this.player = new Player(this.initializePlayer(), this.map);
+				this.player = new Player(Player.initializePlayer(), this.map);
 				this.map.player = this.player;
 				break;
 			}
 		}
 
 		this.playState = new PlayState(this.map);
-	}
-
-	initializePlayer() {
-		const playerData = JSON.parse(localStorage.getItem("playerData"));
-
-		if (playerData === null) return null;
-
-		const newInventory = {};
-
-		for (const [category, items] of Object.entries(playerData.inventory)) {
-			newInventory[category] = items.map((item) => EquipmentFactory.createInstance(item));
-		}
-
-		playerData.inventory = newInventory;
-
-		return playerData;
 	}
 
 	play() {

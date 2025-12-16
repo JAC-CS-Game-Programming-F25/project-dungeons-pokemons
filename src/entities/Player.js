@@ -20,6 +20,7 @@ import Character_Idle from "../enums/entities/player/Character_Idle.js";
 import Animation from "../../lib/Animation.js";
 import Character_Fight from "../enums/entities/player/Character_fight.js";
 import SoundName from "../enums/SoundName.js";
+import EquipmentFactory from "../services/EquipmentFactory.js";
 
 export default class Player extends GameEntity {
 	static BATTLE_POSITION = {
@@ -208,8 +209,28 @@ export default class Player extends GameEntity {
 		return [pokemon];
 	}
 
+	static initializePlayer() {
+		const playerData = JSON.parse(localStorage.getItem("playerData"));
+
+		if (playerData === null) return null;
+
+		const newInventory = {};
+
+		for (const [category, items] of Object.entries(playerData.inventory)) {
+			newInventory[category] = items.map((item) => EquipmentFactory.createInstance(item));
+		}
+
+		playerData.inventory = newInventory;
+
+		return playerData;
+	}
+
 	heal(amount = this.maxHealth) {
 		this.currentHealth = Math.min(this.maxHealth, this.currentHealth + amount);
+	}
+
+	revive() {
+		const savedData = Player.initializePlayer();
 	}
 
 	//#region Experience and Leveling

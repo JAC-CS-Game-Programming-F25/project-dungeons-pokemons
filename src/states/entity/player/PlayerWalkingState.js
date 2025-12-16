@@ -18,7 +18,7 @@ import Map from "../../../services/Map.js";
 import { Maps } from "../../../enums/MapNames.js";
 
 export default class PlayerWalkingState extends State {
-	static ENCOUNTER_CHANCE = 0.05;
+	static ENCOUNTER_CHANCE = 1;
 
 	/**
 	 * In this state, the player can move around using the
@@ -42,6 +42,7 @@ export default class PlayerWalkingState extends State {
 
 		this.isMoving = false;
 		this.stepped = false;
+		this.inBattle = false;
 	}
 
 	enter() {
@@ -195,19 +196,23 @@ export default class PlayerWalkingState extends State {
 	 * @returns Whether player is going to move to a grass tile. Succeeds 10% of the time.
 	 */
 	checkForEncounter(x, y) {
-		return didSucceedPercentChance(PlayerWalkingState.ENCOUNTER_CHANCE);
+		return didSucceedPercentChance(PlayerWalkingState.ENCOUNTER_CHANCE) && !this.inBattle;
 	}
 
 	/**
 	 * Starts the encounter by doing a fade transition into a new BattleState.
 	 */
 	startEncounter() {
+		this.inBattle = true;
 		const encounter = new BattleState(this.player, new Opponent());
 
 		timer.wait(0.5, () => {
 			sounds.stop(SoundName.Route);
 			sounds.play(SoundName.BattleLoop);
-			TransitionState.fade(() => stateStack.push(encounter));
+			TransitionState.fade(() => {
+				stateStack.push(encounter);
+				this.inBattle = false;
+			});
 		});
 	}
 }

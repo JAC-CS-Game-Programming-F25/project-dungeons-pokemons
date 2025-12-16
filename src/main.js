@@ -57,14 +57,14 @@ const {
 const mapDefinition = await fetch("./config/dungeon.json").then((response) => response.json());
 
 // Gets the npc definitions
-const npcDefinitions = await fetch("./config/npcs.json").then((response) => response.json());
+// const npcDefinitions = await fetch("./config/npcs.json").then((response) => response.json());
 
 // Gets the object definitions
 const objectDefinitions = await fetch("./config/objects.json").then((response) => response.json());
 
 // I load them so they are accessible anywhere
 maps.load({ dungeon: mapDefinition });
-npcs.load(npcDefinitions);
+// npcs.load(npcDefinitions);
 objects.load(objectDefinitions);
 
 // Gets the move definitions

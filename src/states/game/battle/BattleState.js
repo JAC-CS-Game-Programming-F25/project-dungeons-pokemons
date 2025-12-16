@@ -91,7 +91,8 @@ export default class BattleState extends State {
 		this.opponentPokemon.render(this.player);
 		this.panel.render();
 		this.playerPanel.render();
-		this.opponentPanel.render();
+
+		if (!this.opponentPokemon.outOfBattle) this.opponentPanel.render();
 	}
 
 	triggerBattleStart() {

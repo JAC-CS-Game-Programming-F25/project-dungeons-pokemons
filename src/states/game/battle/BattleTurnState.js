@@ -218,6 +218,7 @@ export default class BattleTurnState extends State {
 	 */
 	processVictory(callback = () => {}, tweenParameter = { y: CANVAS_HEIGHT }) {
 		sounds.play(SoundName.PokemonFaint);
+		this.opponentPokemon.outOfBattle = true;
 		timer.tween(this.opponentPokemon.position, tweenParameter, 0.4, Easing.linear, () => {
 			sounds.stop(SoundName.BattleLoop);
 			sounds.play(SoundName.BattleVictory);

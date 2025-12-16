@@ -25,5 +25,14 @@
 		"baseSpeed": 43,
 		"baseExperience": 63,
 		"starterMoves": ["Tackle", "Water Gun"]
+	},
+	"Absol": {
+		"type": "Dark",
+		"baseHealth": 44,
+		"baseAttack": 48,
+		"baseDefense": 65,
+		"baseSpeed": 43,
+		"baseExperience": 63,
+		"starterMoves": ["Tackle", "Dark Pulse"]
 	}
 }
