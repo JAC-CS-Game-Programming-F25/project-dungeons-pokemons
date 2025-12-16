@@ -18,7 +18,7 @@ import Map from "../../../services/Map.js";
 import { Maps } from "../../../enums/MapNames.js";
 
 export default class PlayerWalkingState extends State {
-	static ENCOUNTER_CHANCE = 0;
+	static ENCOUNTER_CHANCE = 1;
 
 	/**
 	 * In this state, the player can move around using the
@@ -201,7 +201,7 @@ export default class PlayerWalkingState extends State {
 		const encounter = new BattleState(this.player, new Opponent());
 
 		sounds.stop(SoundName.Route);
-		sounds.play(SoundName.BattleStart);
+		sounds.play(SoundName.BattleLoop);
 
 		TransitionState.fade(() => stateStack.push(encounter));
 	}

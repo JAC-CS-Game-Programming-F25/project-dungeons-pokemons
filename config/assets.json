@@ -55,6 +55,18 @@
 			"height": 16
 		},
 		{
+			"name": "attack",
+			"path": "./assets/images/player/char_attack.png",
+			"width": 192,
+			"height": 48
+		},
+		{
+			"name": "hit",
+			"path": "./assets/images/player/char_hit.png",
+			"width": 48,
+			"height": 16
+		},
+		{
 			"name": "npcs",
 			"path": "./assets/images/npcs.png",
 			"width": 476,
@@ -167,14 +179,15 @@
 	],
 	"sounds": [
 		{
-			"name": "battle-start",
-			"path": "./assets/sounds/music/battle-start.mp3",
+			"name": "battle-battle",
+			"path": "./assets/sounds/music/battle-battle.mp3",
 			"size": 1,
-			"volume": 0.1
+			"volume": 0.1,
+			"loop": true
 		},
 		{
-			"name": "battle-loop",
-			"path": "./assets/sounds/music/battle-loop.mp3",
+			"name": "battle",
+			"path": "./assets/sounds/music/battle.mp3",
 			"size": 1,
 			"volume": 0.1,
 			"loop": true
@@ -257,13 +270,13 @@
 		},
 		{
 			"name": "selection-choice",
-			"path": "./assets/sounds/effects/selection-choice.ogg",
+			"path": "./assets/sounds/effects/selection-choice.wav",
 			"size": 5,
 			"volume": 0.2
 		},
 		{
 			"name": "selection-move",
-			"path": "./assets/sounds/effects/selection-move.ogg",
+			"path": "./assets/sounds/effects/selection-move.wav",
 			"size": 5,
 			"volume": 0.2
 		},

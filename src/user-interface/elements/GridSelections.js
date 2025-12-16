@@ -7,7 +7,7 @@ import Colour from "../../enums/Colour.js";
 import { roundedRectangle } from "../../../lib/Drawing.js";
 
 export default class GridSelection extends UserInterfaceElement {
-	static BORDER_WIDTH = 10;
+	static BORDER_WIDTH = 5;
 	static ITEMS_PER_PAGE = 6; // 2 columns x 3 rows
 	static COLUMNS = 2;
 	static ROWS = 3;

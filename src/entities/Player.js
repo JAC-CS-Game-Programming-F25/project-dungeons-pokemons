@@ -17,12 +17,13 @@ import Inventory from "../services/Inventory.js";
 import Weapon from "../objects/equipment/Weapon.js";
 import Armor from "../objects/equipment/Armor.js";
 import Character_Idle from "../enums/entities/player/Character_Idle.js";
+import Animation from "../../lib/Animation.js";
 
 export default class Player extends GameEntity {
 	static BATTLE_POSITION = {
 		sprite: 0,
-		start: { x: -160, y: 120 },
-		end: { x: 80, y: 120 },
+		start: { x: -160, y: 60 },
+		end: { x: 40, y: 60 },
 		attack: { x: 100, y: 120 },
 	};
 
@@ -40,6 +41,8 @@ export default class Player extends GameEntity {
 		this.dimensions = new Vector(GameEntity.WIDTH, GameEntity.HEIGHT);
 		this.walking_sprites = this.initializeSprites(Character_Run);
 		this.idle_sprites = this.initializeSprites(Character_Idle);
+		this.battleSprites = this.idle_sprites[3];
+		// this.attackSprites = this.initializeSprites();
 		this.sprites = this.idle_sprites[this.direction];
 		this.stateMachine = this.initializeStateMachine();
 		this.party = this.initializeParty();
@@ -293,7 +296,8 @@ export default class Player extends GameEntity {
 	prepareForBattle(position) {
 		// Copies the value of the old position
 		// this.oldPosition = { ...this.position };
-		// this.sprites = this.battleSprites;
+		this.sprites = this.battleSprites;
+		this.currentAnimation = new Animation(this.sprites, 0.1);
 		this.currentFrame = position.sprite;
 		this.canvasPosition.set(position.start.x, position.start.y);
 		this.battlePosition.set(position.end.x, position.end.y);

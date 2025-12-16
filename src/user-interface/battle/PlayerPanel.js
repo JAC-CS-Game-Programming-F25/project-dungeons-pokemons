@@ -60,7 +60,7 @@ export default class BattlePlayerPanel extends Panel {
 	renderStatistics() {
 		context.save();
 		context.textBaseline = "top";
-		context.fillStyle = Colour.Black;
+		context.fillStyle = Colour.White;
 		context.font = `${UserInterfaceElement.FONT_SIZE}px ${UserInterfaceElement.FONT_FAMILY}`;
 		context.fillText(
 			this.player.name.toUpperCase(),

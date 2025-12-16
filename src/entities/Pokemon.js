@@ -10,8 +10,8 @@ import Easing from "../../lib/Easing.js";
 export default class Pokemon extends GameEntity {
 	static FRONT_POSITION = {
 		sprite: 0,
-		start: { x: 480, y: 30 },
-		end: { x: 280, y: 30 },
+		start: { x: 240, y: 15 },
+		end: { x: 150, y: 15 },
 		attack: { x: 260, y: 30 },
 	};
 	static BACK_POSITION = {
@@ -103,7 +103,7 @@ export default class Pokemon extends GameEntity {
 	render() {
 		context.save();
 		context.globalAlpha = this.alpha;
-		super.render(this.position.x, this.position.y);
+		super.render(this.position.x, this.position.y, null, { x: 0.4, y: 0.4 });
 		context.restore();
 	}
 

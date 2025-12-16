@@ -7,11 +7,11 @@ export default class Panel extends UserInterfaceElement {
 	static BOTTOM_DIALOGUE = { x: 0, y: 8, width: 15, height: 3 };
 	static TOP_DIALOGUE = { x: 0, y: 0, width: 15, height: 3 };
 	static POKEMON_STATS = { x: 7.5, y: 3.5, width: 7, height: 7 };
-	static BATTLE_PLAYER = { x: 8, y: 5, width: 6.5, height: 2.5 };
+	static BATTLE_PLAYER = { x: 1.5, y: 8, width: 6.5, height: 2.5 };
 	static BATTLE_OPPONENT = { x: 1, y: 1, width: 6.5, height: 2 };
 	static BATTLE_EXPERIENCE = { x: 9, y: 7, width: 6, height: 4 };
-	static DEFAULT_PADDING = 20;
-	static BORDER_WIDTH = 10;
+	static DEFAULT_PADDING = 10;
+	static BORDER_WIDTH = 5;
 
 	/**
 	 * A UI element that is simply a rectangle that

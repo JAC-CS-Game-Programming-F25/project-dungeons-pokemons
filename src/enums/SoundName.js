@@ -1,7 +1,7 @@
 const SoundName = {
 	// Music
 	BattleStart: "battle-start",
-	BattleLoop: "battle-loop",
+	BattleLoop: "battle",
 	BattleVictory: "battle-victory",
 	Route: "route",
 	Title: "title",

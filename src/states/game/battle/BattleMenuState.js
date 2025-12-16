@@ -43,9 +43,9 @@ export default class BattleMenuState extends State {
 		);
 	}
 
-	update() {
+	update(dt) {
 		this.battleMenu.update();
-		this.battleState.update();
+		this.battleState.update(dt);
 	}
 
 	render() {

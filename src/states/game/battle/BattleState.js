@@ -68,7 +68,10 @@ export default class BattleState extends State {
 		if (!this.didBattleStart) this.player.prepareForBattle(Player.BATTLE_POSITION);
 	}
 
-	update() {
+	update(dt) {
+		this.player.currentAnimation.update(dt);
+		this.player.currentFrame = this.player.currentAnimation.currentFrame;
+
 		if (!this.didBattleStart) {
 			this.triggerBattleStart();
 		}
