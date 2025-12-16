@@ -112,6 +112,16 @@
 						"type": "Heal",
 						"healing": 10
 					}
+				},
+				{
+					"name": "Healing potion",
+					"type": "item",
+					"description": "A potion of a good friend",
+					"quantity": 1,
+					"effect": {
+						"type": "Heal",
+						"healing": 10
+					}
 				}
 			],
 

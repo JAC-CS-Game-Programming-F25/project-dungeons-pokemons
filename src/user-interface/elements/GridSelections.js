@@ -103,7 +103,7 @@ export default class GridSelection extends UserInterfaceElement {
 		if (this.totalPages <= 1) return;
 
 		const centerY = this.position.y + this.dimensions.y / 2;
-		const arrowSize = 20;
+		const arrowSize = 12;
 
 		// Calculate bounce offset using sine wave
 		const bounceOffset = Math.sin(this.arrowAnimationTime) * 1;

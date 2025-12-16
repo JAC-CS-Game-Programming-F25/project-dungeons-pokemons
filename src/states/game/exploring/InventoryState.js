@@ -1,7 +1,7 @@
 import State from "../../../../lib/State.js";
 import Panel from "../../../user-interface/elements/Panel.js";
 import Menu from "../../../user-interface/elements/Menu.js";
-import { input, stateStack } from "../../../globals.js";
+import { input, sounds, stateStack } from "../../../globals.js";
 import Input from "../../../../lib/Input.js";
 import Equipment from "../../../objects/equipment/Equipment.js";
 import InventoryPanel from "../../../user-interface/exploring/InventoryPanel.js";
@@ -10,6 +10,7 @@ import SubInventoryState from "./SubInventoryState.js";
 import Player from "../../../entities/Player.js";
 import GridSelection from "../../../user-interface/elements/GridSelections.js";
 import EquipmentName from "../../../enums/EquipmentName.js";
+import SoundName from "../../../enums/SoundName.js";
 
 export default class InventoryState extends State {
 	/**
@@ -60,24 +61,28 @@ export default class InventoryState extends State {
 			{
 				text: "Items",
 				onSelect: () => {
+					sounds.play(SoundName.MenuOpen);
 					stateStack.push(new SubInventoryState(this.itemsSubMenu, this));
 				},
 			},
 			{
 				text: "Armor",
 				onSelect: () => {
+					sounds.play(SoundName.MenuOpen);
 					stateStack.push(new SubInventoryState(this.armorSubMenu, this));
 				},
 			},
 			{
 				text: "Weapons",
 				onSelect: () => {
+					sounds.play(SoundName.MenuOpen);
 					stateStack.push(new SubInventoryState(this.weaponSubMenu, this));
 				},
 			},
 			{
 				text: "Key",
 				onSelect: () => {
+					sounds.play(SoundName.MenuOpen);
 					stateStack.push(new SubInventoryState(this.keyItemSubMenu, this));
 				},
 			},
