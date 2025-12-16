@@ -16,13 +16,13 @@ export default class EffectFactory {
 	 * @returns a new instance of the npc type
 	 */
 	static getEffect(effect) {
+		if (effect === null) return null;
+
 		switch (effect.type) {
 			case EffectName.Heal:
 				return new Heal(effect);
 			case EffectName.Open:
 				return new Open(effect);
-			default:
-				return null;
 		}
 	}
 }

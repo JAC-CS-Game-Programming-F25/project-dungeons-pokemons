@@ -1,7 +1,7 @@
-import UserInterfaceElement from '../UserInterfaceElement.js';
-import Colour from '../../enums/Colour.js';
-import { roundedRectangle } from '../../../lib/Drawing.js';
-import { context } from '../../globals.js';
+import UserInterfaceElement from "../UserInterfaceElement.js";
+import Colour from "../../enums/Colour.js";
+import { roundedRectangle } from "../../../lib/Drawing.js";
+import { context } from "../../globals.js";
 
 export default class Panel extends UserInterfaceElement {
 	static BOTTOM_DIALOGUE = { x: 0, y: 8, width: 15, height: 3 };
@@ -26,8 +26,8 @@ export default class Panel extends UserInterfaceElement {
 	constructor(x, y, width, height, options = {}) {
 		super(x, y, width, height);
 
-		this.borderColour = options.borderColour ?? Colour.Grey;
-		this.panelColour = options.panelColour ?? Colour.White;
+		this.borderColour = options.borderColour ?? Colour.White;
+		this.panelColour = options.panelColour ?? Colour.Black;
 		this.padding = options.padding ?? Panel.DEFAULT_PADDING;
 		this.isVisible = true;
 	}
