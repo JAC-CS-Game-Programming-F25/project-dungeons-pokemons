@@ -121,13 +121,7 @@ export default class BattleTurnState extends State {
 				// 	0.1,
 				// 	Easing.linear,
 				// 	() => {
-				timer.tween(
-					attacker.canvasPosition,
-					{ x: attacker.battlePosition.x, y: attacker.battlePosition.y },
-					0.1,
-					Easing.linear,
-					() => this.inflictDamage(attacker, defender, move, callback)
-				);
+				this.inflictDamage(attacker, defender, move, callback);
 				// 	}
 				// );
 			})

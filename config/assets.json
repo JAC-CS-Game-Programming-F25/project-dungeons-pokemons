@@ -80,7 +80,7 @@
 		},
 		{
 			"name": "battle-background",
-			"path": "./assets/images/battle-background.png",
+			"path": "./assets/images/battle-background.gif",
 			"width": 512,
 			"height": 288
 		},

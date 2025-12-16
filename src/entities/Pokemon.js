@@ -12,7 +12,7 @@ export default class Pokemon extends GameEntity {
 		sprite: 0,
 		start: { x: 240, y: 15 },
 		end: { x: 150, y: 15 },
-		attack: { x: 260, y: 30 },
+		attack: { x: 100, y: 15 },
 	};
 	static BACK_POSITION = {
 		sprite: 1,
@@ -272,7 +272,14 @@ export default class Pokemon extends GameEntity {
 		this.spared = true;
 	}
 
-	attackAnimation() {}
+	attackAnimation() {
+		timer.tweenAsync(
+			this.position,
+			{ x: this.battlePosition.x, y: this.battlePosition.y },
+			0.5,
+			Easing.linear
+		);
+	}
 
 	gotHit() {}
 }

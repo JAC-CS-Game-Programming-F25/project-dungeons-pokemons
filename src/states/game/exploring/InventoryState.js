@@ -52,7 +52,7 @@ export default class InventoryState extends State {
 			7.5,
 			"Stats",
 			this.initializeItems(player.inventory.weapons),
-			{ text: "Attack", value: player.attackBack ?? 2 },
+			{ text: "Attack", value: player.attack ?? 2 },
 			{ text: player.equippedWeapon.name }
 		);
 
