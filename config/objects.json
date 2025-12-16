@@ -83,12 +83,12 @@
 				}
 			],
 
-			"position": { "x": 3, "y": 3 },
+			"position": { "x": 35, "y": 17 },
 			"dimensions": { "x": 16, "y": 16 }
 		},
 		{
 			"type": "Crystal",
-			"position": { "x": 4, "y": 3 },
+			"position": { "x": 25, "y": 6 },
 			"dimensions": { "x": 16, "y": 16 }
 		}
 	],

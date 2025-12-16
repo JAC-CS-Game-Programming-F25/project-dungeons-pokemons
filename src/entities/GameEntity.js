@@ -4,8 +4,8 @@ import Vector from "../../lib/Vector.js";
 import { OFFSET_X, OFFSET_Y } from "../globals.js";
 
 export default class GameEntity {
-	static WIDTH = 32;
-	static HEIGHT = 48;
+	static WIDTH = 16;
+	static HEIGHT = 16;
 
 	/**
 	 * The base class to be extended by all entities in the game.

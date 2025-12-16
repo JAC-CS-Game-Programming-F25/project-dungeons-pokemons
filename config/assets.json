@@ -7,34 +7,52 @@
 			"height": 192
 		},
 		{
-			"name": "red",
-			"path": "./assets/images/red.png",
-			"width": 128,
-			"height": 192
+			"name": "idle-down",
+			"path": "./assets/images/player/char_idle_down.png",
+			"width": 96,
+			"height": 16
 		},
 		{
-			"name": "green",
-			"path": "./assets/images/green.png",
-			"width": 128,
-			"height": 192
+			"name": "idle-left",
+			"path": "./assets/images/player/char_idle_left.png",
+			"width": 96,
+			"height": 16
 		},
 		{
-			"name": "brendan",
-			"path": "./assets/images/brendan.png",
-			"width": 128,
-			"height": 192
+			"name": "idle-right",
+			"path": "./assets/images/player/char_idle_right.png",
+			"width": 96,
+			"height": 16
 		},
 		{
-			"name": "trainer-may",
-			"path": "./assets/images/trainer-may.png",
-			"width": 128,
-			"height": 128
+			"name": "idle-up",
+			"path": "./assets/images/player/char_idle_up.png",
+			"width": 96,
+			"height": 16
 		},
 		{
-			"name": "may",
-			"path": "./assets/images/may.png",
-			"width": 128,
-			"height": 192
+			"name": "run-down",
+			"path": "./assets/images/player/char_run_down.png",
+			"width": 96,
+			"height": 16
+		},
+		{
+			"name": "run-left",
+			"path": "./assets/images/player/char_run_left.png",
+			"width": 96,
+			"height": 16
+		},
+		{
+			"name": "run-right",
+			"path": "./assets/images/player/char_run_right.png",
+			"width": 96,
+			"height": 16
+		},
+		{
+			"name": "run-up",
+			"path": "./assets/images/player/char_run_up.png",
+			"width": 96,
+			"height": 16
 		},
 		{
 			"name": "npcs",

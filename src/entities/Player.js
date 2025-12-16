@@ -7,7 +7,7 @@ import PlayerStateName from "../enums/entities/state/PlayerStateName.js";
 import Sprite from "../../lib/Sprite.js";
 import Vector from "../../lib/Vector.js";
 import { pickRandomElement } from "../../lib/Random.js";
-import Character from "../enums/entities/Character.js";
+import Character_Run from "../enums/entities/player/Character_Run.js";
 import PokemonName from "../enums/entities/PokemonName.js";
 import Map from "../services/Map.js";
 import Pokemon from "./Pokemon.js";
@@ -16,6 +16,7 @@ import TypeEffectiveness from "../services/TypeEffectiveness.js";
 import Inventory from "../services/Inventory.js";
 import Weapon from "../objects/equipment/Weapon.js";
 import Armor from "../objects/equipment/Armor.js";
+import Character_Idle from "../enums/entities/player/Character_Idle.js";
 
 export default class Player extends GameEntity {
 	static BATTLE_POSITION = {
@@ -37,8 +38,10 @@ export default class Player extends GameEntity {
 
 		this.map = map;
 		this.dimensions = new Vector(GameEntity.WIDTH, GameEntity.HEIGHT);
+		this.walking_sprites = this.initializeSprites(Character_Run);
+		this.idle_sprites = this.initializeSprites(Character_Idle);
+		this.sprites = this.idle_sprites[this.direction];
 		this.stateMachine = this.initializeStateMachine();
-		this.sprites = this.initializeSprites();
 		this.party = this.initializeParty();
 		this.currentAnimation = this.stateMachine.currentState.animation[this.direction];
 		this.velocity = new Vector(0, 0);
@@ -111,7 +114,7 @@ export default class Player extends GameEntity {
 		super.update(dt);
 		this.currentAnimation.update(dt);
 
-		this.currentFrame = this.currentAnimation.getCurrentFrame();
+		this.currentFrame = this.currentAnimation.currentFrame;
 	}
 
 	render(cameraEntity) {
@@ -143,19 +146,42 @@ export default class Player extends GameEntity {
 	 * you made a new Player object. This is probably something the player
 	 * would decide at the beginning of the game or in a settings menu.
 	 */
-	initializeSprites() {
-		const character = pickRandomElement([
-			Character.Red,
-			Character.Green,
-			Character.Brendan,
-			Character.May,
-		]);
+	initializeSprites(type) {
+		const sprites = [];
 
-		return Sprite.generateSpritesFromSpriteSheet(
-			images.get(character),
-			GameEntity.WIDTH,
-			GameEntity.HEIGHT
+		sprites.push(
+			Sprite.generateSpritesFromSpriteSheet(
+				images.get(type.Up),
+				GameEntity.WIDTH,
+				GameEntity.HEIGHT
+			)
 		);
+
+		sprites.push(
+			Sprite.generateSpritesFromSpriteSheet(
+				images.get(type.Down),
+				GameEntity.WIDTH,
+				GameEntity.HEIGHT
+			)
+		);
+
+		sprites.push(
+			Sprite.generateSpritesFromSpriteSheet(
+				images.get(type.Left),
+				GameEntity.WIDTH,
+				GameEntity.HEIGHT
+			)
+		);
+
+		sprites.push(
+			Sprite.generateSpritesFromSpriteSheet(
+				images.get(type.Right),
+				GameEntity.WIDTH,
+				GameEntity.HEIGHT
+			)
+		);
+
+		return sprites;
 	}
 
 	/**

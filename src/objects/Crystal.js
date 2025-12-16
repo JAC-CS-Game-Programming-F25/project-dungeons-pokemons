@@ -43,7 +43,7 @@ export default class SaveCrystal extends GameObject {
 		 */
 		const y = Math.floor(this.canvasPosition.y - this.dimensions.y / 2);
 
-		super.render(x, y, cameraEntity, { x: 2, y: 2 });
+		super.render(x, y, cameraEntity);
 	}
 
 	interact(player) {
