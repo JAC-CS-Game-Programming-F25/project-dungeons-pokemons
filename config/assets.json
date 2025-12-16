@@ -109,10 +109,34 @@
 			"height": 160
 		},
 		{
-			"name": "charmander-back",
-			"path": "./assets/images/pokemon/back/CHARMANDER.png",
+			"name": "absol-front",
+			"path": "./assets/images/pokemon/front/ABSOL.png",
+			"width": 1536,
+			"height": 96
+		},
+		{
+			"name": "ceruledge-front",
+			"path": "./assets/images/pokemon/front/CERULEDGE.png",
+			"width": 600,
+			"height": 120
+		},
+		{
+			"name": "cofagrigus-front",
+			"path": "./assets/images/pokemon/front/COFAGRIGUS.png",
 			"width": 160,
 			"height": 160
+		},
+		{
+			"name": "cofagrigus-front",
+			"path": "./assets/images/pokemon/front/COFAGRIGUS.png",
+			"width": 8784,
+			"height": 122
+		},
+		{
+			"name": "necrozma-front",
+			"path": "./assets/images/pokemon/back/NECROZMA.png",
+			"width": 2784,
+			"height": 96
 		},
 		{
 			"name": "charmander-icon",
@@ -295,6 +319,18 @@
 			"path": "./assets/sounds/effects/save.wav",
 			"size": 2,
 			"volume": 0.1
+		},
+		{
+			"name": "weapon-pull",
+			"path": "./assets/sounds/effects/weapon-pull.wav",
+			"size": 2,
+			"volume": 0.2
+		},
+		{
+			"name": "swing",
+			"path": "./assets/sounds/effects/swing.wav",
+			"size": 2,
+			"volume": 0.4
 		},
 		{
 			"name": "charmander",

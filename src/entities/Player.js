@@ -1,5 +1,5 @@
 import GameEntity from "./GameEntity.js";
-import { images, pokemonFactory, timer } from "../globals.js";
+import { images, pokemonFactory, sounds, timer } from "../globals.js";
 import StateMachine from "../../lib/StateMachine.js";
 import PlayerWalkingState from "../states/entity/player/PlayerWalkingState.js";
 import PlayerIdlingState from "../states/entity/player/PlayerIdlingState.js";
@@ -19,6 +19,7 @@ import Armor from "../objects/equipment/Armor.js";
 import Character_Idle from "../enums/entities/player/Character_Idle.js";
 import Animation from "../../lib/Animation.js";
 import Character_Fight from "../enums/entities/player/Character_fight.js";
+import SoundName from "../enums/SoundName.js";
 
 export default class Player extends GameEntity {
 	static BATTLE_POSITION = {
@@ -302,22 +303,22 @@ export default class Player extends GameEntity {
 		// Copies the value of the old position
 		// this.oldPosition = { ...this.position };
 		this.sprites = this.battleSprites;
-		this.currentAnimation = new Animation(this.sprites, 0.1);
+		this.currentAnimation = new Animation(this.sprites, 0.15);
 		this.currentFrame = position.sprite;
 		this.canvasPosition.set(position.start.x, position.start.y);
 		this.battlePosition.set(position.end.x, position.end.y);
 		this.attackPosition.set(position.attack.x, position.attack.y);
 	}
 
-	attackAnimation(/*callback*/) {
-		this.sprites = this.attackSprites;
-		this.currentAnimation = new Animation(this.sprites, 0.05, 1);
+	attackAnimation(reverse = false) {
+		this.sprites = reverse ? this.attackSprites.toReversed() : this.attackSprites;
+		this.currentAnimation = new Animation(this.sprites, 0.075, 1);
 		this.canvasPosition.y -= 16;
+		sounds.play(SoundName.Swing);
 		timer.wait(0.3, () => {
 			this.canvasPosition.y += 16;
 			this.sprites = this.battleSprites;
-			this.currentAnimation = new Animation(this.sprites, 0.1);
-			// callback();
+			this.currentAnimation = new Animation(this.sprites, 0.15);
 		});
 	}
 

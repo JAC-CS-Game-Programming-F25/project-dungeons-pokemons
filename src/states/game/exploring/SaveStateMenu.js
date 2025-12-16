@@ -59,6 +59,12 @@ export default class SaveState extends State {
 				level: this.player.level,
 			})
 		);
+
+		// TODO: Implement saving of chest contents
+
+		// localStorage.setItem("chests", {
+
+		// })
 		stateStack.pop();
 	}
 

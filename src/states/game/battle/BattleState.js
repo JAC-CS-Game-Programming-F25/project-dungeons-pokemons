@@ -127,7 +127,8 @@ export default class BattleState extends State {
 			0.75,
 			Easing.linear,
 			() => {
-				sounds.play(this.playerPokemon.name.toLowerCase());
+				this.player.attackAnimation(true);
+				sounds.play(SoundName.WeaponPull);
 				stateStack.push(new BattleMenuState(this));
 			}
 		);

@@ -204,9 +204,10 @@ export default class PlayerWalkingState extends State {
 	startEncounter() {
 		const encounter = new BattleState(this.player, new Opponent());
 
-		sounds.stop(SoundName.Route);
-		sounds.play(SoundName.BattleLoop);
-
-		TransitionState.fade(() => stateStack.push(encounter));
+		timer.wait(0.5, () => {
+			sounds.stop(SoundName.Route);
+			sounds.play(SoundName.BattleLoop);
+			TransitionState.fade(() => stateStack.push(encounter));
+		});
 	}
 }
