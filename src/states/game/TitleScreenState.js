@@ -127,9 +127,14 @@ export default class TitleScreenState extends State {
 		const playerData = JSON.parse(localStorage.getItem("playerData"));
 
 		if (playerData === null) return null;
-		playerData.inventory = playerData.inventory.map((item) => {
-			return EquipmentFactory.createInstance(item);
-		});
+
+		const newInventory = {};
+
+		for (const [category, items] of Object.entries(playerData.inventory)) {
+			newInventory[category] = items.map((item) => EquipmentFactory.createInstance(item));
+		}
+
+		playerData.inventory = newInventory;
 
 		return playerData;
 	}

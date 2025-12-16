@@ -6,14 +6,14 @@ export default class Inventory {
 	 *
 	 * @param {Equipment[]} inventoryDefinition
 	 */
-	constructor(inventoryDefinition = []) {
+	constructor(inventoryDefinition = {}) {
 		this.armors = [];
 		this.weapons = [];
 		this.keyItems = [];
 		this.items = [];
 
-		if (inventoryDefinition.length > 0) {
-			inventoryDefinition.forEach((item) => {
+		for (const [category, items] of Object.entries(inventoryDefinition)) {
+			items.forEach((item) => {
 				this.Add(item);
 			});
 		}
