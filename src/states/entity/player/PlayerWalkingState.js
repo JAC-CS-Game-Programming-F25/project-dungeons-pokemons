@@ -117,15 +117,8 @@ export default class PlayerWalkingState extends State {
 
 		// I check for any door collision after I check that I hit something on the collision layer
 		if (!this.isValidMove(x, y)) {
-			if (this.checkForDoorUp(x, y)) {
-				this.enterBuilding(x, y);
-			} else if (this.checkForDoorDown(x, y)) {
-				this.exitBuilding(x, y);
-				return;
-			} else {
-				sounds.play(SoundName.PlayerBump);
-				return;
-			}
+			sounds.play(SoundName.PlayerBump);
+			return;
 		}
 
 		this.player.position.x = x;
@@ -209,70 +202,5 @@ export default class PlayerWalkingState extends State {
 		sounds.play(SoundName.BattleStart);
 
 		TransitionState.fade(() => stateStack.push(encounter));
-	}
-
-	/**
-	 *
-	 * @param {number} x
-	 * @param {number} y
-	 * @returns Whether the player hits a closed door while going up.
-	 */
-	checkForDoorUp(x, y) {
-		return (
-			this.collisionLayer.isOutsideTileDoor(x, y) && this.player.direction === Direction.Up
-		);
-	}
-
-	/**
-	 *
-	 * @param {number} x
-	 * @param {number} y
-	 * @returns Whether the player hits a closed door while going down. should only be when inside a building
-	 */
-	checkForDoorDown(x, y) {
-		return (
-			this.collisionLayer.isInsideTileDoor(x, y) && this.player.direction === Direction.Down
-		);
-	}
-
-	/**
-	 * Function that makes the player enter the building
-	 */
-	enterBuilding(x, y) {
-		this.player.map.openDoor(x, y);
-		this.player.position.y -= 1;
-
-		this.tweenMovement(this.player.position.x, this.player.position.y);
-
-		TransitionState.fade(() => {
-			stateStack.top().savePlayerPositions();
-			this.player.changeState(PlayerStateName.Idling);
-			stateStack.push(
-				new BuildingState(
-					new Map(maps.get(Maps.house), this.player, ImageName.HouseTiles, Maps.house)
-				)
-			);
-		});
-	}
-
-	/**
-	 * Function that makes the player exit a building
-	 */
-	exitBuilding() {
-		sounds.play(SoundName.DoorExit);
-		TransitionState.fade(
-			() => {
-				stateStack.pop();
-				stateStack.top().resetPlayerPosition();
-				this.player.changeState(PlayerStateName.Idling);
-			},
-			() => {
-				// this code is ran after the player has fully transitioned
-				this.player.map.closedDoor();
-				this.player.position.y += 1;
-
-				this.tweenMovement(this.player.position.x, this.player.position.y);
-			}
-		);
 	}
 }

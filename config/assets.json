@@ -1,16 +1,10 @@
 {
 	"images": [
 		{
-			"name": "tiles",
-			"path": "./assets/images/tiles.png",
-			"width": 256,
-			"height": 16064
-		},
-		{
-			"name": "house",
-			"path": "./assets/images/player-house.png",
-			"width": 416,
-			"height": 320
+			"name": "dungeon",
+			"path": "./assets/images/Dungeon tileset.png",
+			"width": 384,
+			"height": 192
 		},
 		{
 			"name": "red",

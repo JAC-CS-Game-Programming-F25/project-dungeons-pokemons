@@ -108,7 +108,7 @@ export default class TitleScreenState extends State {
 		switch (option) {
 			case "New Game": {
 				localStorage.setItem("newGame", true);
-				this.player = new Player({ position: new Vector(7, 5) }, this.map);
+				this.player = new Player({ position: new Vector(19, 22) }, this.map);
 				this.map.player = this.player;
 				break;
 			}

@@ -49,45 +49,6 @@ export default class Layer {
 	}
 
 	/**
-	 * The Player can encounter wild Pokemon if they walk
-	 * in the grass. As such, we have to have a way of
-	 * checking if the current tile the player is standing
-	 * on is a grass tile or not. This can later be updated
-	 * as needed since encounters can occur in places like
-	 * caves and in water as well.
-	 *
-	 * @param {number} x
-	 * @param {number} y
-	 * @returns Whenter the current tile is a grass tile or not.
-	 */
-	isTileGrass(x, y) {
-		return this.getTile(x, y).id === Tile.GRASS;
-	}
-
-	// Note: it would be better to have a single function for this and I would get the door info from a json file
-	// but I saw the tip too late into the assignment
-
-	/**
-	 *
-	 * @param {number} x
-	 * @param {number} y
-	 * @returns if the tile player is colliding with is a closed door tile
-	 */
-	isOutsideTileDoor(x, y) {
-		return this.getTile(x, y).id === Tile.DOOR_CLOSED;
-	}
-
-	/**
-	 *
-	 * @param {number} x
-	 * @param {number} y
-	 * @returns if the tile player is colliding with is a closed door tile inside
-	 */
-	isInsideTileDoor(x, y) {
-		return this.getTile(x, y).id === Tile.HOUSE_DOOR;
-	}
-
-	/**
 	 * @param {object} layerData The exported layer data from Tiled.
 	 * @param {array} sprites
 	 * @returns An array of Tile objects.

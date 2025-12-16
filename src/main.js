@@ -54,10 +54,7 @@ const {
 } = await fetch("./config/assets.json").then((response) => response.json());
 
 // I get the map definitions here
-const mapDefinition = await fetch("./config/map.json").then((response) => response.json());
-const houseMapDefinition = await fetch("./config/house-map.json").then((response) =>
-	response.json()
-);
+const mapDefinition = await fetch("./config/dungeon.json").then((response) => response.json());
 
 // Gets the npc definitions
 const npcDefinitions = await fetch("./config/npcs.json").then((response) => response.json());
@@ -66,7 +63,7 @@ const npcDefinitions = await fetch("./config/npcs.json").then((response) => resp
 const objectDefinitions = await fetch("./config/objects.json").then((response) => response.json());
 
 // I load them so they are accessible anywhere
-maps.load({ house: houseMapDefinition, town: mapDefinition });
+maps.load({ dungeon: mapDefinition });
 npcs.load(npcDefinitions);
 objects.load(objectDefinitions);
 
@@ -86,7 +83,7 @@ pokemonFactory.load(pokemonDefinitions);
 // Add all the states to the state machine.
 
 TransitionState.fade(() => {
-	stateStack.push(new TitleScreenState(Maps.town));
+	stateStack.push(new TitleScreenState(Maps.dungeon));
 });
 
 const game = new Game(stateStack, context, timer, CANVAS_WIDTH, CANVAS_HEIGHT);
