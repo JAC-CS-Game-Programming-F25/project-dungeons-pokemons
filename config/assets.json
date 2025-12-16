@@ -85,12 +85,6 @@
 			"height": 288
 		},
 		{
-			"name": "battle-grass",
-			"path": "./assets/images/battle-grass.png",
-			"width": 265,
-			"height": 126
-		},
-		{
 			"name": "bulbasaur-front",
 			"path": "./assets/images/pokemon/front/BULBASAUR.png",
 			"width": 160,
@@ -179,13 +173,6 @@
 	],
 	"sounds": [
 		{
-			"name": "battle-battle",
-			"path": "./assets/sounds/music/battle-battle.mp3",
-			"size": 1,
-			"volume": 0.1,
-			"loop": true
-		},
-		{
 			"name": "battle",
 			"path": "./assets/sounds/music/battle.mp3",
 			"size": 1,
@@ -244,13 +231,6 @@
 			"volume": 0.2
 		},
 		{
-			"name": "low-health",
-			"path": "./assets/sounds/effects/low-health.mp3",
-			"size": 1,
-			"volume": 0.05,
-			"loop": true
-		},
-		{
 			"name": "menu-open",
 			"path": "./assets/sounds/effects/menu-open.ogg",
 			"size": 1,
@@ -291,6 +271,30 @@
 			"path": "./assets/sounds/effects/door-exit.wav",
 			"size": 5,
 			"volume": 0.2
+		},
+		{
+			"name": "steps-1",
+			"path": "./assets/sounds/effects/step1.wav",
+			"size": 5,
+			"volume": 0.1
+		},
+		{
+			"name": "steps-2",
+			"path": "./assets/sounds/effects/step2.wav",
+			"size": 5,
+			"volume": 0.1
+		},
+		{
+			"name": "sparkle",
+			"path": "./assets/sounds/effects/sparkle.wav",
+			"size": 2,
+			"volume": 0.1
+		},
+		{
+			"name": "save",
+			"path": "./assets/sounds/effects/save.wav",
+			"size": 2,
+			"volume": 0.1
 		},
 		{
 			"name": "charmander",

@@ -41,6 +41,7 @@ export default class PlayerWalkingState extends State {
 		};
 
 		this.isMoving = false;
+		this.stepped = false;
 	}
 
 	enter() {
@@ -131,6 +132,9 @@ export default class PlayerWalkingState extends State {
 
 	tweenMovement(x, y) {
 		this.isMoving = true;
+
+		this.stepped = !this.stepped;
+		sounds.play(this.stepped ? SoundName.Step2 : SoundName.Step1);
 
 		timer.tween(
 			this.player.canvasPosition,

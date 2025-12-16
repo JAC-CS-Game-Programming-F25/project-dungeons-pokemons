@@ -1,7 +1,8 @@
 import Animation from "../../lib/Animation.js";
 import Sprite from "../../lib/Sprite.js";
 import ImageName from "../enums/ImageName.js";
-import { stateStack, images, timer } from "../globals.js";
+import SoundName from "../enums/SoundName.js";
+import { stateStack, images, timer, sounds } from "../globals.js";
 import EquipmentFactory from "../services/EquipmentFactory.js";
 import ChestMenuState from "../states/game/exploring/ChestMenuState.js";
 import Equipment from "./equipment/Equipment.js";
@@ -51,11 +52,17 @@ export default class Chest extends GameObject {
 	}
 
 	interact(player) {
-		this.sprites = this.animations.opening.frames;
-		this.currentAnimation = this.animations.opening;
-		timer.wait(0.6, () => {
+		if (!this.isOpened) {
+			this.sprites = this.animations.opening.frames;
+			this.currentAnimation = this.animations.opening;
+			sounds.play(SoundName.Sparkle);
+			timer.wait(0.5, () => {
+				this.isOpened = true;
+				stateStack.push(new ChestMenuState(player, this.items));
+			});
+		} else {
 			stateStack.push(new ChestMenuState(player, this.items));
-		});
+		}
 	}
 
 	initializeSprites(animation) {

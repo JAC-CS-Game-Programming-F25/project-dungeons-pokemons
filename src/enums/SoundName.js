@@ -8,7 +8,6 @@ const SoundName = {
 
 	// Effects
 	BattleDamage: "battle-damage",
-	BattleRun: "battle-run",
 	ExperienceFull: "experience-full",
 	ExperienceGain: "experience-gain",
 	Heal: "heal",
@@ -20,6 +19,10 @@ const SoundName = {
 	SelectionMove: "selection-move",
 	DoorEnter: "door-enter",
 	DoorExit: "door-exit",
+	Step1: "steps-1",
+	Step2: "steps-2",
+	Sparkle: "sparkle",
+	Save: "save",
 
 	// Pokemon
 	Charmander: "charmander",

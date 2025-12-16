@@ -136,7 +136,6 @@ export default class BattleState extends State {
 	exitBattle() {
 		TransitionState.fade(() => {
 			stateStack.pop();
-			sounds.stop(SoundName.LowHealth);
 			sounds.stop(SoundName.BattleLoop);
 			sounds.stop(SoundName.BattleVictory);
 			sounds.play(SoundName.Route);
