@@ -4,7 +4,7 @@ export default class Armor extends Equipment {
 	constructor(armorDefinition) {
 		super(armorDefinition);
 
-		this.armorClass = armorDefinition.armorClass;
+		this.value = armorDefinition.value;
 		this.elementalType = armorDefinition.elementalType;
 	}
 
