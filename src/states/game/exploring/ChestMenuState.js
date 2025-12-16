@@ -3,8 +3,15 @@ import Panel from "../../../user-interface/elements/Panel.js";
 import GridSelection from "../../../user-interface/elements/GridSelections.js";
 import { input, stateStack } from "../../../globals.js";
 import Input from "../../../../lib/Input.js";
+import Equipment from "../../../objects/equipment/Equipment.js";
+import Player from "../../../entities/Player.js";
 
 export default class ChestMenuState extends State {
+	/**
+	 *
+	 * @param {Player} player
+	 * @param {Equipment[]} chestContents
+	 */
 	constructor(player, chestContents) {
 		super();
 
@@ -53,7 +60,7 @@ export default class ChestMenuState extends State {
 			if (!item.taken) {
 				this.items.push({
 					text: item.name,
-					onSelect: () => this.selectItem(i, item),
+					onSelect: () => this.selectItem(i, item, chestContents),
 				});
 			}
 		}
@@ -73,8 +80,13 @@ export default class ChestMenuState extends State {
 	}
 
 	// Handles selecting an item from the chest
-	selectItem(index, item) {
-		this.player.inventory.push(item);
+	/**
+	 *
+	 * @param {number} index
+	 * @param {Equipment} item
+	 */
+	selectItem(index, item, chestContents) {
+		this.player.inventory.Add(item);
 
 		for (let i = 0; i < this.contentView.items.length; i++) {
 			if (i === index) {

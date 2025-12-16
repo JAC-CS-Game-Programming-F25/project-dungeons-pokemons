@@ -9,6 +9,7 @@ import SubInventoryPanel from "../../../user-interface/exploring/SubInventoryPan
 import SubInventoryState from "./SubInventoryState.js";
 import Player from "../../../entities/Player.js";
 import GridSelection from "../../../user-interface/elements/GridSelections.js";
+import EquipmentName from "../../../enums/EquipmentName.js";
 
 export default class InventoryState extends State {
 	/**
@@ -17,6 +18,8 @@ export default class InventoryState extends State {
 	 */
 	constructor(player) {
 		super();
+
+		this.player = player;
 
 		this.itemsSubMenu = new GridSelection(
 			1,
@@ -40,7 +43,7 @@ export default class InventoryState extends State {
 			"Stats",
 			this.initializeItems(player.inventory.armors),
 			[{ text: "Defense", value: player.defense ?? 2 }],
-			[{ text: player.equippedArmor.name }]
+			{ text: player.equippedArmor.name }
 		);
 		this.weaponSubMenu = new SubInventoryPanel(
 			1,
@@ -50,7 +53,7 @@ export default class InventoryState extends State {
 			"Stats",
 			this.initializeItems(player.inventory.weapons),
 			[{ text: "Attack", value: player.attack ?? 2 }],
-			[{ text: player.equippedWeapon.name }]
+			{ text: player.equippedWeapon.name }
 		);
 
 		this.navBarOptions = [
@@ -122,11 +125,18 @@ export default class InventoryState extends State {
 			const item = inventory[i];
 
 			// Puts item only if it has not been taken yet
-			items.push({
-				text: item.name,
-				value: item.value,
-				onSelect: () => this.selectItem(i, item),
-			});
+			if (item.type === EquipmentName.Armor || item.type === EquipmentName.Weapon)
+				items.push({
+					text: item.name,
+					value: item.value,
+					onSelect: () => this.swapItem(i, inventory),
+				});
+			else
+				items.push({
+					text: item.name,
+					value: item.value,
+					onSelect: () => this.selectItem(i, item),
+				});
 		}
 
 		// Calculate how many slots we need to fill the last page
@@ -164,18 +174,32 @@ export default class InventoryState extends State {
 
 	/**
 	 *
-	 * @param {object} item
 	 * @param {number} index
-	 * @param {SubInventoryPanel} subInv
+	 * @param {Equipment[]} subInv
 	 * @returns
 	 */
-	swapItem(item, index, subInv) {
-		const temp = item;
+	swapItem(index, subInv) {
+		const temp = { ...subInv[index] };
+		let subMenu = null;
 
-		for (let i = 0; i < subInv.itemsSubMenu.selection.items.length; i++) {
+		if (subInv[index].type === EquipmentName.Weapon) subMenu = this.weaponSubMenu;
+		else subMenu = this.armorSubMenu;
+
+		for (let i = 0; i < subInv.length; i++) {
 			if (i === index) {
-				subInv.itemsSubMenu.selection.items[i].text = "-";
-				subInv.itemsSubMenu.selection.items[i].onSelect = () => this.swapItem(i, item);
+				if (subInv[index].type === EquipmentName.Weapon) {
+					subInv[index] = { ...this.player.equippedWeapon };
+					this.player.equippedWeapon = { ...temp };
+					subMenu.infoPanel.currentEquipment.text = this.player.equippedWeapon.name;
+				} else if (subInv[index].type === EquipmentName.Armor) {
+					subInv[index] = { ...this.player.equippedArmor };
+					this.player.equippedArmor = { ...temp };
+					subMenu.infoPanel.currentEquipment.text = this.player.equippedArmor.name;
+				}
+
+				subMenu.itemsSubMenu.selection.items[i].text = subInv[index].name;
+				subMenu.itemsSubMenu.selection.items[i].onSelect = () => this.swapItem(i, subInv);
+
 				return;
 			}
 		}

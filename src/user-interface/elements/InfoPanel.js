@@ -48,9 +48,7 @@ export default class InfoPanel extends Panel {
 	render() {
 		this.renderTitle("Current", { y: 3.3 * Tile.SIZE });
 
-		this.currentEquipment.forEach((equipment) => {
-			this.renderItem(equipment, { y: 4.3 * Tile.SIZE });
-		});
+		this.renderItem(this.currentEquipment, { y: 4.3 * Tile.SIZE });
 
 		if (this.title !== "") this.renderTitle(this.title, { y: 5.3 * Tile.SIZE });
 
