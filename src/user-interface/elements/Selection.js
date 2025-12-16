@@ -93,8 +93,8 @@ export default class Selection extends UserInterfaceElement {
 		else context.translate(this.position.x + 10, item.position.y - 5);
 		context.beginPath();
 		context.moveTo(0, 0);
-		context.lineTo(6, 5);
-		context.lineTo(0, 10);
+		context.lineTo(3, 2.5);
+		context.lineTo(0, 5);
 		context.closePath();
 		context.fill();
 		context.restore();
