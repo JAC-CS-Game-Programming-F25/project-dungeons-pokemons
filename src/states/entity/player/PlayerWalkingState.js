@@ -34,23 +34,23 @@ export default class PlayerWalkingState extends State {
 		this.bottomLayer = this.player.map.bottomLayer;
 		this.collisionLayer = this.player.map.collisionLayer;
 		this.animation = {
-			[Direction.Up]: new Animation(this.player.walking_sprites[0], 0.1),
-			[Direction.Down]: new Animation(this.player.walking_sprites[1], 0.1),
-			[Direction.Left]: new Animation(this.player.walking_sprites[2], 0.1),
-			[Direction.Right]: new Animation(this.player.walking_sprites[3], 0.1),
+			[Direction.Up]: new Animation(this.player.walkingSprites[0], 0.1),
+			[Direction.Down]: new Animation(this.player.walkingSprites[1], 0.1),
+			[Direction.Left]: new Animation(this.player.walkingSprites[2], 0.1),
+			[Direction.Right]: new Animation(this.player.walkingSprites[3], 0.1),
 		};
 
 		this.isMoving = false;
 	}
 
 	enter() {
-		this.player.sprites = this.player.walking_sprites[this.player.direction];
+		this.player.sprites = this.player.walkingSprites[this.player.direction];
 		this.bottomLayer = this.player.map.bottomLayer;
 		this.collisionLayer = this.player.map.collisionLayer;
 	}
 
 	update(dt) {
-		this.player.sprites = this.player.walking_sprites[this.player.direction];
+		this.player.sprites = this.player.walkingSprites[this.player.direction];
 		this.player.currentAnimation = this.animation[this.player.direction];
 
 		this.handleMovement();

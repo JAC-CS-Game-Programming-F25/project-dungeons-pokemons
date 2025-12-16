@@ -1,5 +1,5 @@
 import GameEntity from "./GameEntity.js";
-import { images, pokemonFactory } from "../globals.js";
+import { images, pokemonFactory, timer } from "../globals.js";
 import StateMachine from "../../lib/StateMachine.js";
 import PlayerWalkingState from "../states/entity/player/PlayerWalkingState.js";
 import PlayerIdlingState from "../states/entity/player/PlayerIdlingState.js";
@@ -18,6 +18,7 @@ import Weapon from "../objects/equipment/Weapon.js";
 import Armor from "../objects/equipment/Armor.js";
 import Character_Idle from "../enums/entities/player/Character_Idle.js";
 import Animation from "../../lib/Animation.js";
+import Character_Fight from "../enums/entities/player/Character_fight.js";
 
 export default class Player extends GameEntity {
 	static BATTLE_POSITION = {
@@ -39,11 +40,16 @@ export default class Player extends GameEntity {
 
 		this.map = map;
 		this.dimensions = new Vector(GameEntity.WIDTH, GameEntity.HEIGHT);
-		this.walking_sprites = this.initializeSprites(Character_Run);
-		this.idle_sprites = this.initializeSprites(Character_Idle);
-		this.battleSprites = this.idle_sprites[3];
-		// this.attackSprites = this.initializeSprites();
-		this.sprites = this.idle_sprites[this.direction];
+		this.walkingSprites = this.initializeSprites(Character_Run);
+		this.idleSprites = this.initializeSprites(Character_Idle);
+		this.battleSprites = this.idleSprites[3];
+		this.attackSprites = this.initializeFightSprites(Character_Fight.Attack, 32, 48);
+		this.hitSprites = this.initializeFightSprites(
+			Character_Fight.Hit,
+			GameEntity.WIDTH,
+			GameEntity.WIDTH
+		);
+		this.sprites = this.idleSprites[this.direction];
 		this.stateMachine = this.initializeStateMachine();
 		this.party = this.initializeParty();
 		this.currentAnimation = this.stateMachine.currentState.animation[this.direction];
@@ -144,11 +150,6 @@ export default class Player extends GameEntity {
 		return stateMachine;
 	}
 
-	/**
-	 * Normally, you wouldn't generate a random character sprite every time
-	 * you made a new Player object. This is probably something the player
-	 * would decide at the beginning of the game or in a settings menu.
-	 */
 	initializeSprites(type) {
 		const sprites = [];
 
@@ -185,6 +186,10 @@ export default class Player extends GameEntity {
 		);
 
 		return sprites;
+	}
+
+	initializeFightSprites(spriteSheet, width, height) {
+		return Sprite.generateSpritesFromSpriteSheet(images.get(spriteSheet), width, height);
 	}
 
 	/**
@@ -302,5 +307,26 @@ export default class Player extends GameEntity {
 		this.canvasPosition.set(position.start.x, position.start.y);
 		this.battlePosition.set(position.end.x, position.end.y);
 		this.attackPosition.set(position.attack.x, position.attack.y);
+	}
+
+	attackAnimation(/*callback*/) {
+		this.sprites = this.attackSprites;
+		this.currentAnimation = new Animation(this.sprites, 0.05, 1);
+		this.canvasPosition.y -= 16;
+		timer.wait(0.3, () => {
+			this.canvasPosition.y += 16;
+			this.sprites = this.battleSprites;
+			this.currentAnimation = new Animation(this.sprites, 0.1);
+			// callback();
+		});
+	}
+
+	gotHit() {
+		this.sprites = this.hitSprites;
+		this.currentAnimation = new Animation(this.sprites, 0.1, 1);
+		timer.wait(0.2, () => {
+			this.sprites = this.battleSprites;
+			this.currentAnimation = new Animation(this.sprites, 0.1);
+		});
 	}
 }

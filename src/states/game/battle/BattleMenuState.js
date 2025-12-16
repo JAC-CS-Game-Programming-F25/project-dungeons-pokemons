@@ -54,7 +54,7 @@ export default class BattleMenuState extends State {
 
 	fight() {
 		stateStack.pop();
-		stateStack.push(new BattleTurnState(this.battleState));
+		stateStack.push(new BattleTurnState(this.battleState, this));
 	}
 
 	act() {

@@ -271,4 +271,8 @@ export default class Pokemon extends GameEntity {
 		timer.tweenAsync(this.position, { x: CANVAS_WIDTH }, 0.5, Easing.easeOutQuad);
 		this.spared = true;
 	}
+
+	attackAnimation() {}
+
+	gotHit() {}
 }

@@ -19,20 +19,20 @@ export default class PlayerIdlingState extends State {
 
 		this.player = player;
 		this.animation = {
-			[Direction.Up]: new Animation(this.player.idle_sprites[0], 0.1),
-			[Direction.Down]: new Animation(this.player.idle_sprites[1], 0.1),
-			[Direction.Left]: new Animation(this.player.idle_sprites[2], 0.1),
-			[Direction.Right]: new Animation(this.player.idle_sprites[3], 0.1),
+			[Direction.Up]: new Animation(this.player.idleSprites[0], 0.1),
+			[Direction.Down]: new Animation(this.player.idleSprites[1], 0.1),
+			[Direction.Left]: new Animation(this.player.idleSprites[2], 0.1),
+			[Direction.Right]: new Animation(this.player.idleSprites[3], 0.1),
 		};
 	}
 
 	enter() {
-		this.player.sprites = this.player.idle_sprites[this.player.direction];
+		this.player.sprites = this.player.idleSprites[this.player.direction];
 		this.player.currentAnimation = this.animation[this.player.direction];
 	}
 
 	update() {
-		this.player.sprites = this.player.idle_sprites[this.player.direction];
+		this.player.sprites = this.player.idleSprites[this.player.direction];
 
 		if (input.isKeyHeld(Input.KEYS.S)) {
 			this.player.direction = Direction.Down;

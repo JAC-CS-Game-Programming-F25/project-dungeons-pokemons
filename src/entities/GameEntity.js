@@ -60,4 +60,6 @@ export default class GameEntity {
 	changeState(state, params) {
 		this.stateMachine?.change(state, params);
 	}
+
+	attackAnimation(callback) {}
 }
